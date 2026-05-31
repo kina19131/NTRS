@@ -1,0 +1,37 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Model weights / large files (download on demand)
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+
+# Ad-hoc logs at repo root (keep logs inside results/)
+/*.log
+
+# Temporary outputs
+/tmp_*
