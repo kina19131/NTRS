@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NTRS Research State — 2026-07-17</title>
+<style>
+  :root {
+    --green:  #1b7a3e;
+    --red:    #c0392b;
+    --orange: #d35400;
+    --blue:   #1a5276;
+    --purple: #6c3483;
+    --yellow: #f39c12;
+    --bg:     #f7f9fc;
+    --card:   #ffffff;
+    --border: #dce3ec;
+    --text:   #1a1a2e;
+    --muted:  #555;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6;
+  }
+  .page { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* ── top bar ── */
+  .topbar {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 100%);
+    color: #fff; padding: 28px 32px; border-radius: 12px; margin-bottom: 32px;
+  }
+  .topbar h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
+  .topbar .subtitle { font-size: 0.95rem; opacity: 0.8; }
+  .topbar .tagline {
+    margin-top: 14px; font-size: 1.05rem; font-weight: 500;
+    background: rgba(255,255,255,0.12); border-left: 4px solid #5dade2;
+    padding: 10px 16px; border-radius: 0 8px 8px 0;
+  }
+  .tagline code { background: rgba(255,255,255,0.15); padding: 1px 6px; border-radius: 4px; font-family: monospace; }
+
+  /* ── status pills ── */
+  .pill {
+    display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+    padding: 2px 9px; border-radius: 20px; vertical-align: middle; margin-left: 6px;
+    text-transform: uppercase;
+  }
+  .pill-green  { background: #d5f0e0; color: #1b7a3e; }
+  .pill-red    { background: #fde8e6; color: #c0392b; }
+  .pill-orange { background: #fdebd0; color: #d35400; }
+  .pill-blue   { background: #d6eaf8; color: #1a5276; }
+  .pill-purple { background: #e8d5f5; color: #6c3483; }
+  .pill-gray   { background: #e8e8e8; color: #555; }
+
+  /* ── section ── */
+  .section { margin-bottom: 36px; }
+  .section-title {
+    font-size: 1.15rem; font-weight: 700; color: var(--blue);
+    border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-num {
+    background: var(--blue); color: #fff; font-size: 0.8rem;
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+
+  /* ── card ── */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 24px; margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+  .card p { color: var(--muted); margin-bottom: 8px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* ── two-col ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── figure ── */
+  .fig-wrap {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; margin-bottom: 20px;
+  }
+  .fig-wrap img { width: 100%; display: block; }
+  .fig-caption {
+    padding: 10px 16px; font-size: 0.85rem; color: var(--muted);
+    border-top: 1px solid var(--border); background: #f0f4f8;
+  }
+  .fig-caption strong { color: var(--text); }
+
+  /* ── table ── */
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 12px 0; }
+  th {
+    background: #eaf0f8; color: var(--blue); font-weight: 700;
+    padding: 8px 10px; text-align: left; border: 1px solid var(--border);
+  }
+  td { padding: 7px 10px; border: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #f9fbfd; }
+  .td-good  { background: #d5f0e0 !important; font-weight: 600; color: var(--green); }
+  .td-bad   { background: #fde8e6 !important; font-weight: 600; color: var(--red); }
+  .td-warn  { background: #fdebd0 !important; font-weight: 600; color: var(--orange); }
+  .td-purp  { background: #e8d5f5 !important; font-weight: 600; color: var(--purple); }
+
+  /* ── hypothesis block ── */
+  .hyp-block {
+    border-left: 4px solid var(--blue); background: #eaf0f8;
+    padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 12px 0;
+    font-style: italic; font-size: 0.93rem; color: var(--text);
+  }
+
+  /* ── highlight box ── */
+  .hl-box {
+    border-radius: 8px; padding: 14px 18px; margin: 14px 0;
+    font-size: 0.92rem;
+  }
+  .hl-green  { background: #eafaf1; border-left: 4px solid #1b7a3e; }
+  .hl-red    { background: #fdf3f1; border-left: 4px solid #c0392b; }
+  .hl-orange { background: #fef9f0; border-left: 4px solid #d35400; }
+  .hl-purple { background: #f5eafa; border-left: 4px solid #6c3483; }
+  .hl-blue   { background: #eaf0fa; border-left: 4px solid #1a5276; }
+
+  /* ── claim box ── */
+  .claim-label {
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 4px; color: var(--muted);
+  }
+  .claim-text { font-weight: 600; font-size: 0.97rem; }
+
+  /* ── todo list ── */
+  .todo-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px; border-radius: 8px; margin-bottom: 8px;
+    background: var(--card); border: 1px solid var(--border);
+  }
+  .todo-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+  code { background: #eef1f5; padding: 1px 5px; border-radius: 4px; font-size: 0.88em; font-family: "SFMono-Regular", Consolas, monospace; }
+
+  /* ── anisotropy visual ── */
+  .anis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+  .anis-cell {
+    border-radius: 8px; padding: 14px 12px; text-align: center;
+    border: 2px solid transparent;
+  }
+  .anis-cola   { background: #f5eafa; border-color: #9c27b0; }
+  .anis-agnews { background: #eafaf1; border-color: #1b7a3e; }
+  .anis-mnli   { background: #fdf3f1; border-color: #c0392b; }
+  .anis-cell .ph2 { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; }
+  .anis-cell .tstar { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+  .anis-cell .note { font-size: 0.75rem; color: var(--muted); }
+  .anis-cola   .ph2 { color: #6c3483; }
+  .anis-cola   .tstar { color: #6c3483; }
+  .anis-agnews .ph2 { color: #1b7a3e; }
+  .anis-agnews .tstar { color: #1b7a3e; }
+  .anis-mnli   .ph2 { color: #c0392b; }
+  .anis-mnli   .tstar { color: #c0392b; }
+
+  /* ── numbers grid ── */
+  .num-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 14px 0; }
+  @media (max-width: 720px) { .num-grid { grid-template-columns: repeat(2, 1fr); } }
+  .num-cell {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 12px; text-align: center;
+  }
+  .num-cell .label { font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; }
+  .num-cell .value { font-size: 1.2rem; font-weight: 800; color: var(--blue); }
+
+  hr.divider { border: none; border-top: 2px solid var(--border); margin: 32px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══════════════════════════ TOP BAR ══════════════════════════ -->
+<div class="topbar">
+  <h1>NTRS Research State</h1>
+  <div class="subtitle">Updated 2026-07-17 · GPT-2 / Llama-3.2-3B / Mistral-7B-v0.1 (H1, 60× scale range) · Llama-3.2-3B 4 Phase-1 tasks + Mistral-7B cross-architecture validation (H2)</div>
+  <div class="tagline">
+    <strong>Core idea:</strong> Compute <code>σ½</code> once from a Phase 1 checkpoint.
+    Normalize weight displacement during Phase 2 training: <code>R_A = ‖Δθ‖ / σ½_A</code>.
+    When R_A crosses threshold T*, Phase 1 is forgotten — predictable <em>before</em> running Phase 2,
+    at least in the one setting where this pre-run property has actually been tested (transfer across
+    Phase-2 targets for a fixed Phase-1 checkpoint). See §6 for where σ½ demonstrably earns its keep
+    and where raw displacement alone would have done just as well.
+  </div>
+</div>
+
+<!-- ══════════════════════════ PIPELINE VISUAL ══════════════════════════ -->
+<div class="fig-wrap" style="padding:0; background:#edf2f7;">
+<svg viewBox="0 0 1060 200" width="100%" style="font-family:system-ui,-apple-system,sans-serif; display:block;">
+  <defs>
+    <marker id="pipe-gray" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="8" orient="auto"><polygon points="0,0 10,3.5 0,7" fill="#6b7280"/></marker>
+    <marker id="pipe-org"  viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="8" orient="auto"><polygon points="0,0 10,3.5 0,7" fill="#c05200"/></marker>
+    <marker id="pipe-red"  viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="8" orient="auto"><polygon points="0,0 10,3.5 0,7" fill="#c0392b"/></marker>
+    <marker id="pipe-grn"  viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="8" orient="auto"><polygon points="0,0 10,3.5 0,7" fill="#1b7a3e"/></marker>
+  </defs>
+
+  <!-- Box 1: Pretrained -->
+  <rect x="10" y="60" width="115" height="60" rx="7" fill="#2c3e50"/>
+  <text x="67" y="83" text-anchor="middle" font-size="11" fill="white" font-weight="600">Pretrained</text>
+  <text x="67" y="100" text-anchor="middle" font-size="15" fill="#a8d4f5" font-weight="800">θ₀</text>
+  <text x="67" y="114" text-anchor="middle" font-size="8.5" fill="#7aabcc">base model</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="125" y1="90" x2="172" y2="90" stroke="#6b7280" stroke-width="2" marker-end="url(#pipe-gray)"/>
+  <text x="149" y="82" text-anchor="middle" font-size="9" fill="#555">Task A</text>
+
+  <!-- Box 2: Phase 1 FT -->
+  <rect x="174" y="55" width="170" height="70" rx="7" fill="#1b7a3e"/>
+  <text x="259" y="79" text-anchor="middle" font-size="11" fill="white" font-weight="600">Phase 1 LoRA Fine-tune</text>
+  <text x="259" y="95" text-anchor="middle" font-size="10" fill="#a8e6c1">fine-tune on Task A</text>
+  <text x="259" y="111" text-anchor="middle" font-size="9.5" fill="#d5f5e3">→ saves checkpoint θ_A*</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="344" y1="90" x2="398" y2="90" stroke="#6b7280" stroke-width="2" marker-end="url(#pipe-gray)"/>
+
+  <!-- Box 3: Checkpoint -->
+  <rect x="400" y="60" width="140" height="60" rx="7" fill="#1a5276"/>
+  <text x="470" y="82" text-anchor="middle" font-size="11" fill="white" font-weight="600">Checkpoint</text>
+  <text x="470" y="99" text-anchor="middle" font-size="16" fill="#a8d4f5" font-weight="800">θ_A*</text>
+  <text x="470" y="113" text-anchor="middle" font-size="8.5" fill="#7aabcc">Task A model</text>
+
+  <!-- Down arrow → σ½ box -->
+  <line x1="470" y1="120" x2="470" y2="146" stroke="#c05200" stroke-width="2" marker-end="url(#pipe-org)"/>
+  <text x="492" y="136" font-size="8" fill="#c05200">compute</text>
+
+  <!-- σ½_A box -->
+  <rect x="395" y="148" width="150" height="40" rx="7" fill="#fff3e0" stroke="#c05200" stroke-width="2"/>
+  <text x="470" y="165" text-anchor="middle" font-size="10.5" fill="#9d4200" font-weight="700">σ½_A  ✓  known</text>
+  <text x="470" y="180" text-anchor="middle" font-size="8.5" fill="#c05200">before Phase 2 starts</text>
+
+  <!-- Dashed arrow σ½_A → Phase 2 (enters from bottom) -->
+  <path d="M 545,168 Q 630,168 660,125" stroke="#c05200" stroke-width="1.8" stroke-dasharray="6,3" fill="none" marker-end="url(#pipe-org)"/>
+  <text x="614" y="158" text-anchor="middle" font-size="8.5" fill="#c05200" font-style="italic">used as budget</text>
+
+  <!-- Arrow 3→4 (main flow) -->
+  <line x1="540" y1="90" x2="608" y2="90" stroke="#6b7280" stroke-width="2" marker-end="url(#pipe-gray)"/>
+  <text x="574" y="82" text-anchor="middle" font-size="9" fill="#555">Task B</text>
+
+  <!-- Box 4: Phase 2 FT -->
+  <rect x="610" y="55" width="170" height="70" rx="7" fill="#6c3483"/>
+  <text x="695" y="79" text-anchor="middle" font-size="11" fill="white" font-weight="600">Phase 2 LoRA Fine-tune</text>
+  <text x="695" y="95" text-anchor="middle" font-size="10" fill="#dbb8f5">fine-tune on Task B</text>
+  <text x="695" y="111" text-anchor="middle" font-size="9.5" fill="#e8d5f5">R_A = ‖Δθ‖ / σ½_A ↑</text>
+
+  <!-- Arrow 4→diamond -->
+  <line x1="780" y1="90" x2="830" y2="90" stroke="#6b7280" stroke-width="2" marker-end="url(#pipe-gray)"/>
+  <text x="805" y="82" text-anchor="middle" font-size="8.5" fill="#555">R_A?</text>
+
+  <!-- Decision diamond -->
+  <polygon points="868,58 910,90 868,122 826,90" fill="#e8f4fd" stroke="#1a5276" stroke-width="2"/>
+  <text x="868" y="87" text-anchor="middle" font-size="10" fill="#1a5276" font-weight="700">R_A</text>
+  <text x="868" y="101" text-anchor="middle" font-size="10" fill="#1a5276">&gt; T*?</text>
+
+  <!-- YES → FORGET -->
+  <line x1="910" y1="90" x2="946" y2="70" stroke="#c0392b" stroke-width="2.5" marker-end="url(#pipe-red)"/>
+  <text x="954" y="62" font-size="11" fill="#c0392b" font-weight="700">YES →</text>
+  <text x="954" y="76" font-size="12" fill="#c0392b" font-weight="800">FORGET ✗</text>
+  <text x="954" y="89" font-size="8" fill="#c0392b">Task A lost</text>
+
+  <!-- NO → SAFE -->
+  <line x1="868" y1="122" x2="868" y2="158" stroke="#1b7a3e" stroke-width="2.5" marker-end="url(#pipe-grn)"/>
+  <text x="882" y="144" font-size="11" fill="#1b7a3e" font-weight="700">NO →</text>
+  <text x="882" y="158" font-size="12" fill="#1b7a3e" font-weight="800">SAFE ✓</text>
+  <text x="882" y="171" font-size="8" fill="#1b7a3e">Task A preserved</text>
+</svg>
+<div class="fig-caption"><strong>Research Pipeline.</strong> σ½_A is computed once from the Phase 1 checkpoint — <em>before</em> Phase 2 begins. During Phase 2 training, the normalized displacement R_A = ‖Δθ‖/σ½_A grows. When R_A crosses T*, Task A is forgotten. T* itself is empirically calibrated (not a universal constant — R_A=1 does <em>not</em> mark the threshold; see §2/§6), and the "known before Phase 2" property has only been demonstrated as a <em>transfer</em> claim: calibrate T* once against one Phase-2 target, and it predicts forgetting for a different, untested Phase-2 target — not as a zero-shot universal law.</div>
+</div>
+
+<!-- ══════════════════════════ STATUS OVERVIEW ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">0</span>Quick Status</div>
+  <div class="two-col">
+    <div class="card">
+      <h3>H1 — Pretraining boundary <span class="pill pill-green">3 ARCHITECTURES</span> <span class="pill pill-orange">CRITERION-SENSITIVE</span></h3>
+      <p>R predicts pretraining knowledge degradation (NLL + MMLU) better than KL(diverse) in GPT-2, Llama-3.2-3B, <strong>and now Mistral-7B-v0.1</strong> (60× parameter range). Raw displacement at forgetting onset spans 39–44× across architectures; σ½ compresses this to ~3×. But the flagship "3-way overlap" depends on which break-criterion is used — see §2.</p>
+    </div>
+    <div class="card">
+      <h3>H2 — Sequential forgetting <span class="pill pill-green">3/4 CONFIRMED</span> <span class="pill pill-purple">1/4 REFRAMED</span> <span class="pill pill-blue">CROSS-ARCH ✓</span></h3>
+      <p>MNLI, AGNews, CoLA Phase 1 (Llama): T* is largely Phase-2-independent. SST-2 Phase 1: T* spans 44× across 3 Phase-2 tasks — anisotropic, rank-dependent, still mechanistically unexplained. <strong>New:</strong> Mistral-7B cross-architecture validation, now on a consistent accuracy-based σ½ for both models — see §6.</p>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>Corrected this session (2026-07-17) <span class="pill pill-orange">5 FIXES</span></h3>
+      <p>1) GPT-2/Llama H1 tables were citing a stale, non-relslack σ½ (12×/1.34× off). 2) Mistral MNLI σ½ was on a different convention than Mistral SST-2 v5 (17% off). 3) A "Key Numbers" row cited superseded Mistral SST-2 v3 instead of v5 PRIMARY. 4) The flagship SST-2 3-way convergence claim is criterion-sensitive — not a clean overlap under the stricter rule. 5) The H2 cross-architecture comparison mixed an accuracy-based Llama σ½ against an NLL-based Mistral σ½ — now recomputed consistently.</p>
+    </div>
+    <div class="card">
+      <h3>Confirmed live tooling bug <span class="pill pill-red">STILL PRESENT</span></h3>
+      <p>Both <code>h2_sequential_llama.py</code> and <code>recompute_sigma_half_acc.py</code> print "Forgot?" based on <code>R_A &gt; 1.0</code>, not the actual accuracy threshold. Confirmed live in this session's Mistral rerun: prints "no" for rows where accuracy had collapsed from 0.90 to 0.24–0.26. Underlying JSON is correct; the console/plot display is not. See §9.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CORE CONCEPT ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">1</span>The Core Concept: σ½ as a Basin Radius</div>
+  <div class="card">
+    <p>σ½ is computed by adding Gaussian noise at increasing amplitude σ to the Phase 1 weights and measuring how quickly the model's evaluation metric degrades. σ½ is the σ at which <em>certified density</em> drops to 0.5 — i.e., the model retains ≥ 50% of its success probability under perturbations of radius σ½. Think of it as the radius of the "safe zone" around the Phase 1 weight vector.</p>
+    <div class="hl-blue" style="margin-top:12px;">
+      <strong>R_A = ‖Δθ‖ / σ½_A</strong> — weight displacement during Phase 2, normalized by Phase 1 basin radius.<br>
+      T* is the R_A value where forgetting begins. If you know T* before Phase 2 runs, you can set an early-stopping budget — <strong>but only in the sense that T* transfers from a different, previously-tested Phase-2 target</strong>, not that it can be derived from σ½ alone without ever observing a forgetting event.
+    </div>
+  </div>
+
+  <!-- ── BASIN CONCEPT DIAGRAM ── -->
+  <div class="fig-wrap" style="padding:20px 20px 0; background:#f8f9fa;">
+  <svg viewBox="0 0 680 400" width="100%" style="font-family:system-ui,-apple-system,sans-serif; display:block;">
+    <defs>
+      <marker id="bsn-purp" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="7" orient="auto"><polygon points="0,0 10,3.5 0,7" fill="#6c3483"/></marker>
+    </defs>
+
+    <rect x="0" y="0" width="420" height="360" rx="0" fill="#f8f9fa"/>
+    <rect x="430" y="20" width="240" height="310" rx="8" fill="#fffdf0" stroke="#e0c060" stroke-width="1.5"/>
+
+    <line x1="40" y1="195" x2="390" y2="195" stroke="#dde3ec" stroke-width="1"/>
+    <line x1="210" y1="45" x2="210" y2="355" stroke="#dde3ec" stroke-width="1"/>
+    <text x="394" y="199" font-size="9" fill="#bbb">w₁</text>
+    <text x="214" y="43" font-size="9" fill="#bbb">w₂</text>
+
+    <circle cx="210" cy="195" r="148" fill="#e8f8f0" fill-opacity="0.65" stroke="#1b7a3e" stroke-width="2.5" stroke-dasharray="10,5"/>
+    <circle cx="210" cy="195" r="28" fill="#fde8e6" fill-opacity="0.92" stroke="#c0392b" stroke-width="2.5"/>
+
+    <circle cx="210" cy="195" r="5" fill="#1a5276"/>
+    <text x="222" y="213" font-size="9.5" fill="#1a5276" font-weight="700">θ_A*</text>
+
+    <text x="210" y="198" text-anchor="middle" font-size="8.5" fill="#c0392b" font-weight="700">SAFE ✓</text>
+    <text x="210" y="209" text-anchor="middle" font-size="7.5" fill="#c0392b">below T*</text>
+
+    <line x1="210" y1="195" x2="229" y2="176" stroke="#6c3483" stroke-width="3" marker-end="url(#bsn-purp)"/>
+    <line x1="229" y1="176" x2="314" y2="91" stroke="#6c3483" stroke-width="1.8" stroke-dasharray="5,3"/>
+
+    <text x="240" y="168" font-size="10" fill="#c0392b" font-weight="700">⚡ FORGET (T*)</text>
+    <text x="240" y="181" font-size="8.5" fill="#c0392b">Task A lost here</text>
+
+    <text x="319" y="87" font-size="8.5" fill="#1b7a3e">σ½ boundary:</text>
+    <text x="319" y="99" font-size="8.5" fill="#1b7a3e">random noise</text>
+    <text x="319" y="111" font-size="8.5" fill="#1b7a3e">causes forgetting</text>
+
+    <text x="198" y="184" font-size="8" fill="#6c3483" font-style="italic" text-anchor="end">Phase 2</text>
+    <text x="198" y="195" font-size="8" fill="#6c3483" font-style="italic" text-anchor="end">gradient →</text>
+
+    <text x="210" y="52" text-anchor="middle" font-size="11" fill="#1b7a3e" font-weight="600">σ½  (certified isotropic radius)</text>
+
+    <text x="263" y="185" font-size="8.5" fill="#c0392b">T*·σ½</text>
+    <line x1="260" y1="190" x2="238" y2="192" stroke="#c0392b" stroke-width="1"/>
+
+    <line x1="238" y1="195" x2="358" y2="195" stroke="#d35400" stroke-width="2"/>
+    <line x1="238" y1="189" x2="238" y2="201" stroke="#d35400" stroke-width="1.5"/>
+    <line x1="358" y1="189" x2="358" y2="201" stroke="#d35400" stroke-width="1.5"/>
+    <text x="298" y="213" text-anchor="middle" font-size="11" fill="#d35400" font-weight="700">~17× gap</text>
+
+    <text x="550" y="48" text-anchor="middle" font-size="12" fill="#1a1a2e" font-weight="700">Key Insight</text>
+
+    <circle cx="445" cy="82" r="7" fill="#e8f8f0" stroke="#1b7a3e" stroke-width="2" stroke-dasharray="4,2"/>
+    <text x="458" y="87" font-size="10" fill="#1b7a3e" font-weight="600">σ½ (large, dashed)</text>
+    <text x="444" y="103" font-size="9" fill="#555">Random Gaussian noise at amplitude</text>
+    <text x="444" y="116" font-size="9" fill="#555">σ½ causes forgetting. This is what</text>
+    <text x="444" y="129" font-size="9" fill="#555">randomized smoothing measures.</text>
+
+    <circle cx="445" cy="158" r="7" fill="#fde8e6" stroke="#c0392b" stroke-width="2"/>
+    <text x="458" y="163" font-size="10" fill="#c0392b" font-weight="600">T*·σ½ (small, solid)</text>
+    <text x="444" y="179" font-size="9" fill="#555">Gradient-directed fine-tuning causes</text>
+    <text x="444" y="192" font-size="9" fill="#555">forgetting at T*·σ½ — roughly</text>
+    <text x="444" y="205" font-size="9" fill="#c0392b" font-weight="600">15-17× smaller than σ½ (MNLI/AGNews Phase 1)</text>
+    <text x="444" y="220" font-size="9" fill="#555">Forgetting happens well inside the</text>
+    <text x="444" y="233" font-size="9" fill="#555">certified safe region.</text>
+
+    <rect x="440" y="248" width="218" height="64" rx="6" fill="#fde8e6"/>
+    <text x="549" y="267" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="700">Directional Vulnerability</text>
+    <text x="549" y="288" text-anchor="middle" font-size="22" fill="#c0392b" font-weight="800">~15–17×</text>
+    <text x="549" y="305" text-anchor="middle" font-size="8.5" fill="#c0392b">1/T* — varies by Phase 1 task (11–17×)</text>
+  </svg>
+  <div class="fig-caption"><strong>Fig: Weight-space basin geometry.</strong> The Phase 1 optimum θ_A* sits at the center. The large dashed circle (radius σ½) is where isotropic random noise would cause forgetting — this is what randomized smoothing certifies. The small solid circle (radius T*·σ½) is where gradient-directed fine-tuning actually causes forgetting, well inside the certified region. <strong>Caveat added 2026-07-17:</strong> this diagram illustrates why R_A ≪ 1 at forgetting (real and confirmed), but it does not by itself establish that σ½-normalization is the right lens — see §5 for the finding that, within a single architecture, raw (unnormalized) displacement at T* is <em>more</em> consistent across Phase-1 tasks than the σ½-normalized version is.</div>
+  </div>
+
+  <div class="fig-wrap">
+    <img src="figures/fig4_density_curve.png" alt="σ½ density curve">
+    <div class="fig-caption"><strong>Fig 1.</strong> Certified density curves (illustrative — Llama-only batch). σ½ (vertical dashed line) is where density = 0.5. SST-2 Phase 1 has the largest basin (σ½=0.003337); pretrained Llama has the smallest (σ½=0.000772) among the values shown here — finer-tuned tasks settle into tighter minima. Kept as a conceptual illustration of what a density(σ) curve looks like; the claim-bearing figures (Figs 2–5 below) were regenerated 2026-07-17 with corrected relslack σ½ and the Mistral data.</div>
+  </div>
+
+  <div class="num-grid">
+    <div class="num-cell">
+      <div class="label">σ½_pre — Pretrained Llama (relslack)</div>
+      <div class="value" style="color:#c0392b;">0.000772</div>
+    </div>
+    <div class="num-cell">
+      <div class="label">σ½_pre — Pretrained Mistral-7B (v5, relslack)</div>
+      <div class="value" style="color:#c0392b;">0.000182</div>
+    </div>
+    <div class="num-cell">
+      <div class="label">σ½_A — MNLI / AGNews Phase 1 (acc)</div>
+      <div class="value" style="color:#1b7a3e;">0.00286 / 0.00276</div>
+    </div>
+    <div class="num-cell">
+      <div class="label">σ½_A — SST-2 / CoLA Phase 1 (acc)</div>
+      <div class="value" style="color:#6c3483;">0.00334 / 0.00194</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ H1 ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">2</span>H1 — Pretraining→Fine-Tuning Boundary</div>
+
+  <div class="hyp-block">
+    R = ‖Δθ‖/σ½_pre discriminates safe from degraded fine-tuning at the pretraining boundary, better than KL on instruction-domain prompts (KL-diverse), across GPT-2 (117M), Llama-3.2-3B (3B), and Mistral-7B-v0.1 (7B) — a 60× parameter range.
+  </div>
+
+  <div class="fig-wrap">
+    <img src="figures/fig_h1_2026_07_17.png" alt="H1 three-architecture comparison, corrected relslack">
+    <div class="fig-caption"><strong>Fig 2.</strong> Regenerated 2026-07-17 from corrected relslack σ½ for all three models. (a) R tracks ΔNLL in GPT-2, Llama-3.2-3B, and Mistral-7B-v0.1. (b) The criterion-sensitivity finding: cliff-jump vs. 1%-threshold brackets for each model — GPT-2∩Llama and Llama∩Mistral each overlap, but GPT-2∩Mistral does not under the strict rule. (c) KL(diverse)'s two distinct failure modes (Llama saturates; Mistral has insufficient slope at the cliff). (d) Metric-dependence: NLL and MMLU collapse at the same R (≈0.59); SST-2 task accuracy survives to R≈3.64.</div>
+  </div>
+
+  <div class="fig-wrap">
+    <img src="figures/fig_kl_vs_r_2026_07_17.png" alt="KL vs R, all three KL variants, all three models">
+    <div class="fig-caption"><strong>Fig 2b.</strong> The full KL-vs-R picture (new 2026-07-17) — all three KL variants tested, across all three models where the field exists (GPT-2 has no SuperNI/MMLU fields). (a) KL(diverse), the natural competing baseline, fails for all three models — GPT-2 included, not just Llama and Mistral. (b) KL(wiki), on the pretraining domain itself, <em>is</em> monotone for all three models — confirming the failure in (a) is domain-specific (instruction-style prompts are OOD for the base model), not a general KL failure. (c) KL(SuperNI) is monotone for both Llama and Mistral but only Mistral's shows a real cliff-discriminating jump (12.4×); Llama's moves only 15% at the same boundary where ΔNLL jumps 32×.</div>
+  </div>
+
+  <h3 style="font-size:1rem; margin:18px 0 8px; color:var(--blue);">Per-model T* (relslack σ½, corrected 2026-07-17)</h3>
+  <table>
+    <tr><th>lr</th><th>GPT-2 R</th><th>Llama R</th><th>Mistral R (v5)</th></tr>
+    <tr><td>1e-5</td><td>0.015</td><td>0.028</td><td>0.030</td></tr>
+    <tr><td>5e-5</td><td>0.086</td><td>0.113</td><td>0.194</td></tr>
+    <tr><td>1e-4</td><td>0.220</td><td>0.236</td><td>0.226</td></tr>
+    <tr><td>2e-4</td><td>0.453</td><td>0.586</td><td>0.642</td></tr>
+    <tr><td>5e-4</td><td>1.741</td><td>3.641</td><td>1.320</td></tr>
+  </table>
+  <div class="hl-orange">
+    <strong>⚠️ These Llama R values were previously wrong in this file</strong> (0.038 / 0.316 / 0.784 / 4.877 — the same "stale non-relslack σ½" bug found and fixed in <code>RAW_DATA.md</code> and <code>SUMMARY.md</code> this session). Corrected table above uses Llama's own relslack σ½=7.717391×10⁻⁴.
+  </div>
+
+  <h3 style="font-size:1rem; margin:18px 0 8px; color:var(--blue);">Cross-model T* — two ways of defining "broken", two different answers</h3>
+  <table>
+    <tr><th>Model</th><th>T* — cliff-jump criterion (eyeball biggest ΔNLL jump)</th><th>T* — 1%-of-baseline-NLL criterion (strict, model-independent)</th></tr>
+    <tr><td>GPT-2</td><td>[0.220, 0.453]</td><td>[0.220, 0.453] (identical)</td></tr>
+    <tr><td>Llama-3.2-3B</td><td>[0.236, 0.586]</td><td class="td-warn">[0.113, 0.236]</td></tr>
+    <tr><td>Mistral-7B (v5)</td><td>[0.194, 0.226]</td><td class="td-warn">[0.030, 0.194]<sup>†</sup></td></tr>
+  </table>
+  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:10px;"><sup>†</sup>Mistral's strict-criterion lower bound (R=0.030) is lr=1e-5, where SST-2 accuracy is 0.480 — the task did not converge. Excluding this non-converged point (consistent with how the cliff-jump analysis already treats it), Mistral has <strong>no valid safe reference point</strong> in the tested LR grid at all — a genuine gap, not a resolved number.</p>
+
+  <div class="hl-red">
+    <strong>The flagship "3-way convergence" claim is criterion-sensitive.</strong> Under the loose cliff-jump rule, GPT-2 and Mistral overlap directly at [0.220,0.226] and Llama's lower bound is adjacent — a narrow but real 3-way band near R≈0.19–0.24. Under the stricter 1%-of-baseline-NLL rule (the same rule that correctly resolved the MNLI comparison below), the brackets form a <strong>chain, not a 3-way overlap</strong>: GPT-2∩Llama=[0.220,0.236] ✓, Llama∩Mistral=[0.113,0.194] ✓, but <strong>GPT-2∩Mistral = ∅</strong> — no common R value. What's robust either way: raw displacement spans 39–44× across architectures and σ½ compresses this to roughly a 3× band. What's <em>not</em> robust: a precise, simultaneous 3-way overlap. Closing the Mistral LR gap (testing lr=2e-5 or 3e-5) would settle this.
+  </div>
+
+  <div class="hl-green" style="margin-top:14px;">
+    <strong>MNLI fine-tuning converges more cleanly than SST-2 does.</strong> After correcting both models to relslack σ½ and using the strict 1%-threshold criterion consistently: Llama MNLI T*=[0.133, 0.233]; Mistral MNLI T*=[0.071, 0.324]. Llama's bracket sits <strong>entirely inside</strong> Mistral's — the cleanest cross-architecture result in the H1 dataset, and one that only emerged after fixing a real staleness bug in Mistral's σ½ (it had been on a different, non-relslack convention than Mistral's own SST-2 v5 result — 17% off).
+  </div>
+
+  <div class="two-col" style="margin-top:16px;">
+    <div class="card">
+      <div class="claim-label">✓ Confirmed finding</div>
+      <div class="claim-text">KL(diverse) fails to track the safe/forget boundary in all three models, by two different (not identical) mechanisms: Llama saturates immediately (7.11 at LR=1e-5, near its own ceiling); Mistral doesn't saturate (starts at 0.088) but has insufficient slope at the actual cliff (2.6× change while ΔNLL jumps 22.5×).</div>
+    </div>
+    <div class="card">
+      <div class="claim-label">⚠ Metric-dependent, not universal</div>
+      <div class="claim-text">"Forgetting" onset depends on which metric you track. Llama SST-2 task accuracy survives to R≈3.6 while NLL/MMLU have already collapsed by R≈0.24–0.59 for the same fine-tune. R predicts general-capability degradation specifically, not one universal collapse point.</div>
+    </div>
+  </div>
+
+  <div class="hl-purple" style="margin-top:14px;">
+    <strong>Two open validity questions, neither resolved:</strong>
+    (1) σ½ is computed by perturbing the <em>entire</em> decoder block (attention + MLP + layernorms), but LoRA fine-tuning only ever moves attention-projection weights. This scope mismatch between what's certified and what's displaced could bias σ½ in an architecture-dependent way (different MLP:attention ratios) and has never been tested — the fix (recompute σ½ restricted to the LoRA target modules) is cheap.
+    (2) <code>hessian_eigenvalue.py</code> exists to test whether σ½ ∝ 1/√λ_max, i.e. whether the checkpoint sits in a genuine curvature basin. Its own docstring notes pretrained checkpoints are "often" at saddle points w.r.t. target parameters — which would undermine the "certified basin radius" framing if true. Never run to completion (no <code>results.json</code>).
+  </div>
+</div>
+
+<!-- ══════════════════════════ H2 CROSS-TASK ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">3</span>H2 — Sequential Task Forgetting: Cross-Task Results (Llama)</div>
+
+  <div class="hyp-block">
+    σ½_A, computed once from a Phase 1 checkpoint, defines a forgetting budget R_A. For isotropic Phase 1 tasks (MNLI, AGNews, CoLA), T* is largely Phase-2-independent — a Phase 1 model property. For SST-2 Phase 1 (anisotropic), T* varies 44× depending on Phase 2 task direction, and the failure pattern is rank-dependent in a way that isn't fully explained (§4).
+  </div>
+
+  <p style="font-size:0.85rem; color:var(--muted); margin:0 0 14px;"><strong>Methodological note:</strong> every T*=[a,b] below is the interval between the last tested LR that stayed safe and the next that forgot — a grid-resolution bracket, not a statistical CI (no repeated sampling except where noted). "Pass"/"overlap" below means the transition lands in the same or adjacent tested LR step, not a formal equivalence test.</p>
+
+  <div class="fig-wrap">
+    <img src="figures/fig_h2_transfer_2026_07_17.png" alt="H2 8-cell transfer grid and V1 objection">
+    <div class="fig-caption"><strong>Fig 3.</strong> Regenerated 2026-07-17. (a) The exact 8-cell transfer count (4 Phase-1 tasks × 2 ranks, all Llama-3.2-3B): 5 pass (green), 2 fail (red — SST-2 r8, CoLA r32), 1 weak/ambiguous (amber — CoLA r8). (b) Panel (b) previews the sharpest objection detailed in §5: raw T*_raw spread (~4%) vs. σ½-normalized R_A spread (~53%) across the same MNLI/AGNews/CoLA r8 pairs.</div>
+  </div>
+
+  <h3 style="font-size:1rem; margin-bottom: 12px; color: var(--blue);">T* Summary — All Phase 1 Tasks (exact cell count, not just "3 of 4")</h3>
+  <table>
+    <tr><th>Phase 1 Task</th><th>Rank</th><th>T*(Phase 2 A) vs T*(Phase 2 B)</th><th>Transfer?</th></tr>
+    <tr><td rowspan="2"><strong>MNLI</strong></td><td>r8</td><td>[0.041,0.081] (→SST-2, 5-seed confirmed) vs [0.040,0.084] (→AGNews)</td><td class="td-good">✓ pass</td></tr>
+    <tr><td>r32</td><td>0.063 vs 0.063</td><td class="td-good">✓ pass</td></tr>
+    <tr><td rowspan="2"><strong>AGNews</strong></td><td>r8</td><td>[0.042,0.085] (→MNLI) vs [0.042,0.089] (→SST-2)</td><td class="td-good">✓ pass</td></tr>
+    <tr><td>r32</td><td>0.062 vs 0.063</td><td class="td-good">✓ pass</td></tr>
+    <tr><td rowspan="2"><strong>SST-2</strong></td><td>r8</td><td>0.532 (→MNLI) vs 0.051 (→AGNews) vs 0.012 (→CoLA) — <strong>44× spread</strong></td><td class="td-bad">✗ fail</td></tr>
+    <tr><td>r32</td><td>0.053 (→MNLI) vs 0.050 (→AGNews)</td><td class="td-good">✓ pass (resolves at r32)</td></tr>
+    <tr><td rowspan="2"><strong>CoLA</strong></td><td>r8</td><td>[0.060,0.118] (→MNLI) vs [0.060,0.126] (→AGNews) — each interval 2× wide</td><td class="td-warn">⚠ weak/ambiguous (overlaps, not precise)</td></tr>
+    <tr><td>r32</td><td>0.189 (→MNLI) vs 0.089 (→AGNews)</td><td class="td-bad">✗ fail (2× gap)</td></tr>
+  </table>
+  <div class="hl-blue">
+    <strong>Exact count across 8 cells: 5 clear passes, 2 clear failures (SST-2 r8, CoLA r32), 1 weak/ambiguous pass (CoLA r8).</strong> The failure pattern is not "one anisotropic task" — SST-2 fails at r8 but resolves at r32; CoLA does the <em>opposite</em> (passes at r8, fails at r32). Neither direction is mechanistically explained (§4).
+  </div>
+</div>
+
+<!-- ══════════════════════════ SST-2 ANISOTROPY ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">4</span>SST-2 Basin Anisotropy — Characterized, Not Yet Explained</div>
+
+  <div class="hl-purple">
+    <strong>The key finding:</strong> SST-2 Phase 1 is simultaneously the <em>most fragile</em> Phase 1 model (CoLA destroys it at R_A≈0.01, lower than any other pair) and the <em>most resistant</em> (MNLI can barely destroy it until R_A≈0.5) — at rank 8. Both extremes are the same Phase 1 model; the difference is purely the direction Phase 2 pushes in weight space.
+  </div>
+
+  <div class="fig-wrap" style="padding:20px; background:#f8f9fa;">
+  <svg viewBox="0 0 840 360" width="100%" style="font-family:system-ui,-apple-system,sans-serif; display:block;">
+    <defs>
+      <marker id="an-pur" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="8" orient="auto"><polygon points="0,0 10,3.5 0,7" fill="#9C27B0"/></marker>
+      <marker id="an-grn" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="8" orient="auto"><polygon points="0,0 10,3.5 0,7" fill="#1b7a3e"/></marker>
+      <marker id="an-red" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="8" orient="auto"><polygon points="0,0 10,3.5 0,7" fill="#c0392b"/></marker>
+    </defs>
+    <rect x="0"   y="0" width="410" height="360" rx="0" fill="#f0f4f8"/>
+    <rect x="430" y="0" width="410" height="360" rx="0" fill="#f5eafa"/>
+    <line x1="420" y1="20" x2="420" y2="340" stroke="#ccc" stroke-width="2" stroke-dasharray="6,3"/>
+
+    <text x="198" y="24" text-anchor="middle" font-size="13" fill="#1a5276" font-weight="700">Isotropic Basin</text>
+    <text x="198" y="40" text-anchor="middle" font-size="10" fill="#555">(MNLI / AGNews / CoLA Phase 1)</text>
+    <circle cx="185" cy="190" r="110" fill="#d6eaf8" fill-opacity="0.55" stroke="#1a5276" stroke-width="2.5"/>
+    <circle cx="185" cy="190" r="5" fill="#1a5276"/>
+    <text x="196" y="208" font-size="9.5" fill="#1a5276" font-weight="700">θ_A*</text>
+    <line x1="185" y1="190" x2="185" y2="80" stroke="#9C27B0" stroke-width="2.5" marker-end="url(#an-pur)"/>
+    <text x="197" y="88" font-size="8.5" fill="#9C27B0" font-weight="600">CoLA dir.</text>
+    <text x="197" y="100" font-size="9"   fill="#9C27B0">T* ≈ 0.06</text>
+    <line x1="185" y1="190" x2="288" y2="152" stroke="#1b7a3e" stroke-width="2.5" marker-end="url(#an-grn)"/>
+    <text x="295" y="148" font-size="8.5" fill="#1b7a3e" font-weight="600">AGNews dir.</text>
+    <text x="295" y="160" font-size="9"   fill="#1b7a3e">T* ≈ 0.06</text>
+    <line x1="185" y1="190" x2="295" y2="190" stroke="#c0392b" stroke-width="2.5" marker-end="url(#an-red)"/>
+    <text x="300" y="183" font-size="8.5" fill="#c0392b" font-weight="600">MNLI dir.</text>
+    <text x="300" y="195" font-size="9"   fill="#c0392b">T* ≈ 0.06</text>
+    <text x="185" y="232" text-anchor="middle" font-size="9" fill="#1a5276" font-style="italic">All arrows same length ✓</text>
+    <text x="185" y="246" text-anchor="middle" font-size="9" fill="#1a5276" font-style="italic">σ½ predicts T* for any direction</text>
+    <rect x="25" y="310" width="375" height="38" rx="6" fill="#d6eaf8" stroke="#1a5276" stroke-width="1"/>
+    <text x="212" y="327" text-anchor="middle" font-size="10" fill="#1a5276" font-weight="700">T* ≈ 0.06 regardless of Phase 2 task</text>
+    <text x="212" y="342" text-anchor="middle" font-size="9"  fill="#1a5276">σ½ correctly predicts the forgetting budget</text>
+
+    <text x="628" y="24" text-anchor="middle" font-size="13" fill="#6c3483" font-weight="700">Anisotropic Basin</text>
+    <text x="628" y="40" text-anchor="middle" font-size="10" fill="#555">(SST-2 Phase 1, rank 8)</text>
+    <ellipse cx="614" cy="190" rx="150" ry="29" fill="#e8d5f5" fill-opacity="0.65" stroke="#6c3483" stroke-width="2.5"/>
+    <circle cx="614" cy="190" r="5" fill="#6c3483"/>
+    <text x="625" y="208" font-size="9.5" fill="#6c3483" font-weight="700">θ_A*</text>
+    <line x1="614" y1="190" x2="614" y2="161" stroke="#9C27B0" stroke-width="2.5" marker-end="url(#an-pur)"/>
+    <text x="622" y="152" font-size="8.5" fill="#9C27B0" font-weight="700">CoLA</text>
+    <text x="622" y="164" font-size="9.5" fill="#9C27B0" font-weight="800">T* ≈ 0.01 ⚠</text>
+    <text x="622" y="177" font-size="8"   fill="#9C27B0">tiny — short axis</text>
+    <line x1="614" y1="190" x2="684" y2="164" stroke="#1b7a3e" stroke-width="2.5" marker-end="url(#an-grn)"/>
+    <text x="692" y="158" font-size="8.5" fill="#1b7a3e" font-weight="700">AGNews</text>
+    <text x="692" y="170" font-size="9.5" fill="#1b7a3e" font-weight="800">T* ≈ 0.05 ✓</text>
+    <text x="692" y="183" font-size="8"   fill="#1b7a3e">in cluster</text>
+    <line x1="614" y1="190" x2="764" y2="190" stroke="#c0392b" stroke-width="2.5" marker-end="url(#an-red)"/>
+    <text x="769" y="183" font-size="8.5" fill="#c0392b" font-weight="700">MNLI r8</text>
+    <text x="769" y="196" font-size="9.5" fill="#c0392b" font-weight="800">T* ≈ 0.53</text>
+    <text x="769" y="209" font-size="8"   fill="#c0392b">long axis</text>
+    <text x="614" y="242" text-anchor="middle" font-size="8.5" fill="#6c3483" font-style="italic">σ½ = average radius — does NOT</text>
+    <text x="614" y="255" text-anchor="middle" font-size="8.5" fill="#6c3483" font-style="italic">capture direction-dependent T*</text>
+    <text x="614" y="278" text-anchor="middle" font-size="26" fill="#c0392b" font-weight="800">44×</text>
+    <text x="614" y="296" text-anchor="middle" font-size="9.5" fill="#c0392b">range in T* across 3 Phase 2 tasks (r8 only — resolves at r32)</text>
+    <rect x="432" y="310" width="393" height="38" rx="6" fill="#f5eafa" stroke="#9C27B0" stroke-width="1"/>
+    <text x="628" y="327" text-anchor="middle" font-size="10" fill="#6c3483" font-weight="700">T* varies 44× at r8 — σ½ cannot predict direction-dependent forgetting</text>
+    <text x="628" y="342" text-anchor="middle" font-size="9"  fill="#6c3483">CoLA Phase 2 hits the short axis; MNLI Phase 2 r8 traverses the long axis</text>
+  </svg>
+  <div class="fig-caption"><strong>Fig: Isotropic vs. anisotropic forgetting basin.</strong> <strong>Left (MNLI Phase 1):</strong> all three Phase 2 tasks exit the basin at roughly the same R_A ≈ 0.06. <strong>Right (SST-2 Phase 1, rank 8):</strong> the basin behaves as if cigar-shaped. Four mechanistic hypotheses have been tested for <em>why</em>, and all came back null (below) — this remains characterized, not explained.</div>
+  </div>
+
+  <div class="anis-grid">
+    <div class="anis-cell anis-cola">
+      <div class="ph2">Phase 2 = CoLA</div>
+      <div class="tstar">T*(r8) = [0.005, 0.019]</div>
+      <div class="note">T*_raw = 3.88×10⁻⁵<br>4.7× <em>below</em> cluster<br>r32: forgets at all LRs (worse, not better)</div>
+    </div>
+    <div class="anis-cell anis-agnews">
+      <div class="ph2">Phase 2 = AGNews</div>
+      <div class="tstar">T*(r8) = [0.036, 0.073]</div>
+      <div class="note">T*_raw = 1.81×10⁻⁴<br>✓ in cluster<br>r32: also in cluster</div>
+    </div>
+    <div class="anis-cell anis-mnli">
+      <div class="ph2">Phase 2 = MNLI</div>
+      <div class="tstar">T*(r8) = [0.212, 0.851]</div>
+      <div class="note">T*_raw = 1.77×10⁻³<br>10× <em>above</em> cluster<br>r32: resolves to 1.77×10⁻⁴ ✓</div>
+    </div>
+  </div>
+
+  <div class="hl-orange">
+    <strong>Four mechanistic hypotheses tested, all null:</strong> (1) binary/multi-class task type — broken by CoLA, which is binary but transfers cleanly at r8; (2) gradient-direction cosine overlap — all pairs within ±0.0005, indistinguishable from the random-noise floor (~4.7×10⁻⁴) in a 4.5M-dim LoRA space; (3) effective rank of ΔW=BA — SST-2=5.21, AGNews=5.36, CoLA=5.19, identical within 3%; (4) subspace-projection variant of direction overlap — Pearson ≈ −0.12 between overlap-fraction and T*, but only 3 data points, underpowered rather than a confirmed null. A top-venue reviewer will not accept "empirical anomaly" as sufficient without at least acknowledging this is a fifth open question, not a closed one.
+  </div>
+</div>
+
+<!-- ══════════════════════════ T*_RAW / V1 ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">5</span>The Sharpest Objection: Does σ½ Add Anything Within a Single Architecture?</div>
+
+  <div class="card">
+    <p>The <em>absolute</em> per-parameter displacement at T* — without σ½ normalization — clusters at <strong>1.73–1.81 × 10⁻⁴</strong> for 7 of 9 rank-8 Llama pairs measured (MNLI/AGNews/CoLA as Phase 1, excluding the two SST-2 outliers). Verified this session by exact arithmetic:</p>
+  </div>
+
+  <table>
+    <tr><th>Phase 1 → Phase 2 (r8)</th><th>T*_raw (per_param at threshold)</th><th>σ½_A_acc</th><th>R_A = T*_raw / σ½_A</th></tr>
+    <tr><td>MNLI → SST-2</td><td>1.74×10⁻⁴</td><td>0.002857</td><td>0.061</td></tr>
+    <tr><td>MNLI → AGNews</td><td>1.77×10⁻⁴</td><td>0.002857</td><td>0.062</td></tr>
+    <tr><td>AGNews → MNLI</td><td>1.76×10⁻⁴</td><td>0.002756</td><td>0.064</td></tr>
+    <tr><td>AGNews → SST-2</td><td>1.80×10⁻⁴</td><td>0.002756</td><td>0.065</td></tr>
+    <tr><td>CoLA → MNLI</td><td>1.73×10⁻⁴</td><td>0.001944</td><td>0.089</td></tr>
+    <tr><td>CoLA → AGNews</td><td>1.80×10⁻⁴</td><td>0.001944</td><td>0.093</td></tr>
+    <tr><td><strong>Spread (max−min)/min</strong></td><td class="td-good"><strong>~4%</strong></td><td>—</td><td class="td-bad"><strong>~53%</strong></td></tr>
+  </table>
+
+  <div class="hl-red">
+    <strong>Dividing by σ½ does not tighten this comparison — it loosens it.</strong> Raw units: 4% spread across six pairs from three different Phase-1 tasks. Normalized R_A: 53% spread, because σ½_A itself varies mildly by task (CoLA's is ~32% smaller than MNLI's). For most of the H2 experimental matrix — same-architecture, cross-Phase-1-task comparisons — the data is compatible with a simpler, unnormalized claim: <em>"this architecture has a roughly constant raw-displacement forgetting budget, regardless of which task it was fine-tuned on"</em> — no σ½ required. This is the sharpest standing objection (V1) and it is not fully answered by logic alone ("you can't know 1.75×10⁻⁴ in advance without observing forgetting once").
+  </div>
+
+  <div class="hl-green" style="margin-top:14px;">
+    <strong>Where σ½ demonstrably does earn its keep: cross-architecture comparison, not cross-task comparison within one architecture.</strong> See §6. The distinctive value-add of σ½ (as opposed to "there's a constant number, in whatever units") is concentrated almost entirely in the Llama-vs-Mistral comparison, where raw units and σ½ both differ by architecture-scale factors and R_A converges despite that.
+  </div>
+</div>
+
+<!-- ══════════════════════════ CROSS-ARCHITECTURE (NEW) ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">6</span>Cross-Architecture Validation (Mistral-7B) — Corrected 2026-07-17</div>
+
+  <div class="hyp-block">
+    If σ½ normalization is doing real work (not just "there's a constant"), it should be demonstrated where raw units and task-specific σ½ both differ by architecture — Llama-3.2-3B (3B) vs. Mistral-7B-v0.1 (7B), same AGNews Phase-1 task, same two Phase-2 targets (MNLI, SST-2).
+  </div>
+
+  <div class="hl-orange">
+    <strong>The original comparison mixed methodologies.</strong> Llama's σ½_A was accuracy-based; Mistral's was NLL-based, because no accuracy-based σ½ existed for Mistral yet. This gave an artificially clean 11% agreement for one pair (AGNews→MNLI) and <em>no computed comparison at all</em> for the other (AGNews→SST-2). Fixed this session: ran <code>recompute_sigma_half_acc.py</code> on a rented A40 pod to compute Mistral's own accuracy-based σ½_A_acc = 7.314×10⁻⁴ (only 1.04× different from its NLL-based value — much closer than Llama's own 2.3× acc/NLL gap for MNLI).
+  </div>
+
+  <table>
+    <tr><th>Pair</th><th>Llama T* (acc-based)</th><th>Mistral T* (acc-based, corrected)</th><th>Overlap?</th><th>First-forget: same tested LR step?</th></tr>
+    <tr><td>AGNews → MNLI</td><td>[0.042, 0.085]</td><td>[0.020, 0.085]</td><td class="td-good">✓ YES</td><td class="td-good">same step, close (0.085/0.0852)</td></tr>
+    <tr><td>AGNews → SST-2</td><td>[0.042, 0.089]</td><td>[0.068, 0.105]</td><td class="td-good">✓ YES</td><td class="td-warn">same step, further apart (0.089/0.105)</td></tr>
+  </table>
+  <p style="font-size:0.85rem; color:var(--muted); margin:-4px 0 10px;">Not "0.2%/17.9% precision" — both compare single points from a 5-value LR grid, not a measured quantity at that resolution. See §3's methodological note on T* brackets.</p>
+
+  <div class="fig-wrap">
+    <img src="figures/fig_h2_crossarch_2026_07_17.png" alt="Cross-architecture H2 validation, Llama vs Mistral">
+    <div class="fig-caption"><strong>Fig 4.</strong> New 2026-07-17. Both pairs' T* ranges (Llama vs. Mistral, consistent accuracy-based σ½) now overlap — shaded green region marks the overlap zone. AGNews→MNLI's first-forget step lands close; AGNews→SST-2's lands further apart.</div>
+  </div>
+
+  <div class="hl-green">
+    <strong>Both pairs now overlap on a genuinely consistent basis</strong> — an improvement over the original mixed-methodology comparison, where only one pair had even been computed. The AGNews→SST-2 gap may partly reflect Mistral's still-coarse (unrefined, ±25–50% uncertainty) σ½_A_acc rather than a genuine second-order architecture effect — its density curve jumps straight from 1.0 to 0.0 between only two tested σ values, no <code>--refine</code> pass run yet.
+  </div>
+
+  <div class="hl-blue" style="margin-top:14px;">
+    <strong>Confirmed live tooling bug in this rerun (see §9 for full details):</strong> the script's own "Forgot(acc)?" column printed "no" for AGNews→MNLI at lr=1e-4, where accuracy had already collapsed from 0.90 to 0.666 (well below the 0.81 threshold) — because it checks <code>R_A_acc &gt; 1.0</code> instead of the actual accuracy criterion. All T* values in the table above were computed directly from <code>final_acc_task_a</code> vs. the success threshold, not read off that column.
+  </div>
+</div>
+
+<!-- ══════════════════════════ SEED VARIANCE (NEW) ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">7</span>Seed Variance — Stochasticity vs. σ½ (GPT-2 SST-2)</div>
+
+  <div class="hyp-block">
+    Proposed by Linyi Li (2026-07-14): train two or more LoRA models from the <em>same</em> pretrained initialization with <em>different</em> data-loading seeds only, and measure whether the weight difference between runs (‖θ_seed_a − θ_seed_b‖) is bounded by σ½. If pure training stochasticity alone can approach σ½, that bears on how much of "gradient-directed displacement" is signal vs. noise.
+  </div>
+
+  <div class="fig-wrap">
+    <img src="figures/fig_seed_variance_2026_07_17.png" alt="Seed variance experiment, GPT-2 SST-2">
+    <div class="fig-caption"><strong>Fig 5.</strong> GPT-2 SST-2, fixed LoRA init, 5 data-loading seeds, 500 steps per LR (matched-protocol subset of the full seed-variance runs). (a) Seed-to-seed R variance grows with LR — not flat, meaning higher LR doesn't just move further along one direction, it also diverges more across data orderings. (b) Mean pairwise inter-seed distance, normalized by σ½_pre: still well below the σ½ boundary (ratio=1) at every LR tested here, but the trend is rising steeply — at lr=5e-4 the ratio reaches ≈0.37 with a min–max range extending toward 0.5.</div>
+  </div>
+
+  <div class="card">
+    <p>A separate 3000-step run at lr=5e-4 (not part of the matched-protocol panel above, since it uses more steps) shows seeds 123 and 456 landing at <em>identical</em> SST-2 accuracy (0.906 each) while their R values differ by ~6% (0.918 vs. 0.977) and their ΔNLL differs by ~2.5× (0.394 vs. 1.004) — concrete evidence that accuracy alone can hide meaningfully different amounts of general-capability displacement between otherwise-identical runs. One seed in that same run (42) diverged to NaN, underscoring that high-LR SST-2 fine-tuning on GPT-2 is not uniformly stable across data orderings even before any adversarial or unusual configuration.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════ CLAIMED vs NOT ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">8</span>What We Can Claim vs. What We Cannot</div>
+
+  <table>
+    <tr><th>Claim</th><th>Verdict</th><th>Caveat</th></tr>
+    <tr>
+      <td>R tracks general-capability degradation better than KL(diverse), in 3 architectures spanning 60×</td>
+      <td class="td-good">✓ Claimable</td>
+      <td>KL(diverse)'s two failure modes are genuinely different across models (saturation vs. insufficient slope) — not one clean bimodal story.</td>
+    </tr>
+    <tr>
+      <td>Raw displacement at H1 forgetting onset spans 39–44× across architectures; σ½ compresses to ~3×</td>
+      <td class="td-good">✓ Claimable</td>
+      <td>Robust to which "broken" criterion is used.</td>
+    </tr>
+    <tr>
+      <td>All 3 H1 models converge to a single overlapping R interval on SST-2</td>
+      <td class="td-warn">⚠ Criterion-sensitive</td>
+      <td>True under a loose cliff-jump rule; becomes a chain (not 3-way overlap) under the stricter, model-independent 1%-threshold rule. Mistral's lower bound also rests on a non-converged LR point.</td>
+    </tr>
+    <tr>
+      <td>MNLI fine-tuning converges across Llama and Mistral</td>
+      <td class="td-good">✓ Claimable — strongest H1 cross-model result</td>
+      <td>Only after correcting Mistral's σ½ to the same relslack convention as SST-2 (17% off before).</td>
+    </tr>
+    <tr>
+      <td>T* is Phase-2-independent for MNLI, AGNews (rank 8, Llama)</td>
+      <td class="td-good">✓ Claimable</td>
+      <td>CoLA is weak/ambiguous at r8 (intervals overlap but each span 2×), not a clean pass.</td>
+    </tr>
+    <tr>
+      <td>SST-2 Phase 1 has an anisotropic forgetting basin (44× T* range at r8)</td>
+      <td class="td-warn">⚠ Claimable as characterization</td>
+      <td>Four mechanistic hypotheses tested, all null (one underpowered). Rank-dependence (SST-2 fails at r8/passes at r32; CoLA does the opposite) is itself unexplained.</td>
+    </tr>
+    <tr>
+      <td>σ½ normalization adds value over raw displacement, within a single architecture (Llama H2)</td>
+      <td class="td-bad">✗ Not supported by the data as strongly as claimed</td>
+      <td>Raw T*_raw spread (~4%) across MNLI/AGNews/CoLA Phase-1 pairs is <em>tighter</em> than the σ½-normalized R_A spread (~53%). σ½'s clearest value-add is cross-architecture (§6), not within-architecture.</td>
+    </tr>
+    <tr>
+      <td>σ½ normalization adds value across architectures (Llama vs. Mistral, AGNews Phase 1)</td>
+      <td class="td-good">✓ Claimable — corrected, now on a consistent methodology</td>
+      <td>One of two pairs lands further apart, possibly reflecting Mistral's unrefined σ½ precision — not a measured "17.9%" gap, see §3 note.</td>
+    </tr>
+    <tr>
+      <td>R_A=1 is the universal forgetting threshold</td>
+      <td class="td-bad">✗ FALSE — retired</td>
+      <td>Observed onsets range ≈0.02–0.53, always well below 1. Any residual "R_A=1" framing (plotting code, pipeline diagram wording) should be treated as historical, not current.</td>
+    </tr>
+    <tr>
+      <td>"T* to single-digit-percent precision"</td>
+      <td class="td-bad">✗ Overclaimed</td>
+      <td>T* intervals are typically ~2× wide given the coarse 5-point LR grid. Honest claim: "indistinguishable across conditions," not a precise percentage match.</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════ MECHANISTIC NULLS ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">9</span>Confirmed Tooling Bug (Live, Not Just Code-Read)</div>
+  <div class="card">
+    <p>Both <code>h2_sequential_llama.py</code>'s live trajectory tracker (T* checkpoint logic) and <code>recompute_sigma_half_acc.py</code>'s summary-table printer use a naive "forgot?" check — <code>R_A_acc &gt; 1.0</code>, or first-observed-failure locks in T* with no debounce against transient noise — instead of the actual accuracy threshold.</p>
+    <p style="margin-top:8px;"><strong>Confirmed live in this session's Mistral rerun</strong> (2026-07-17, agnews_to_mnli acc-based recompute): the console printed <code>"no"</code> in the "Forgot(acc)?" column for lr=1e-4, where <code>final_acc_task_a</code> had collapsed from a baseline of 0.90 down to 0.666 — well below the 0.81 success threshold — because <code>R_A_acc</code>=0.187 never crossed 1.0. This is a display/tooling bug, not a data-generation bug: the underlying JSON values (<code>final_acc_task_a</code>, <code>R_A_acc</code>) are correct. Any figure or summary table generated by these scripts' own plotting/printing functions should be re-derived from the raw per-condition accuracy values, not read off the "Forgot?" column or an R_A=1 threshold line.</p>
+  </div>
+
+  <h3 style="font-size:1.05rem; margin: 20px 0 12px; color: var(--blue);">Mechanistic Hypotheses Tested for the SST-2 Anomaly — All Null</h3>
+  <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px;">
+    <div class="card">
+      <h3 style="color:var(--red);">✗ Binary/multi-class hypothesis</h3>
+      <p>SST-2 and CoLA are both binary; MNLI is 3-class. If class count caused the anomaly, CoLA Phase 1 should also be inconsistent — it isn't (transfers cleanly at r8).</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--red);">✗ Direction overlap (cosine sim)</h3>
+      <p>Global cosine similarity between Phase 1 ΔW and Phase 2 gradient directions: all within ±0.0005, indistinguishable from the noise floor (~4.7×10⁻⁴) in 4.5M-dim LoRA space.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--red);">✗ Effective LoRA rank</h3>
+      <p>Effective rank of ΔW=BA across 112 layers: SST-2=5.21, AGNews=5.36, CoLA=5.19 — identical within 3%. Cannot explain 44× T* spread.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--orange);">⚠ Subspace-projection overlap (underpowered, not confirmed null)</h3>
+      <p>Projection of Phase-2 gradient onto SST-2's own LoRA subspace: Pearson ≈ −0.12 between overlap-fraction and T*, but only 3 data points. This is unresolved with current data, not ruled out.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ TODO ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">10</span>What's Left</div>
+
+  <h3 style="font-size:0.95rem; color:var(--green); margin-bottom:8px;">Resolved this session (2026-07-17)</h3>
+  <div class="todo-item"><div class="todo-icon">✅</div><div><strong>Mistral accuracy-based σ½ computed</strong> for AGNews Phase 1 (σ½_A_acc=7.314×10⁻⁴) via a rented A40 pod. Both AGNews→MNLI and AGNews→SST-2 recomputed on a consistent basis with Llama — both pairs now overlap (§6).</div></div>
+  <div class="todo-item"><div class="todo-icon">✅</div><div><strong>Stale non-relslack σ½ bug fixed</strong> in GPT-2, Llama SST-2, and Llama MNLI H1 tables (12×/1.34×/1.34× off respectively). Corrected columns added to <code>RAW_DATA.md</code>; a standing warning banner added so this can't recur silently.</div></div>
+  <div class="todo-item"><div class="todo-icon">✅</div><div><strong>Mistral MNLI σ½ convention fixed</strong> — was on a different (non-relslack) basis than Mistral SST-2 v5; corrected via arithmetic reuse of the SST-2 v5 relslack value (verified same checkpoint via matching <code>nll_wiki_base</code>), no new GPU run needed.</div></div>
+  <div class="todo-item"><div class="todo-icon">✅</div><div><strong>SST-2 3-way convergence claim's criterion-sensitivity surfaced</strong> — the flagship result is weaker under a stricter, more principled break criterion than under the original cliff-jump eyeball rule.</div></div>
+  <div class="todo-item"><div class="todo-icon">✅</div><div><strong>Figs 2–5 regenerated</strong> from corrected relslack σ½ and the Mistral/cross-architecture/seed-variance data (<code>make_final_figures_2026_07_17.py</code>) — no longer reflect stale σ½ conventions. Fig 1 (density curves) kept as a conceptual illustration only.</div></div>
+
+  <h3 style="font-size:0.95rem; color:var(--orange); margin-bottom:8px; margin-top:16px;">Blocking — do before drafting</h3>
+  <div class="todo-item"><div class="todo-icon">🔴</div><div><strong>Close the Mistral SST-2 LR gap</strong> — test lr=2e-5 or 3e-5 to give Mistral a converged safe reference point under the strict 1%-threshold criterion; currently the only tested "safe" point (lr=1e-5) didn't converge (acc=0.480).</div></div>
+  <div class="todo-item"><div class="todo-icon">🔴</div><div><strong>Fix the "Forgot?" column bug</strong> in both <code>h2_sequential_llama.py</code> and <code>recompute_sigma_half_acc.py</code> — replace <code>R_A&gt;1.0</code> with the actual accuracy threshold, and add debounce (require 2+ consecutive tracked steps below threshold) before locking in a T* checkpoint.</div></div>
+
+  <h3 style="font-size:0.95rem; color:var(--purple); margin-bottom:8px; margin-top:16px;">Should do — significantly strengthens</h3>
+  <div class="todo-item"><div class="todo-icon">🔬</div><div><strong>Refine Mistral's σ½_A_acc</strong> — currently coarse (density jumps 1.0→0.0 between two tested σ values, ±25-50% uncertainty). Would clarify whether AGNews→SST-2's wider gap is a real effect or measurement noise.</div></div>
+  <div class="todo-item"><div class="todo-icon">🔬</div><div><strong>Recompute σ½ restricted to LoRA target modules only</strong> (not the whole decoder block) — tests whether the scope mismatch between what σ½ certifies and what LoRA actually displaces is inflating/deflating R in an architecture-dependent way.</div></div>
+  <div class="todo-item"><div class="todo-icon">🔬</div><div><strong>Run <code>hessian_eigenvalue.py</code> to completion</strong> — tests whether σ½ ∝ 1/√λ_max, and whether the pretrained checkpoint sits in a true curvature basin or a saddle w.r.t. target parameters. Never run; no results file exists.</div></div>
+  <div class="todo-item"><div class="todo-icon">🔬</div><div><strong>Subspace projection test for SST-2 anomaly</strong> — a fifth mechanistic hypothesis, since the four tested so far are all null (one underpowered at n=3).</div></div>
+</div>
+
+<!-- ══════════════════════════ KEY NUMBERS ══════════════════════════ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">11</span>Key Numbers (No Fabrication — Extracted from RAW_DATA.md / SUMMARY.md)</div>
+  <table>
+    <tr><th>Quantity</th><th>Value</th></tr>
+    <tr><td>σ½_pre (relslack): GPT-2 / Llama / Mistral (v5)</td><td>0.007191 / 0.000772 / 0.000182</td></tr>
+    <tr><td>H1 T* (cliff-jump): GPT-2 / Llama / Mistral</td><td>[0.220,0.453] / [0.236,0.586] / [0.194,0.226]</td></tr>
+    <tr><td>H1 T* (1%-threshold, stricter): GPT-2 / Llama / Mistral</td><td>[0.220,0.453] / [0.113,0.236] / [0.030,0.194]<sup>†non-converged lower bound</sup></td></tr>
+    <tr><td>H1 MNLI T* (relslack, corrected): Llama / Mistral</td><td>[0.133,0.233] / [0.071,0.324] — Llama fully contained in Mistral</td></tr>
+    <tr><td>σ½_A (acc-based): MNLI / AGNews / SST-2 / CoLA (Llama)</td><td>0.002857 / 0.002756 / 0.003337 / 0.001944</td></tr>
+    <tr><td>σ½_A (acc-based): AGNews Phase 1 (Mistral)</td><td>7.314×10⁻⁴ (computed 2026-07-17; unrefined, ±25-50%)</td></tr>
+    <tr><td>H2 T*_raw cluster (6 Llama r8 pairs, 3 Phase-1 tasks)</td><td>1.73–1.81×10⁻⁴ (~4% spread) — <em>tighter than the normalized R_A spread</em></td></tr>
+    <tr><td>H2 R_A spread for the same 6 pairs (normalized)</td><td>0.061–0.093 (~53% spread)</td></tr>
+    <tr><td>H2 cross-architecture: AGNews→MNLI, Llama vs. Mistral (corrected)</td><td>[0.042,0.085] vs [0.020,0.085] — same LR step, close, overlap</td></tr>
+    <tr><td>H2 cross-architecture: AGNews→SST-2, Llama vs. Mistral (corrected)</td><td>[0.042,0.089] vs [0.068,0.105] — same LR step, further apart, overlap</td></tr>
+    <tr><td>H2 8-cell transfer count (4 Phase-1 tasks × 2 ranks)</td><td>5 pass / 2 fail (SST-2 r8, CoLA r32) / 1 weak (CoLA r8)</td></tr>
+    <tr><td>T*(r8) SST-2 Phase 1 — 3 Phase 2 tasks</td><td>[0.005,0.019] / [0.036,0.073] / [0.212,0.851] — 44× range</td></tr>
+    <tr><td>Effective rank SST-2 / AGNews / CoLA Phase 1 ΔW</td><td>5.21 / 5.36 / 5.19 (mean over 112 layers, ±3%)</td></tr>
+    <tr><td>Direction cosine similarity (all pairs)</td><td>within ±5.2×10⁻⁴ (noise floor ≈ 4.7×10⁻⁴)</td></tr>
+    <tr><td>Subspace-projection vs. T* correlation (SST-2 anomaly, 4th hypothesis)</td><td>Pearson ≈ −0.12, n=3 — underpowered, not a confirmed null</td></tr>
+  </table>
+</div>
+
+<!-- footer -->
+<hr class="divider">
+<div style="text-align:center; font-size:0.82rem; color:var(--muted); padding-top:8px;">
+  Updated 2026-07-17 · GPT-2 / Llama-3.2-3B / Mistral-7B-v0.1 (H1) · Llama-3.2-3B 4 Phase-1 tasks + Mistral-7B cross-architecture (H2) · LoRA r8 primary · Figs 2–5 regenerated 2026-07-17 (<code>make_final_figures_2026_07_17.py</code>) with corrected relslack σ½, Mistral data, and the criterion-sensitivity/V1/cross-architecture/seed-variance findings; Fig 1 kept as a conceptual illustration only
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "task_a": "sst2",
+  "n_classes": 2,
+  "acc_phase1": 0.96,
+  "lr": 5e-05,
+  "rank": 8,
+  "steps": 2000
+}

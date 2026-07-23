@@ -1,0 +1,133 @@
+{
+  "model": "gpt2",
+  "task": "agnews",
+  "rank": 32,
+  "alpha": 32,
+  "steps": 2000,
+  "lr": 1e-05,
+  "per_param_norm": 0.00029115520450651857,
+  "spectral_norm": 0.5724979043006897,
+  "sigma_results": [
+    {
+      "sigma": 0.0001,
+      "density": 0.48,
+      "ci_lower": 0.4090139996380063,
+      "ci_upper": 0.5515876013394261,
+      "n_better": 96,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.0002,
+      "density": 0.415,
+      "ci_lower": 0.3459336681807803,
+      "ci_upper": 0.48662468561680267,
+      "n_better": 83,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.0005,
+      "density": 0.32,
+      "ci_lower": 0.2559611876399578,
+      "ci_upper": 0.38946988506165814,
+      "n_better": 64,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.001,
+      "density": 0.28,
+      "ci_lower": 0.21896115567003302,
+      "ci_upper": 0.3476887372046082,
+      "n_better": 56,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.002,
+      "density": 0.18,
+      "ci_lower": 0.12936892834839725,
+      "ci_upper": 0.24038109688400738,
+      "n_better": 36,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.005,
+      "density": 0.01,
+      "ci_lower": 0.001213349013736031,
+      "ci_upper": 0.035654668397239776,
+      "n_better": 2,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.01,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.02,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.05,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.1,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.2,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.890380859375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    }
+  ]
+}

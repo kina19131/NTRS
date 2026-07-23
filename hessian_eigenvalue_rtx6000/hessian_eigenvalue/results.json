@@ -1,0 +1,32 @@
+[
+  {
+    "model": "mistralai/Mistral-7B-v0.1",
+    "n_params": 7000000000.0,
+    "sigma_half": 0.0001824175824175824,
+    "sigma_half_std": 0.0,
+    "lambda_max": 910.2040882203615,
+    "lambda_min": -908.6729188849498,
+    "inv_sqrt_lambda": 0.033145960546777604,
+    "theory_sigma_half": 0.0076453818325957715,
+    "ratio_meas_theory": 0.023859839366014726,
+    "n_iters_converged": 24,
+    "eval_slack": 0.026601562500000002,
+    "n_text_samples": 128,
+    "stable": true
+  },
+  {
+    "model": "meta-llama/Llama-3.2-3B",
+    "n_params": 3000000000.0,
+    "sigma_half": 0.0007717391304347826,
+    "sigma_half_std": 0.0,
+    "lambda_max": NaN,
+    "lambda_min": NaN,
+    "inv_sqrt_lambda": NaN,
+    "theory_sigma_half": NaN,
+    "ratio_meas_theory": NaN,
+    "n_iters_converged": 24,
+    "eval_slack": 0.0305859375,
+    "n_text_samples": 128,
+    "stable": false
+  }
+]

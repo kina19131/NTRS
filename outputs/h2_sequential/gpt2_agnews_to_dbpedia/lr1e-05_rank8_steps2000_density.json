@@ -1,0 +1,133 @@
+{
+  "model": "gpt2",
+  "task": "dbpedia",
+  "rank": 8,
+  "alpha": 8,
+  "steps": 2000,
+  "lr": 1e-05,
+  "per_param_norm": 0.0001437881083279645,
+  "spectral_norm": 0.42188987135887146,
+  "sigma_results": [
+    {
+      "sigma": 0.0001,
+      "density": 0.95,
+      "ci_lower": 0.9099724622986486,
+      "ci_upper": 0.9757658345278915,
+      "n_better": 190,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.0002,
+      "density": 0.775,
+      "ci_lower": 0.7107603940312353,
+      "ci_upper": 0.8308974528701734,
+      "n_better": 155,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.0005,
+      "density": 0.52,
+      "ci_lower": 0.4484123986605739,
+      "ci_upper": 0.5909860003619938,
+      "n_better": 104,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.001,
+      "density": 0.33,
+      "ci_lower": 0.26529820347256183,
+      "ci_upper": 0.39982926033305477,
+      "n_better": 66,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.002,
+      "density": 0.13,
+      "ci_lower": 0.08670835276857532,
+      "ci_upper": 0.18465233052341257,
+      "n_better": 26,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.005,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.01,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.02,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.05,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.1,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.2,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1767578125,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    }
+  ]
+}

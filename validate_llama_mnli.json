@@ -1,0 +1,10 @@
+{
+  "model": "meta-llama/Llama-3.2-3B",
+  "steps": 1000,
+  "lr": 5e-05,
+  "rank": 8,
+  "accuracy": 0.836,
+  "threshold": 0.8,
+  "passed": true,
+  "train_time_s": 503.57112765312195
+}

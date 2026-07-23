@@ -1,0 +1,13 @@
+{
+  "task_a": "sst2",
+  "n_classes": 2,
+  "acc_phase1": 0.774,
+  "lr": 0.0002,
+  "rank": 8,
+  "alpha": 16,
+  "steps": 3000,
+  "lora_target_modules": [
+    "c_attn",
+    "c_proj"
+  ]
+}

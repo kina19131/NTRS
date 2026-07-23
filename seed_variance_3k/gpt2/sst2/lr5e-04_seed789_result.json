@@ -1,0 +1,13 @@
+{
+  "lr": 0.0005,
+  "data_seed": 789,
+  "init_seed": 0,
+  "rank": 8,
+  "steps": 3000,
+  "per_param_norm": 0.012172032307595611,
+  "sigma_half_pre": 0.007191,
+  "R": 1.692675887581089,
+  "acc": 0.802,
+  "delta_nll_wiki": 3.93828125,
+  "elapsed_s": 202.3684630393982
+}

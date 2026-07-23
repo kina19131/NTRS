@@ -1,0 +1,359 @@
+{
+  "lr": 0.0005,
+  "per_param_norm": 0.001218345845519967,
+  "spectral_norm": 5.3431525230407715,
+  "grad_norm": 0.0017693237711449278,
+  "layer_norms": {
+    "transformer.wte.weight": 0.0,
+    "transformer.wpe.weight": 0.0,
+    "transformer.h.0.ln_1.weight": 0.0,
+    "transformer.h.0.ln_1.bias": 0.0,
+    "transformer.h.0.attn.c_attn.weight": 0.0028037496814015224,
+    "transformer.h.0.attn.c_attn.bias": 0.0,
+    "transformer.h.0.attn.c_proj.weight": 0.0015255970259507496,
+    "transformer.h.0.attn.c_proj.bias": 0.0,
+    "transformer.h.0.ln_2.weight": 0.0,
+    "transformer.h.0.ln_2.bias": 0.0,
+    "transformer.h.0.mlp.c_fc.weight": 0.0,
+    "transformer.h.0.mlp.c_fc.bias": 0.0,
+    "transformer.h.0.mlp.c_proj.weight": 0.0035135687018434205,
+    "transformer.h.0.mlp.c_proj.bias": 0.0,
+    "transformer.h.1.ln_1.weight": 0.0,
+    "transformer.h.1.ln_1.bias": 0.0,
+    "transformer.h.1.attn.c_attn.weight": 0.0035233068233178877,
+    "transformer.h.1.attn.c_attn.bias": 0.0,
+    "transformer.h.1.attn.c_proj.weight": 0.0011628369490305583,
+    "transformer.h.1.attn.c_proj.bias": 0.0,
+    "transformer.h.1.ln_2.weight": 0.0,
+    "transformer.h.1.ln_2.bias": 0.0,
+    "transformer.h.1.mlp.c_fc.weight": 0.0,
+    "transformer.h.1.mlp.c_fc.bias": 0.0,
+    "transformer.h.1.mlp.c_proj.weight": 0.0012978896653900545,
+    "transformer.h.1.mlp.c_proj.bias": 0.0,
+    "transformer.h.2.ln_1.weight": 0.0,
+    "transformer.h.2.ln_1.bias": 0.0,
+    "transformer.h.2.attn.c_attn.weight": 0.0011602898434302823,
+    "transformer.h.2.attn.c_attn.bias": 0.0,
+    "transformer.h.2.attn.c_proj.weight": 0.0013659829273819923,
+    "transformer.h.2.attn.c_proj.bias": 0.0,
+    "transformer.h.2.ln_2.weight": 0.0,
+    "transformer.h.2.ln_2.bias": 0.0,
+    "transformer.h.2.mlp.c_fc.weight": 0.0,
+    "transformer.h.2.mlp.c_fc.bias": 0.0,
+    "transformer.h.2.mlp.c_proj.weight": 0.0008611696927497784,
+    "transformer.h.2.mlp.c_proj.bias": 0.0,
+    "transformer.h.3.ln_1.weight": 0.0,
+    "transformer.h.3.ln_1.bias": 0.0,
+    "transformer.h.3.attn.c_attn.weight": 0.0012728159764667192,
+    "transformer.h.3.attn.c_attn.bias": 0.0,
+    "transformer.h.3.attn.c_proj.weight": 0.0018571681963900726,
+    "transformer.h.3.attn.c_proj.bias": 0.0,
+    "transformer.h.3.ln_2.weight": 0.0,
+    "transformer.h.3.ln_2.bias": 0.0,
+    "transformer.h.3.mlp.c_fc.weight": 0.0,
+    "transformer.h.3.mlp.c_fc.bias": 0.0,
+    "transformer.h.3.mlp.c_proj.weight": 0.0006531040805081526,
+    "transformer.h.3.mlp.c_proj.bias": 0.0,
+    "transformer.h.4.ln_1.weight": 0.0,
+    "transformer.h.4.ln_1.bias": 0.0,
+    "transformer.h.4.attn.c_attn.weight": 0.001311230382271303,
+    "transformer.h.4.attn.c_attn.bias": 0.0,
+    "transformer.h.4.attn.c_proj.weight": 0.0012782901370277007,
+    "transformer.h.4.attn.c_proj.bias": 0.0,
+    "transformer.h.4.ln_2.weight": 0.0,
+    "transformer.h.4.ln_2.bias": 0.0,
+    "transformer.h.4.mlp.c_fc.weight": 0.0,
+    "transformer.h.4.mlp.c_fc.bias": 0.0,
+    "transformer.h.4.mlp.c_proj.weight": 0.000807127682492137,
+    "transformer.h.4.mlp.c_proj.bias": 0.0,
+    "transformer.h.5.ln_1.weight": 0.0,
+    "transformer.h.5.ln_1.bias": 0.0,
+    "transformer.h.5.attn.c_attn.weight": 0.0013361327621491071,
+    "transformer.h.5.attn.c_attn.bias": 0.0,
+    "transformer.h.5.attn.c_proj.weight": 0.001507583384712537,
+    "transformer.h.5.attn.c_proj.bias": 0.0,
+    "transformer.h.5.ln_2.weight": 0.0,
+    "transformer.h.5.ln_2.bias": 0.0,
+    "transformer.h.5.mlp.c_fc.weight": 0.0,
+    "transformer.h.5.mlp.c_fc.bias": 0.0,
+    "transformer.h.5.mlp.c_proj.weight": 0.0010481149268647034,
+    "transformer.h.5.mlp.c_proj.bias": 0.0,
+    "transformer.h.6.ln_1.weight": 0.0,
+    "transformer.h.6.ln_1.bias": 0.0,
+    "transformer.h.6.attn.c_attn.weight": 0.0019532260076123437,
+    "transformer.h.6.attn.c_attn.bias": 0.0,
+    "transformer.h.6.attn.c_proj.weight": 0.002871420234441757,
+    "transformer.h.6.attn.c_proj.bias": 0.0,
+    "transformer.h.6.ln_2.weight": 0.0,
+    "transformer.h.6.ln_2.bias": 0.0,
+    "transformer.h.6.mlp.c_fc.weight": 0.0,
+    "transformer.h.6.mlp.c_fc.bias": 0.0,
+    "transformer.h.6.mlp.c_proj.weight": 0.0005273390173291167,
+    "transformer.h.6.mlp.c_proj.bias": 0.0,
+    "transformer.h.7.ln_1.weight": 0.0,
+    "transformer.h.7.ln_1.bias": 0.0,
+    "transformer.h.7.attn.c_attn.weight": 0.0032619587764532642,
+    "transformer.h.7.attn.c_attn.bias": 0.0,
+    "transformer.h.7.attn.c_proj.weight": 0.0028979464744528136,
+    "transformer.h.7.attn.c_proj.bias": 0.0,
+    "transformer.h.7.ln_2.weight": 0.0,
+    "transformer.h.7.ln_2.bias": 0.0,
+    "transformer.h.7.mlp.c_fc.weight": 0.0,
+    "transformer.h.7.mlp.c_fc.bias": 0.0,
+    "transformer.h.7.mlp.c_proj.weight": 0.001147912039111058,
+    "transformer.h.7.mlp.c_proj.bias": 0.0,
+    "transformer.h.8.ln_1.weight": 0.0,
+    "transformer.h.8.ln_1.bias": 0.0,
+    "transformer.h.8.attn.c_attn.weight": 0.0008333505426786381,
+    "transformer.h.8.attn.c_attn.bias": 0.0,
+    "transformer.h.8.attn.c_proj.weight": 0.0023930538445711136,
+    "transformer.h.8.attn.c_proj.bias": 0.0,
+    "transformer.h.8.ln_2.weight": 0.0,
+    "transformer.h.8.ln_2.bias": 0.0,
+    "transformer.h.8.mlp.c_fc.weight": 0.0,
+    "transformer.h.8.mlp.c_fc.bias": 0.0,
+    "transformer.h.8.mlp.c_proj.weight": 0.0015796336034933727,
+    "transformer.h.8.mlp.c_proj.bias": 0.0,
+    "transformer.h.9.ln_1.weight": 0.0,
+    "transformer.h.9.ln_1.bias": 0.0,
+    "transformer.h.9.attn.c_attn.weight": 0.0018876204150762787,
+    "transformer.h.9.attn.c_attn.bias": 0.0,
+    "transformer.h.9.attn.c_proj.weight": 0.0029559917747974396,
+    "transformer.h.9.attn.c_proj.bias": 0.0,
+    "transformer.h.9.ln_2.weight": 0.0,
+    "transformer.h.9.ln_2.bias": 0.0,
+    "transformer.h.9.mlp.c_fc.weight": 0.0,
+    "transformer.h.9.mlp.c_fc.bias": 0.0,
+    "transformer.h.9.mlp.c_proj.weight": 0.0006845419605573019,
+    "transformer.h.9.mlp.c_proj.bias": 0.0,
+    "transformer.h.10.ln_1.weight": 0.0,
+    "transformer.h.10.ln_1.bias": 0.0,
+    "transformer.h.10.attn.c_attn.weight": 0.0016190673763000693,
+    "transformer.h.10.attn.c_attn.bias": 0.0,
+    "transformer.h.10.attn.c_proj.weight": 0.0016077103403707345,
+    "transformer.h.10.attn.c_proj.bias": 0.0,
+    "transformer.h.10.ln_2.weight": 0.0,
+    "transformer.h.10.ln_2.bias": 0.0,
+    "transformer.h.10.mlp.c_fc.weight": 0.0,
+    "transformer.h.10.mlp.c_fc.bias": 0.0,
+    "transformer.h.10.mlp.c_proj.weight": 0.0006055260309949517,
+    "transformer.h.10.mlp.c_proj.bias": 0.0,
+    "transformer.h.11.ln_1.weight": 0.0,
+    "transformer.h.11.ln_1.bias": 0.0,
+    "transformer.h.11.attn.c_attn.weight": 0.0021757648877408857,
+    "transformer.h.11.attn.c_attn.bias": 0.0,
+    "transformer.h.11.attn.c_proj.weight": 0.0043947094430526095,
+    "transformer.h.11.attn.c_proj.bias": 0.0,
+    "transformer.h.11.ln_2.weight": 0.0,
+    "transformer.h.11.ln_2.bias": 0.0,
+    "transformer.h.11.mlp.c_fc.weight": 0.0,
+    "transformer.h.11.mlp.c_fc.bias": 0.0,
+    "transformer.h.11.mlp.c_proj.weight": 0.0005750191242744526,
+    "transformer.h.11.mlp.c_proj.bias": 0.0,
+    "transformer.ln_f.weight": 0.0,
+    "transformer.ln_f.bias": 0.0
+  },
+  "loss_history": [
+    {
+      "step": 10,
+      "loss": 1.0574510097503662
+    },
+    {
+      "step": 20,
+      "loss": 0.8318024277687073
+    },
+    {
+      "step": 30,
+      "loss": 0.6097679734230042
+    },
+    {
+      "step": 40,
+      "loss": 0.7471795082092285
+    },
+    {
+      "step": 50,
+      "loss": 0.7282892465591431
+    },
+    {
+      "step": 60,
+      "loss": 0.7127238512039185
+    },
+    {
+      "step": 70,
+      "loss": 0.6656164526939392
+    },
+    {
+      "step": 80,
+      "loss": 0.6224586963653564
+    },
+    {
+      "step": 90,
+      "loss": 0.6775500178337097
+    },
+    {
+      "step": 100,
+      "loss": 0.7219534516334534
+    },
+    {
+      "step": 110,
+      "loss": 0.717377781867981
+    },
+    {
+      "step": 120,
+      "loss": 0.7042548656463623
+    },
+    {
+      "step": 130,
+      "loss": 0.6710707545280457
+    },
+    {
+      "step": 140,
+      "loss": 0.6432702541351318
+    },
+    {
+      "step": 150,
+      "loss": 0.6440490484237671
+    },
+    {
+      "step": 160,
+      "loss": 0.7028095126152039
+    },
+    {
+      "step": 170,
+      "loss": 0.6748477220535278
+    },
+    {
+      "step": 180,
+      "loss": 0.7378891706466675
+    },
+    {
+      "step": 190,
+      "loss": 0.7295939922332764
+    },
+    {
+      "step": 200,
+      "loss": 0.7741509675979614
+    },
+    {
+      "step": 210,
+      "loss": 0.6995018124580383
+    },
+    {
+      "step": 220,
+      "loss": 0.7014142870903015
+    },
+    {
+      "step": 230,
+      "loss": 0.5852009057998657
+    },
+    {
+      "step": 240,
+      "loss": 0.6916974186897278
+    },
+    {
+      "step": 250,
+      "loss": 0.6977270841598511
+    },
+    {
+      "step": 260,
+      "loss": 0.6263220310211182
+    },
+    {
+      "step": 270,
+      "loss": 0.6899508237838745
+    },
+    {
+      "step": 280,
+      "loss": 0.6932606101036072
+    },
+    {
+      "step": 290,
+      "loss": 0.7229374647140503
+    },
+    {
+      "step": 300,
+      "loss": 0.6960077881813049
+    },
+    {
+      "step": 310,
+      "loss": 0.8351130485534668
+    },
+    {
+      "step": 320,
+      "loss": 0.7404663562774658
+    },
+    {
+      "step": 330,
+      "loss": 0.6826364398002625
+    },
+    {
+      "step": 340,
+      "loss": 0.7284046411514282
+    },
+    {
+      "step": 350,
+      "loss": 0.7151971459388733
+    },
+    {
+      "step": 360,
+      "loss": 0.6760895252227783
+    },
+    {
+      "step": 370,
+      "loss": 0.8637887239456177
+    },
+    {
+      "step": 380,
+      "loss": 0.6868149638175964
+    },
+    {
+      "step": 390,
+      "loss": 0.6500610709190369
+    },
+    {
+      "step": 400,
+      "loss": 0.6086729168891907
+    },
+    {
+      "step": 410,
+      "loss": 0.7041453123092651
+    },
+    {
+      "step": 420,
+      "loss": 0.6711633801460266
+    },
+    {
+      "step": 430,
+      "loss": 0.8076576590538025
+    },
+    {
+      "step": 440,
+      "loss": 0.7358986139297485
+    },
+    {
+      "step": 450,
+      "loss": 0.38358548283576965
+    },
+    {
+      "step": 460,
+      "loss": 0.8311507701873779
+    },
+    {
+      "step": 470,
+      "loss": 0.7778662443161011
+    },
+    {
+      "step": 480,
+      "loss": 0.6888492107391357
+    },
+    {
+      "step": 490,
+      "loss": 0.49745017290115356
+    },
+    {
+      "step": 500,
+      "loss": 0.4564182758331299
+    }
+  ],
+  "sigma_half_pretrained": 0.0006025641025641025
+}

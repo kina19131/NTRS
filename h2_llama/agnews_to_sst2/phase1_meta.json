@@ -1,0 +1,16 @@
+{
+  "task_a": "agnews",
+  "n_classes": 4,
+  "acc_phase1": 0.91,
+  "lr": 5e-05,
+  "rank": 8,
+  "alpha": 16,
+  "steps": 2000,
+  "lora_target_modules": [
+    "q_proj",
+    "v_proj",
+    "k_proj",
+    "o_proj"
+  ],
+  "save_format": "lora_only"
+}

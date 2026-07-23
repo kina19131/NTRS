@@ -1,0 +1,6 @@
+{
+  "sigma_half": 0.0001824175824175824,
+  "source": "Reused from h1_kl/mistralai/Mistral-7B-v0.1_sst2_v5/pretrained_density.json \u2014 same frozen pretrained Mistral-7B-v0.1 checkpoint, confirmed identical via matching nll_wiki_base=2.9934375 in both directories' lr*_results.json files. sigma_half_pre is a base-checkpoint property (relslack = 1% of WikiText-2 baseline NLL), independent of downstream task, so no new GPU computation was needed \u2014 only reuse + arithmetic recompute of R.",
+  "relative_slack": 0.01,
+  "sigma_half_nonrelslack_previously_used": 0.00015586592178770952
+}

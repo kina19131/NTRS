@@ -35,3 +35,6 @@ env/
 
 # Temporary outputs
 /tmp_*
+
+# Superseded/stale experiment data, kept locally only
+/archive/

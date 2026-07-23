@@ -1,0 +1,133 @@
+{
+  "model": "gpt2-medium",
+  "task": "sst2",
+  "rank": 32,
+  "alpha": 32,
+  "steps": 2000,
+  "lr": 0.0001,
+  "per_param_norm": 0.0014574936390249588,
+  "spectral_norm": 8.537647247314453,
+  "sigma_results": [
+    {
+      "sigma": 0.0001,
+      "density": 0.715,
+      "ci_lower": 0.6470573002484601,
+      "ci_upper": 0.7764456019893149,
+      "n_better": 143,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.0002,
+      "density": 0.635,
+      "ci_lower": 0.5641659702100028,
+      "ci_upper": 0.7017665736329881,
+      "n_better": 127,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.0005,
+      "density": 0.475,
+      "ci_lower": 0.4041200334249787,
+      "ci_upper": 0.5466319825296759,
+      "n_better": 95,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.001,
+      "density": 0.35,
+      "ci_lower": 0.28407067032294203,
+      "ci_upper": 0.4204506224779936,
+      "n_better": 70,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.002,
+      "density": 0.2,
+      "ci_lower": 0.1468944882157588,
+      "ci_upper": 0.26222636458960025,
+      "n_better": 40,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.005,
+      "density": 0.015,
+      "ci_lower": 0.00310410762155351,
+      "ci_upper": 0.0432082819177126,
+      "n_better": 3,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.01,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.02,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.05,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.1,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    },
+    {
+      "sigma": 0.2,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.493896484375,
+      "eval_slack": 0.0001,
+      "confidence": 0.95
+    }
+  ]
+}

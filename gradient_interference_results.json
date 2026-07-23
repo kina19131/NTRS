@@ -1,0 +1,49 @@
+{
+  "description": "Gradient interference at SST-2 Phase 1 checkpoint",
+  "n_grad_samples": 64,
+  "n_phase2_samples": 64,
+  "results": {
+    "cola": {
+      "rank8": {
+        "mean_cos": 0.0001296398438517642,
+        "median_cos": -7.676751728711326e-05,
+        "frac_negative": 0.5089285714285714,
+        "n_layers": 112
+      },
+      "rank32": {
+        "mean_cos": 0.001230380791855715,
+        "median_cos": 0.0002805281556563146,
+        "frac_negative": 0.41964285714285715,
+        "n_layers": 112
+      }
+    },
+    "agnews": {
+      "rank8": {
+        "mean_cos": -0.00018722299886758938,
+        "median_cos": -0.0001592087067318292,
+        "frac_negative": 0.5892857142857143,
+        "n_layers": 112
+      },
+      "rank32": {
+        "mean_cos": -0.0007111910485985954,
+        "median_cos": -9.107778558701477e-05,
+        "frac_negative": 0.5446428571428571,
+        "n_layers": 112
+      }
+    },
+    "mnli": {
+      "rank8": {
+        "mean_cos": 0.0008524663304489457,
+        "median_cos": 0.00013293611115798012,
+        "frac_negative": 0.4732142857142857,
+        "n_layers": 112
+      },
+      "rank32": {
+        "mean_cos": -0.0008318594812674534,
+        "median_cos": -3.6383265621103204e-05,
+        "frac_negative": 0.5178571428571429,
+        "n_layers": 112
+      }
+    }
+  }
+}

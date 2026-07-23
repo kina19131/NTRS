@@ -1,0 +1,28 @@
+Disabling PyTorch because PyTorch >= 2.1 is required but found 2.0.0
+
+  σ½_pre = 7.191011e-03  (from h1_kl/gpt2/pretrained_density_relslack.json)
+  Loading gpt2...
+Traceback (most recent call last):
+  File "/Users/kinakim/Github/NTRS/seed_variance_experiment.py", line 495, in <module>
+    main()
+  File "/Users/kinakim/Github/NTRS/seed_variance_experiment.py", line 300, in main
+    base_model, _ = _load_model_auto(args.model, device)
+  File "/Users/kinakim/Github/NTRS/lora_density_experiment.py", line 80, in _load_model_auto
+    return load_model(model_name, device)
+  File "/Users/kinakim/Github/NTRS/certified_density_experiment.py", line 106, in load_model
+    model = GPT2LMHeadModel.from_pretrained(
+  File "/Users/kinakim/opt/anaconda3/lib/python3.9/site-packages/transformers/utils/import_utils.py", line 2157, in __getattribute__
+    requires_backends(cls, cls._backends)
+  File "/Users/kinakim/opt/anaconda3/lib/python3.9/site-packages/transformers/utils/import_utils.py", line 2126, in requires_backends
+    raise ImportError(PYTORCH_IMPORT_ERROR_WITH_TF.format(name))
+ImportError: 
+GPT2LMHeadModel requires the PyTorch library but it was not found in your environment.
+However, we were able to find a TensorFlow installation. TensorFlow classes begin
+with "TF", but are otherwise identically named to our PyTorch classes. This
+means that the TF equivalent of the class you tried to import would be "TFGPT2LMHeadModel".
+If you want to use TensorFlow, please use TF classes instead!
+
+If you really do want to use PyTorch please go to
+https://pytorch.org/get-started/locally/ and follow the instructions that
+match your environment.
+

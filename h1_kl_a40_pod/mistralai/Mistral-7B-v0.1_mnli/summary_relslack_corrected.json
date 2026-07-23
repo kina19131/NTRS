@@ -1,0 +1,57 @@
+[
+  {
+    "file": "lr1e-04_results.json",
+    "lr": 0.0001,
+    "per_param_norm": 0.00013623932691879517,
+    "old_sigma_nonrelslack": 0.00015586592178770952,
+    "old_R": 0.8740802694790083,
+    "new_sigma_relslack": 0.0001824175824175824,
+    "new_R_relslack": 0.7468541415427928,
+    "delta_nll_wiki": 3.7931249999999994,
+    "acc": 0.878
+  },
+  {
+    "file": "lr1e-05_results.json",
+    "lr": 1e-05,
+    "per_param_norm": 1.3042044307968446e-05,
+    "old_sigma_nonrelslack": 0.00015586592178770952,
+    "old_R": 0.08367476455650005,
+    "new_sigma_relslack": 0.0001824175824175824,
+    "new_R_relslack": 0.07149554409789931,
+    "delta_nll_wiki": 0.016796874999999822,
+    "acc": 0.83
+  },
+  {
+    "file": "lr2e-04_results.json",
+    "lr": 0.0002,
+    "per_param_norm": 0.00015786692175960655,
+    "old_sigma_nonrelslack": 0.00015586592178770952,
+    "old_R": 1.0128379568089452,
+    "new_sigma_relslack": 0.0001824175824175824,
+    "new_R_relslack": 0.8654150530195299,
+    "delta_nll_wiki": 8.0009375,
+    "acc": 0.35
+  },
+  {
+    "file": "lr5e-04_results.json",
+    "lr": 0.0005,
+    "per_param_norm": 0.0006966710204632431,
+    "old_sigma_nonrelslack": 0.00015586592178770952,
+    "old_R": 4.469681457452348,
+    "new_sigma_relslack": 0.0001824175824175824,
+    "new_R_relslack": 3.8191001724189837,
+    "delta_nll_wiki": 7.3128125,
+    "acc": 0.348
+  },
+  {
+    "file": "lr5e-05_results.json",
+    "lr": 5e-05,
+    "per_param_norm": 5.9162402288959164e-05,
+    "old_sigma_nonrelslack": 0.00015586592178770952,
+    "old_R": 0.3795724017822111,
+    "new_sigma_relslack": 0.0001824175824175824,
+    "new_R_relslack": 0.3243240125479087,
+    "delta_nll_wiki": 0.603046875,
+    "acc": 0.858
+  }
+]

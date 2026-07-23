@@ -1,0 +1,12 @@
+{
+  "rank": 8,
+  "steps": 2000,
+  "lr": 0.0001,
+  "per_param_norm": 0.0005755258004663638,
+  "spectral_norm": 2.4107303619384766,
+  "grad_norm": 0.0007960915822071193,
+  "sigma_half_pre": 0.027443609022556395,
+  "task_val_acc": 0.9134615384615384,
+  "task_a_val_acc_final": 0.8792372881355932,
+  "quant_results": {}
+}

@@ -1,0 +1,77 @@
+[
+  {
+    "lr": 5e-05,
+    "sigma_half_pre": 0.0071910112359550565,
+    "n_seeds": 5,
+    "data_seeds": [
+      42,
+      123,
+      456,
+      789,
+      1337
+    ],
+    "init_seed": 0,
+    "acc_mean": 0.53,
+    "acc_std": 0.0,
+    "R_mean": 0.01994971544237413,
+    "R_std": 0.0007522176598239685,
+    "per_param_norm_mean": 0.00014345862790021848,
+    "per_param_norm_std": 5.4092056436779745e-06,
+    "pairwise_dist_mean": 0.0001061944917359747,
+    "pairwise_dist_min": 9.988399001891794e-05,
+    "pairwise_dist_max": 0.00011273948707589805,
+    "pairwise_ratio_mean": 0.014767671507033977,
+    "pairwise_ratio_min": 0.013890117362005775,
+    "pairwise_ratio_max": 0.015677834921492072
+  },
+  {
+    "lr": 0.0001,
+    "sigma_half_pre": 0.0071910112359550565,
+    "n_seeds": 5,
+    "data_seeds": [
+      42,
+      123,
+      456,
+      789,
+      1337
+    ],
+    "init_seed": 0,
+    "acc_mean": 0.53,
+    "acc_std": 0.0,
+    "R_mean": 0.030479729973912656,
+    "R_std": 0.0018018696511132339,
+    "per_param_norm_mean": 0.00021918008071128203,
+    "per_param_norm_std": 1.2957264906881688e-05,
+    "pairwise_dist_mean": 0.0001988162455994216,
+    "pairwise_dist_min": 0.00017766273255919013,
+    "pairwise_dist_max": 0.00021424378835521168,
+    "pairwise_ratio_mean": 0.027647884153669568,
+    "pairwise_ratio_min": 0.024706223746512376,
+    "pairwise_ratio_max": 0.029793276818146624
+  },
+  {
+    "lr": 0.0002,
+    "sigma_half_pre": 0.0071910112359550565,
+    "n_seeds": 5,
+    "data_seeds": [
+      42,
+      123,
+      456,
+      789,
+      1337
+    ],
+    "init_seed": 0,
+    "acc_mean": 0.5592,
+    "acc_std": 0.05740522624291277,
+    "R_mean": 0.05643203155025679,
+    "R_std": 0.012263267827730144,
+    "per_param_norm_mean": 0.0004058033729456668,
+    "per_param_norm_std": 8.818529673873363e-05,
+    "pairwise_dist_mean": 0.0004862461642438583,
+    "pairwise_dist_min": 0.0003884175264558444,
+    "pairwise_dist_max": 0.0005936392990739161,
+    "pairwise_ratio_mean": 0.06761860721516152,
+    "pairwise_ratio_min": 0.05401431227276586,
+    "pairwise_ratio_max": 0.08255296502746645
+  }
+]

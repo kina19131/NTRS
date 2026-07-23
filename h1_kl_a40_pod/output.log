@@ -1,0 +1,113 @@
+======================================================================
+  sigma_scope=lora (DEFAULT as of 2026-07-21)
+  This does NOT reproduce the numbers in SUMMARY.md /
+  pretrained_density_relslack.json — those were all computed
+  with the legacy whole-decoder-block scope.
+  Pass --sigma_scope block to reproduce historical numbers.
+======================================================================
+Device: cuda
+Model: gpt2
+
+Loading pretrained model...
+  Loaded gpt2 (124,439,808 params)
+  Targeting blocks 0–11: 85,054,464 params
+  Targeting blocks 0–11: 85,054,464 params
+  sigma_scope=lora: perturbing 56,623,104/124,439,808 params (45.5%) across 36 tensors
+  for reference: whole-block scope would be 85,054,464 params (68.3%) — lora scope is 66.6% of that
+Computing baseline WikiText-2 NLL...
+  NLL_baseline = 4.21094
+  Relative slack = 1% × 4.2109 = 0.04211
+  Original fixed slack = 0.0001  (0.002% of baseline NLL)
+
+Estimating density (9+ sigma values × 150 perturbations)...
+    [gpt2/lora] σ=0.00010  0/150  0s elapsed  14s eta    [gpt2/lora] σ=0.00010  20/150  2s elapsed  11s eta    [gpt2/lora] σ=0.00010  40/150  3s elapsed  8s eta    [gpt2/lora] σ=0.00010  60/150  4s elapsed  6s eta    [gpt2/lora] σ=0.00010  80/150  6s elapsed  5s eta    [gpt2/lora] σ=0.00010  100/150  7s elapsed  3s eta    [gpt2/lora] σ=0.00010  120/150  8s elapsed  2s eta    [gpt2/lora] σ=0.00010  140/150  10s elapsed  1s eta
+    σ=0.00010  density=1.000  95% CI=[0.976, 1.000]  base_nll=4.2042  slack=4.2e-02  (10s)
+    [gpt2/lora] σ=0.00020  0/150  0s elapsed  9s eta    [gpt2/lora] σ=0.00020  20/150  1s elapsed  9s eta    [gpt2/lora] σ=0.00020  40/150  3s elapsed  8s eta    [gpt2/lora] σ=0.00020  60/150  4s elapsed  7s eta    [gpt2/lora] σ=0.00020  80/150  6s elapsed  5s eta    [gpt2/lora] σ=0.00020  100/150  7s elapsed  4s eta    [gpt2/lora] σ=0.00020  120/150  9s elapsed  2s eta    [gpt2/lora] σ=0.00020  140/150  10s elapsed  1s eta
+    σ=0.00020  density=1.000  95% CI=[0.976, 1.000]  base_nll=4.2042  slack=4.2e-02  (11s)
+    [gpt2/lora] σ=0.00050  0/150  0s elapsed  11s eta    [gpt2/lora] σ=0.00050  20/150  2s elapsed  10s eta    [gpt2/lora] σ=0.00050  40/150  3s elapsed  8s eta    [gpt2/lora] σ=0.00050  60/150  4s elapsed  6s eta    [gpt2/lora] σ=0.00050  80/150  6s elapsed  5s eta    [gpt2/lora] σ=0.00050  100/150  7s elapsed  4s eta    [gpt2/lora] σ=0.00050  120/150  8s elapsed  2s eta    [gpt2/lora] σ=0.00050  140/150  10s elapsed  1s eta
+    σ=0.00050  density=1.000  95% CI=[0.976, 1.000]  base_nll=4.2042  slack=4.2e-02  (10s)
+    [gpt2/lora] σ=0.00100  0/150  0s elapsed  9s eta    [gpt2/lora] σ=0.00100  20/150  1s elapsed  9s eta    [gpt2/lora] σ=0.00100  40/150  3s elapsed  7s eta    [gpt2/lora] σ=0.00100  60/150  4s elapsed  6s eta    [gpt2/lora] σ=0.00100  80/150  5s elapsed  5s eta    [gpt2/lora] σ=0.00100  100/150  7s elapsed  3s eta    [gpt2/lora] σ=0.00100  120/150  8s elapsed  2s eta    [gpt2/lora] σ=0.00100  140/150  9s elapsed  1s eta
+    σ=0.00100  density=1.000  95% CI=[0.976, 1.000]  base_nll=4.2042  slack=4.2e-02  (10s)
+    [gpt2/lora] σ=0.00200  0/150  0s elapsed  9s eta    [gpt2/lora] σ=0.00200  20/150  1s elapsed  9s eta    [gpt2/lora] σ=0.00200  40/150  3s elapsed  7s eta    [gpt2/lora] σ=0.00200  60/150  4s elapsed  6s eta    [gpt2/lora] σ=0.00200  80/150  5s elapsed  5s eta    [gpt2/lora] σ=0.00200  100/150  7s elapsed  3s eta    [gpt2/lora] σ=0.00200  120/150  8s elapsed  2s eta    [gpt2/lora] σ=0.00200  140/150  9s elapsed  1s eta
+    σ=0.00200  density=1.000  95% CI=[0.976, 1.000]  base_nll=4.2042  slack=4.2e-02  (10s)
+    [gpt2/lora] σ=0.00500  0/150  0s elapsed  10s eta    [gpt2/lora] σ=0.00500  20/150  1s elapsed  9s eta    [gpt2/lora] σ=0.00500  40/150  3s elapsed  8s eta    [gpt2/lora] σ=0.00500  60/150  4s elapsed  6s eta    [gpt2/lora] σ=0.00500  80/150  5s elapsed  5s eta    [gpt2/lora] σ=0.00500  100/150  7s elapsed  3s eta    [gpt2/lora] σ=0.00500  120/150  8s elapsed  2s eta    [gpt2/lora] σ=0.00500  140/150  9s elapsed  1s eta
+    σ=0.00500  density=1.000  95% CI=[0.976, 1.000]  base_nll=4.2042  slack=4.2e-02  (10s)
+    [gpt2/lora] σ=0.01000  0/150  0s elapsed  8s eta    [gpt2/lora] σ=0.01000  20/150  1s elapsed  8s eta    [gpt2/lora] σ=0.01000  40/150  3s elapsed  7s eta    [gpt2/lora] σ=0.01000  60/150  4s elapsed  6s eta    [gpt2/lora] σ=0.01000  80/150  5s elapsed  5s eta    [gpt2/lora] σ=0.01000  100/150  7s elapsed  3s eta    [gpt2/lora] σ=0.01000  120/150  8s elapsed  2s eta    [gpt2/lora] σ=0.01000  140/150  9s elapsed  1s eta
+    σ=0.01000  density=0.073  95% CI=[0.037, 0.127]  base_nll=4.2042  slack=4.2e-02  (10s)
+    [gpt2/lora] σ=0.02000  0/150  0s elapsed  8s eta    [gpt2/lora] σ=0.02000  20/150  1s elapsed  8s eta    [gpt2/lora] σ=0.02000  40/150  3s elapsed  7s eta    [gpt2/lora] σ=0.02000  60/150  4s elapsed  6s eta    [gpt2/lora] σ=0.02000  80/150  5s elapsed  4s eta    [gpt2/lora] σ=0.02000  100/150  6s elapsed  3s eta    [gpt2/lora] σ=0.02000  120/150  7s elapsed  2s eta    [gpt2/lora] σ=0.02000  140/150  9s elapsed  1s eta
+    σ=0.02000  density=0.000  95% CI=[0.000, 0.024]  base_nll=4.2042  slack=4.2e-02  (9s)
+    [gpt2/lora] σ=0.05000  0/150  0s elapsed  8s eta    [gpt2/lora] σ=0.05000  20/150  1s elapsed  9s eta    [gpt2/lora] σ=0.05000  40/150  3s elapsed  8s eta    [gpt2/lora] σ=0.05000  60/150  4s elapsed  6s eta    [gpt2/lora] σ=0.05000  80/150  6s elapsed  5s eta    [gpt2/lora] σ=0.05000  100/150  7s elapsed  3s eta    [gpt2/lora] σ=0.05000  120/150  8s elapsed  2s eta    [gpt2/lora] σ=0.05000  140/150  9s elapsed  1s eta
+    σ=0.05000  density=0.000  95% CI=[0.000, 0.024]  base_nll=4.2042  slack=4.2e-02  (10s)
+
+σ½ (rel slack 1%) = 0.007698
+Saved: h1_kl/gpt2/pretrained_density_relslack_lorascope.json
+
+── Comparison ──────────────────────────────────────────
+  Metric                             Original Rel-slack 1%
+  eval_slack (abs)                     0.0001      0.04211
+  eval_slack (% of NLL)                0.002%         1.0%
+  σ½_pre                         0.0006025641025641025     0.007698
+  Change in σ½                              —     +1177.5%
+────────────────────────────────────────────────────────
+======================================================================
+  sigma_scope=lora (DEFAULT as of 2026-07-21)
+  This does NOT reproduce the numbers in SUMMARY.md /
+  pretrained_density_relslack.json — those were all computed
+  with the legacy whole-decoder-block scope.
+  Pass --sigma_scope block to reproduce historical numbers.
+======================================================================
+Device: cuda
+Model: meta-llama/Llama-3.2-3B
+
+Loading pretrained model...
+  Loaded meta-llama/Llama-3.2-3B (3,212,749,824 params)
+  Targeting blocks 0–27: 2,818,744,320 params
+  Targeting blocks 0–27: 2,818,744,320 params
+  sigma_scope=lora: perturbing 704,643,072/3,212,749,824 params (21.9%) across 112 tensors
+  for reference: whole-block scope would be 2,818,744,320 params (87.7%) — lora scope is 25.0% of that
+Computing baseline WikiText-2 NLL...
+  NLL_baseline = 3.05859
+  Relative slack = 1% × 3.0586 = 0.03059
+  Original fixed slack = 0.01  (0.327% of baseline NLL)
+
+Estimating density (9+ sigma values × 150 perturbations)...
+    [meta-llama/Llama-3.2-3B/lora] σ=0.00010  0/150  1s elapsed  94s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00010  20/150  14s elapsed  90s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00010  40/150  27s elapsed  75s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00010  60/150  41s elapsed  61s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00010  80/150  54s elapsed  47s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00010  100/150  67s elapsed  34s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00010  120/150  81s elapsed  20s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00010  140/150  94s elapsed  7s eta
+    σ=0.00010  density=1.000  95% CI=[0.976, 1.000]  base_nll=3.0703  slack=3.1e-02  (101s)
+    [meta-llama/Llama-3.2-3B/lora] σ=0.00020  0/150  1s elapsed  94s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00020  20/150  14s elapsed  92s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00020  40/150  28s elapsed  76s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00020  60/150  41s elapsed  62s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00020  80/150  55s elapsed  48s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00020  100/150  68s elapsed  34s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00020  120/150  82s elapsed  20s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00020  140/150  95s elapsed  7s eta
+    σ=0.00020  density=1.000  95% CI=[0.976, 1.000]  base_nll=3.0703  slack=3.1e-02  (102s)
+    [meta-llama/Llama-3.2-3B/lora] σ=0.00050  0/150  1s elapsed  94s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00050  20/150  14s elapsed  92s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00050  40/150  28s elapsed  76s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00050  60/150  41s elapsed  62s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00050  80/150  55s elapsed  48s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00050  100/150  68s elapsed  34s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00050  120/150  82s elapsed  20s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00050  140/150  95s elapsed  7s eta
+    σ=0.00050  density=1.000  95% CI=[0.976, 1.000]  base_nll=3.0703  slack=3.1e-02  (102s)
+    [meta-llama/Llama-3.2-3B/lora] σ=0.00100  0/150  1s elapsed  94s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00100  20/150  14s elapsed  92s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00100  40/150  28s elapsed  76s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00100  60/150  41s elapsed  62s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00100  80/150  55s elapsed  48s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00100  100/150  68s elapsed  34s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00100  120/150  82s elapsed  20s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00100  140/150  95s elapsed  7s eta
+    σ=0.00100  density=1.000  95% CI=[0.976, 1.000]  base_nll=3.0703  slack=3.1e-02  (102s)
+    [meta-llama/Llama-3.2-3B/lora] σ=0.00200  0/150  1s elapsed  94s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00200  20/150  14s elapsed  92s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00200  40/150  28s elapsed  76s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00200  60/150  41s elapsed  62s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00200  80/150  55s elapsed  48s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00200  100/150  68s elapsed  34s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00200  120/150  82s elapsed  20s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00200  140/150  95s elapsed  7s eta
+    σ=0.00200  density=0.033  95% CI=[0.011, 0.076]  base_nll=3.0703  slack=3.1e-02  (102s)
+    [meta-llama/Llama-3.2-3B/lora] σ=0.00500  0/150  1s elapsed  94s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00500  20/150  14s elapsed  92s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00500  40/150  28s elapsed  76s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00500  60/150  41s elapsed  62s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00500  80/150  55s elapsed  48s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00500  100/150  68s elapsed  34s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00500  120/150  82s elapsed  20s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.00500  140/150  95s elapsed  7s eta
+    σ=0.00500  density=0.000  95% CI=[0.000, 0.024]  base_nll=3.0703  slack=3.1e-02  (102s)
+    [meta-llama/Llama-3.2-3B/lora] σ=0.01000  0/150  1s elapsed  94s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.01000  20/150  14s elapsed  91s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.01000  40/150  28s elapsed  76s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.01000  60/150  41s elapsed  61s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.01000  80/150  54s elapsed  48s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.01000  100/150  68s elapsed  34s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.01000  120/150  81s elapsed  20s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.01000  140/150  95s elapsed  7s eta
+    σ=0.01000  density=0.000  95% CI=[0.000, 0.024]  base_nll=3.0703  slack=3.1e-02  (101s)
+    [meta-llama/Llama-3.2-3B/lora] σ=0.02000  0/150  1s elapsed  94s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.02000  20/150  14s elapsed  91s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.02000  40/150  27s elapsed  75s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.02000  60/150  41s elapsed  61s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.02000  80/150  54s elapsed  47s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.02000  100/150  68s elapsed  34s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.02000  120/150  81s elapsed  20s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.02000  140/150  95s elapsed  7s eta
+    σ=0.02000  density=0.000  95% CI=[0.000, 0.024]  base_nll=3.0703  slack=3.1e-02  (101s)
+    [meta-llama/Llama-3.2-3B/lora] σ=0.05000  0/150  1s elapsed  95s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.05000  20/150  14s elapsed  92s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.05000  40/150  28s elapsed  76s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.05000  60/150  41s elapsed  61s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.05000  80/150  54s elapsed  48s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.05000  100/150  68s elapsed  34s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.05000  120/150  81s elapsed  20s eta    [meta-llama/Llama-3.2-3B/lora] σ=0.05000  140/150  95s elapsed  7s eta
+    σ=0.05000  density=0.000  95% CI=[0.000, 0.024]  base_nll=3.0703  slack=3.1e-02  (101s)
+
+σ½ (rel slack 1%) = 0.001517
+Saved: h1_kl/meta-llama/Llama-3.2-3B/pretrained_density_relslack_lorascope.json
+
+── Comparison ──────────────────────────────────────────
+  Metric                             Original Rel-slack 1%
+  eval_slack (abs)                       0.01      0.03059
+  eval_slack (% of NLL)                0.327%         1.0%
+  σ½_pre                         0.0005762711864406779     0.001517
+  Change in σ½                              —      +163.3%
+────────────────────────────────────────────────────────
+======================================================================
+  sigma_scope=lora (DEFAULT as of 2026-07-21)
+  This does NOT reproduce the numbers in SUMMARY.md /
+  pretrained_density_relslack.json — those were all computed
+  with the legacy whole-decoder-block scope.
+  Pass --sigma_scope block to reproduce historical numbers.
+======================================================================
+Device: cuda
+Model: mistralai/Mistral-7B-v0.1
+
+Loading pretrained model...

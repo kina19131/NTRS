@@ -1,0 +1,62 @@
+[
+  {
+    "seed_a": 42,
+    "seed_b": 123,
+    "pairwise_dist": 9.988399001891794e-05,
+    "dist_over_sigma_half": 0.013890117362005775
+  },
+  {
+    "seed_a": 42,
+    "seed_b": 456,
+    "pairwise_dist": 0.00010678194181254904,
+    "dist_over_sigma_half": 0.0148493637833076
+  },
+  {
+    "seed_a": 42,
+    "seed_b": 789,
+    "pairwise_dist": 0.00010129568474156564,
+    "dist_over_sigma_half": 0.01408643115937397
+  },
+  {
+    "seed_a": 42,
+    "seed_b": 1337,
+    "pairwise_dist": 0.00010360245750553147,
+    "dist_over_sigma_half": 0.01440721674686297
+  },
+  {
+    "seed_a": 123,
+    "seed_b": 456,
+    "pairwise_dist": 0.00010950071242833816,
+    "dist_over_sigma_half": 0.015227442822065774
+  },
+  {
+    "seed_a": 123,
+    "seed_b": 789,
+    "pairwise_dist": 0.00011273948707589805,
+    "dist_over_sigma_half": 0.015677834921492072
+  },
+  {
+    "seed_a": 123,
+    "seed_b": 1337,
+    "pairwise_dist": 0.00010582714470334765,
+    "dist_over_sigma_half": 0.014716587310309283
+  },
+  {
+    "seed_a": 456,
+    "seed_b": 789,
+    "pairwise_dist": 0.00011099685027640345,
+    "dist_over_sigma_half": 0.015435499491562353
+  },
+  {
+    "seed_a": 456,
+    "seed_b": 1337,
+    "pairwise_dist": 0.00010605639210522333,
+    "dist_over_sigma_half": 0.014748467027132619
+  },
+  {
+    "seed_a": 789,
+    "seed_b": 1337,
+    "pairwise_dist": 0.00010526025669197214,
+    "dist_over_sigma_half": 0.014637754446227376
+  }
+]

@@ -1,0 +1,56 @@
+{
+  "model": "gpt2-medium",
+  "task": "sst2",
+  "lr": [
+    0.0003,
+    0.0004
+  ],
+  "results": [
+    {
+      "rank": 32,
+      "steps": 2000,
+      "lr": 0.0003,
+      "sigma_half_pre": 0.0019,
+      "sigma_half_ft": 0.005705128205128205,
+      "widening_ratio": 3.002699055330634,
+      "norm": 0.005552798710163379,
+      "norm_over_sh": 2.922525636928094,
+      "spectral_norm": 22.02769660949707,
+      "spec_over_sh": 11593.524531314248,
+      "grad_norm": 0.002453042657440889,
+      "grad_x_sh": 4.660781049137689e-06,
+      "ppl_pre": 0.1941896677017212,
+      "ppl_ft": 6.44384765625,
+      "ppl_ratio": 33.18326733092651,
+      "ppl_ratio_actual": 517.8356886431683,
+      "task_val_acc": 0.8629807692307693,
+      "ppl_int8": NaN,
+      "ppl_ratio_int8": NaN,
+      "ppl_int4": NaN,
+      "ppl_ratio_int4": NaN
+    },
+    {
+      "rank": 32,
+      "steps": 2000,
+      "lr": 0.0004,
+      "sigma_half_pre": 0.0019,
+      "sigma_half_ft": 0.00476,
+      "widening_ratio": 2.505263157894737,
+      "norm": 0.009290010904193248,
+      "norm_over_sh": 4.889479423259604,
+      "spectral_norm": 53.93342208862305,
+      "spec_over_sh": 28386.011625591076,
+      "grad_norm": 0.0008556931144636132,
+      "grad_x_sh": 1.625816917480865e-06,
+      "ppl_pre": 0.1941896677017212,
+      "ppl_ft": 7.78857421875,
+      "ppl_ratio": 40.108077380890265,
+      "ppl_ratio_actual": 1987.006573993345,
+      "task_val_acc": 0.9146634615384616,
+      "ppl_int8": NaN,
+      "ppl_ratio_int8": NaN,
+      "ppl_int4": NaN,
+      "ppl_ratio_int4": NaN
+    }
+  ]
+}

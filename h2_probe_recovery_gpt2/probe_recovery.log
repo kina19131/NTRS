@@ -1,0 +1,95 @@
+/usr/local/lib/python3.11/dist-packages/peft/tuners/lora/layer.py:2504: UserWarning: fan_in_fan_out is set to False but the target module is `Conv1D`. Setting fan_in_fan_out to True.
+  warnings.warn(
+/workspace/h2_nll_forgetting.py:243: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  peft_m.load_state_dict(torch.load(model_path, map_location=device), strict=False)
+/workspace/h2_nll_forgetting.py:245: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  classifier.load_state_dict(torch.load(cls_path, map_location=device))
+
+============================================================
+  H2 Fresh-Probe Recovery — gpt2
+  sst2 -> ['mnli', 'agnews', 'cola']
+============================================================
+
+
+============================================================
+  Phase 1: sst2 on gpt2
+============================================================
+  Loaded gpt2 (124,439,808 params)
+  Targeting blocks 0–11: 85,054,464 params
+  Loading Phase 1 from checkpoint...
+  Computing σ½_A from held-out Task A NLL...
+    [] σ=0.00010  0/200  1s elapsed  132s eta    [] σ=0.00010  20/200  6s elapsed  57s eta    [] σ=0.00010  40/200  11s elapsed  46s eta    [] σ=0.00010  60/200  17s elapsed  39s eta    [] σ=0.00010  80/200  22s elapsed  33s eta    [] σ=0.00010  100/200  27s elapsed  27s eta    [] σ=0.00010  120/200  32s elapsed  22s eta    [] σ=0.00010  140/200  38s elapsed  16s eta    [] σ=0.00010  160/200  43s elapsed  11s eta    [] σ=0.00010  180/200  48s elapsed  5s eta
+    σ=0.00010  density=0.450  95% CI=[0.380, 0.522]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0001  density=0.380
+    [] σ=0.00020  0/200  0s elapsed  50s eta    [] σ=0.00020  20/200  5s elapsed  49s eta    [] σ=0.00020  40/200  11s elapsed  43s eta    [] σ=0.00020  60/200  16s elapsed  37s eta    [] σ=0.00020  80/200  21s elapsed  32s eta    [] σ=0.00020  100/200  26s elapsed  26s eta    [] σ=0.00020  120/200  32s elapsed  21s eta    [] σ=0.00020  140/200  37s elapsed  16s eta    [] σ=0.00020  160/200  42s elapsed  10s eta    [] σ=0.00020  180/200  47s elapsed  5s eta
+    σ=0.00020  density=0.460  95% CI=[0.389, 0.532]  base_nll=7.5525  slack=1.0e-04  (52s)
+    σ=0.0002  density=0.389
+    [] σ=0.00050  0/200  0s elapsed  50s eta    [] σ=0.00050  20/200  5s elapsed  49s eta    [] σ=0.00050  40/200  11s elapsed  43s eta    [] σ=0.00050  60/200  16s elapsed  37s eta    [] σ=0.00050  80/200  21s elapsed  32s eta    [] σ=0.00050  100/200  26s elapsed  26s eta    [] σ=0.00050  120/200  32s elapsed  21s eta    [] σ=0.00050  140/200  37s elapsed  16s eta    [] σ=0.00050  160/200  42s elapsed  10s eta    [] σ=0.00050  180/200  47s elapsed  5s eta
+    σ=0.00050  density=0.445  95% CI=[0.375, 0.517]  base_nll=7.5525  slack=1.0e-04  (52s)
+    σ=0.0005  density=0.375
+    [] σ=0.00100  0/200  0s elapsed  50s eta    [] σ=0.00100  20/200  5s elapsed  49s eta    [] σ=0.00100  40/200  11s elapsed  43s eta    [] σ=0.00100  60/200  16s elapsed  37s eta    [] σ=0.00100  80/200  21s elapsed  32s eta    [] σ=0.00100  100/200  26s elapsed  26s eta    [] σ=0.00100  120/200  32s elapsed  21s eta    [] σ=0.00100  140/200  37s elapsed  16s eta    [] σ=0.00100  160/200  42s elapsed  11s eta    [] σ=0.00100  180/200  47s elapsed  5s eta
+    σ=0.00100  density=0.440  95% CI=[0.370, 0.512]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0010  density=0.370
+    [] σ=0.00200  0/200  0s elapsed  50s eta    [] σ=0.00200  20/200  5s elapsed  49s eta    [] σ=0.00200  40/200  11s elapsed  43s eta    [] σ=0.00200  60/200  16s elapsed  37s eta    [] σ=0.00200  80/200  21s elapsed  32s eta    [] σ=0.00200  100/200  26s elapsed  26s eta    [] σ=0.00200  120/200  32s elapsed  21s eta    [] σ=0.00200  140/200  37s elapsed  16s eta    [] σ=0.00200  160/200  42s elapsed  11s eta    [] σ=0.00200  180/200  47s elapsed  5s eta
+    σ=0.00200  density=0.425  95% CI=[0.356, 0.497]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0020  density=0.356
+    [] σ=0.00500  0/200  0s elapsed  50s eta    [] σ=0.00500  20/200  5s elapsed  49s eta    [] σ=0.00500  40/200  11s elapsed  43s eta    [] σ=0.00500  60/200  16s elapsed  37s eta    [] σ=0.00500  80/200  21s elapsed  32s eta    [] σ=0.00500  100/200  26s elapsed  26s eta    [] σ=0.00500  120/200  32s elapsed  21s eta    [] σ=0.00500  140/200  37s elapsed  16s eta    [] σ=0.00500  160/200  42s elapsed  10s eta    [] σ=0.00500  180/200  47s elapsed  5s eta
+    σ=0.00500  density=0.380  95% CI=[0.312, 0.451]  base_nll=7.5525  slack=1.0e-04  (52s)
+    σ=0.0050  density=0.312
+    [] σ=0.01000  0/200  0s elapsed  50s eta    [] σ=0.01000  20/200  5s elapsed  49s eta    [] σ=0.01000  40/200  11s elapsed  43s eta    [] σ=0.01000  60/200  16s elapsed  37s eta    [] σ=0.01000  80/200  21s elapsed  32s eta    [] σ=0.01000  100/200  26s elapsed  26s eta    [] σ=0.01000  120/200  32s elapsed  21s eta    [] σ=0.01000  140/200  37s elapsed  16s eta    [] σ=0.01000  160/200  42s elapsed  11s eta    [] σ=0.01000  180/200  47s elapsed  5s eta
+    σ=0.01000  density=0.320  95% CI=[0.256, 0.389]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0100  density=0.256
+    [] σ=0.02000  0/200  0s elapsed  50s eta    [] σ=0.02000  20/200  5s elapsed  49s eta    [] σ=0.02000  40/200  11s elapsed  43s eta    [] σ=0.02000  60/200  16s elapsed  37s eta    [] σ=0.02000  80/200  21s elapsed  32s eta    [] σ=0.02000  100/200  26s elapsed  26s eta    [] σ=0.02000  120/200  32s elapsed  21s eta    [] σ=0.02000  140/200  37s elapsed  16s eta    [] σ=0.02000  160/200  42s elapsed  10s eta    [] σ=0.02000  180/200  47s elapsed  5s eta
+    σ=0.02000  density=0.180  95% CI=[0.129, 0.240]  base_nll=7.5525  slack=1.0e-04  (52s)
+    σ=0.0200  density=0.129
+    [] σ=0.05000  0/200  0s elapsed  50s eta    [] σ=0.05000  20/200  5s elapsed  49s eta    [] σ=0.05000  40/200  11s elapsed  43s eta    [] σ=0.05000  60/200  16s elapsed  37s eta    [] σ=0.05000  80/200  21s elapsed  32s eta    [] σ=0.05000  100/200  26s elapsed  26s eta    [] σ=0.05000  120/200  32s elapsed  21s eta    [] σ=0.05000  140/200  37s elapsed  16s eta    [] σ=0.05000  160/200  42s elapsed  11s eta    [] σ=0.05000  180/200  47s elapsed  5s eta
+    σ=0.05000  density=0.470  95% CI=[0.399, 0.542]  base_nll=7.5525  slack=1.0e-04  (52s)
+    σ=0.0500  density=0.399
+    [] σ=0.10000  0/200  0s elapsed  50s eta    [] σ=0.10000  20/200  5s elapsed  49s eta    [] σ=0.10000  40/200  11s elapsed  43s eta    [] σ=0.10000  60/200  16s elapsed  37s eta    [] σ=0.10000  80/200  21s elapsed  32s eta    [] σ=0.10000  100/200  27s elapsed  27s eta    [] σ=0.10000  120/200  32s elapsed  21s eta    [] σ=0.10000  140/200  37s elapsed  16s eta    [] σ=0.10000  160/200  42s elapsed  11s eta    [] σ=0.10000  180/200  48s elapsed  5s eta
+    σ=0.10000  density=0.230  95% CI=[0.174, 0.295]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.1000  density=0.174
+/usr/local/lib/python3.11/dist-packages/peft/tuners/lora/layer.py:2504: UserWarning: fan_in_fan_out is set to False but the target module is `Conv1D`. Setting fan_in_fan_out to True.
+  warnings.warn(
+  σ½_A = 0.016071
+  Reused Phase 1 checkpoint: sst2 acc=0.7740 (n_classes=2)
+
+──────────────────────────────────────────────────
+  [mnli/lr5e-04_rank8]
+  mnli train: 392702 examples, n_classes=3
+  sst2 validation: 500 examples, n_classes=2
+    Phase 2 [sst2->mnli, lr=5e-04] trained 500 steps in 30s
+  [mnli/lr5e-04_rank8] old_frozen_acc=0.6700 (phase1 baseline=0.7740)
+  sst2 train: 67349 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [mnli/lr5e-04_rank8] final_probe_acc=0.7080  verdict=recovers_slow  (crossed 90%-of-baseline at step 200)
+
+──────────────────────────────────────────────────
+  [agnews/lr5e-04_rank8]
+  agnews train: 120000 examples, n_classes=4
+  sst2 validation: 500 examples, n_classes=2
+    Phase 2 [sst2->agnews, lr=5e-04] trained 500 steps in 29s
+  [agnews/lr5e-04_rank8] old_frozen_acc=0.5360 (phase1 baseline=0.7740)
+  sst2 train: 67349 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [agnews/lr5e-04_rank8] final_probe_acc=0.7440  verdict=recovers_slow  (crossed 90%-of-baseline at step 165)
+
+──────────────────────────────────────────────────
+  [cola/lr5e-04_rank8]
+  cola train: 8551 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+    Phase 2 [sst2->cola, lr=5e-04] trained 500 steps in 29s
+  [cola/lr5e-04_rank8] old_frozen_acc=0.5220 (phase1 baseline=0.7740)
+  sst2 train: 67349 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [cola/lr5e-04_rank8] final_probe_acc=0.8080  verdict=recovers_slow  (crossed 90%-of-baseline at step 55)
+  Saved figure: results/h2_probe_recovery/gpt2/probe_recovery.png
+
+──────────────────────────────────────────────────────────────────────
+    task_b        lr   old_acc   probe_acc         verdict
+──────────────────────────────────────────────────────────────────────
+        mnli     5e-04    0.6700      0.7080   recovers_slow
+      agnews     5e-04    0.5360      0.7440   recovers_slow
+        cola     5e-04    0.5220      0.8080   recovers_slow
+──────────────────────────────────────────────────────────────────────
+Summary saved: results/h2_probe_recovery/gpt2/sst2_probe_summary.json
+

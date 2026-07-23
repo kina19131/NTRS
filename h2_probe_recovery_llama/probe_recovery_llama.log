@@ -1,0 +1,77 @@
+
+============================================================
+  H2 Fresh-Probe Recovery — meta-llama/Llama-3.2-3B
+  sst2 -> ['mnli', 'agnews', 'cola']
+============================================================
+
+
+============================================================
+  Phase 1: sst2 on meta-llama/Llama-3.2-3B
+============================================================
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:20<00:20, 20.96s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:28<00:00, 13.26s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:28<00:00, 14.42s/it]
+/workspace/h2_nll_forgetting.py:243: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  peft_m.load_state_dict(torch.load(model_path, map_location=device), strict=False)
+/workspace/h2_nll_forgetting.py:245: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  classifier.load_state_dict(torch.load(cls_path, map_location=device))
+  Loaded meta-llama/Llama-3.2-3B (3,212,749,824 params)
+  Targeting blocks 0–27: 2,818,744,320 params
+  Loading Phase 1 from checkpoint...
+  Computing σ½_A from held-out Task A NLL...
+    [] σ=0.00010  0/200  3s elapsed  694s eta    [] σ=0.00010  20/200  69s elapsed  625s eta    [] σ=0.00010  40/200  136s elapsed  546s eta    [] σ=0.00010  60/200  204s elapsed  476s eta    [] σ=0.00010  80/200  271s elapsed  407s eta    [] σ=0.00010  100/200  339s elapsed  339s eta    [] σ=0.00010  120/200  406s elapsed  271s eta    [] σ=0.00010  140/200  474s elapsed  203s eta    [] σ=0.00010  160/200  541s elapsed  135s eta    [] σ=0.00010  180/200  608s elapsed  68s eta
+    σ=0.00010  density=0.505  95% CI=[0.434, 0.576]  base_nll=9.8330  slack=1.0e-04  (676s)
+    σ=0.0001  density=0.434
+    [] σ=0.00020  0/200  3s elapsed  632s eta    [] σ=0.00020  20/200  70s elapsed  634s eta    [] σ=0.00020  40/200  138s elapsed  551s eta    [] σ=0.00020  60/200  205s elapsed  479s eta    [] σ=0.00020  80/200  272s elapsed  409s eta    [] σ=0.00020  100/200  340s elapsed  340s eta    [] σ=0.00020  120/200  407s elapsed  271s eta    [] σ=0.00020  140/200  474s elapsed  203s eta    [] σ=0.00020  160/200  542s elapsed  135s eta    [] σ=0.00020  180/200  609s elapsed  68s eta
+    σ=0.00020  density=0.520  95% CI=[0.448, 0.591]  base_nll=9.8330  slack=1.0e-04  (676s)
+    σ=0.0002  density=0.448
+    [] σ=0.00050  0/200  3s elapsed  633s eta    [] σ=0.00050  20/200  70s elapsed  634s eta    [] σ=0.00050  40/200  138s elapsed  551s eta    [] σ=0.00050  60/200  205s elapsed  479s eta    [] σ=0.00050  80/200  272s elapsed  409s eta    [] σ=0.00050  100/200  340s elapsed  340s eta    [] σ=0.00050  120/200  407s elapsed  271s eta    [] σ=0.00050  140/200  474s elapsed  203s eta    [] σ=0.00050  160/200  541s elapsed  135s eta    [] σ=0.00050  180/200  609s elapsed  68s eta
+    σ=0.00050  density=0.600  95% CI=[0.529, 0.668]  base_nll=9.8330  slack=1.0e-04  (676s)
+    σ=0.0005  density=0.529
+    [] σ=0.00100  0/200  3s elapsed  633s eta    [] σ=0.00100  20/200  71s elapsed  635s eta    [] σ=0.00100  40/200  138s elapsed  551s eta    [] σ=0.00100  60/200  205s elapsed  479s eta    [] σ=0.00100  80/200  273s elapsed  409s eta    [] σ=0.00100  100/200  340s elapsed  340s eta    [] σ=0.00100  120/200  407s elapsed  272s eta    [] σ=0.00100  140/200  475s elapsed  203s eta    [] σ=0.00100  160/200  542s elapsed  135s eta    [] σ=0.00100  180/200  609s elapsed  68s eta
+    σ=0.00100  density=0.700  95% CI=[0.631, 0.763]  base_nll=9.8330  slack=1.0e-04  (676s)
+    σ=0.0010  density=0.631
+    [] σ=0.00200  0/200  3s elapsed  632s eta    [] σ=0.00200  20/200  70s elapsed  634s eta    [] σ=0.00200  40/200  138s elapsed  551s eta    [] σ=0.00200  60/200  205s elapsed  479s eta    [] σ=0.00200  80/200  272s elapsed  408s eta    [] σ=0.00200  100/200  340s elapsed  340s eta    [] σ=0.00200  120/200  407s elapsed  271s eta    [] σ=0.00200  140/200  474s elapsed  203s eta    [] σ=0.00200  160/200  541s elapsed  135s eta    [] σ=0.00200  180/200  609s elapsed  68s eta
+    σ=0.00200  density=0.870  95% CI=[0.815, 0.913]  base_nll=9.8330  slack=1.0e-04  (677s)
+    σ=0.0020  density=0.815
+    [] σ=0.00500  0/200  3s elapsed  638s eta    [] σ=0.00500  20/200  71s elapsed  641s eta    [] σ=0.00500  40/200  139s elapsed  557s eta    [] σ=0.00500  60/200  207s elapsed  482s eta    [] σ=0.00500  80/200  274s elapsed  411s eta    [] σ=0.00500  100/200  342s elapsed  342s eta    [] σ=0.00500  120/200  409s elapsed  273s eta    [] σ=0.00500  140/200  477s elapsed  204s eta    [] σ=0.00500  160/200  544s elapsed  136s eta    [] σ=0.00500  180/200  612s elapsed  68s eta
+    σ=0.00500  density=0.840  95% CI=[0.782, 0.888]  base_nll=9.8330  slack=1.0e-04  (679s)
+    σ=0.0050  density=0.782
+    [] σ=0.01000  0/200  3s elapsed  635s eta    [] σ=0.01000  20/200  71s elapsed  636s eta    [] σ=0.01000  40/200  138s elapsed  552s eta    [] σ=0.01000  60/200  205s elapsed  479s eta    [] σ=0.01000  80/200  272s elapsed  409s eta    [] σ=0.01000  100/200  340s elapsed  340s eta    [] σ=0.01000  120/200  407s elapsed  271s eta    [] σ=0.01000  140/200  474s elapsed  203s eta    [] σ=0.01000  160/200  541s elapsed  135s eta    [] σ=0.01000  180/200  608s elapsed  68s eta
+    σ=0.01000  density=0.530  95% CI=[0.458, 0.601]  base_nll=9.8330  slack=1.0e-04  (676s)
+    σ=0.0100  density=0.458
+    [] σ=0.02000  0/200  3s elapsed  633s eta    [] σ=0.02000  20/200  70s elapsed  633s eta    [] σ=0.02000  40/200  138s elapsed  550s eta    [] σ=0.02000  60/200  205s elapsed  478s eta    [] σ=0.02000  80/200  272s elapsed  408s eta    [] σ=0.02000  100/200  339s elapsed  339s eta    [] σ=0.02000  120/200  406s elapsed  271s eta    [] σ=0.02000  140/200  473s elapsed  203s eta    [] σ=0.02000  160/200  540s elapsed  135s eta    [] σ=0.02000  180/200  608s elapsed  68s eta
+    σ=0.02000  density=0.035  95% CI=[0.014, 0.071]  base_nll=9.8330  slack=1.0e-04  (675s)
+    σ=0.0200  density=0.014
+    [] σ=0.05000  0/200  3s elapsed  634s eta    [] σ=0.05000  20/200  70s elapsed  634s eta    [] σ=0.05000  40/200  138s elapsed  551s eta    [] σ=0.05000  60/200  205s elapsed  478s eta    [] σ=0.05000  80/200  272s elapsed  408s eta    [] σ=0.05000  100/200  339s elapsed  339s eta    [] σ=0.05000  120/200  406s elapsed  271s eta    [] σ=0.05000  140/200  474s elapsed  203s eta    [] σ=0.05000  160/200  541s elapsed  135s eta    [] σ=0.05000  180/200  608s elapsed  68s eta
+    σ=0.05000  density=0.000  95% CI=[0.000, 0.018]  base_nll=9.8330  slack=1.0e-04  (676s)
+    σ=0.0500  density=0.000
+    [] σ=0.10000  0/200  3s elapsed  633s eta    [] σ=0.10000  20/200  71s elapsed  638s eta    [] σ=0.10000  40/200  139s elapsed  555s eta    [] σ=0.10000  60/200  206s elapsed  482s eta    [] σ=0.10000  80/200  274s elapsed  411s eta    [] σ=0.10000  100/200  342s elapsed  342s eta    [] σ=0.10000  120/200  410s elapsed  273s eta    [] σ=0.10000  140/200  477s elapsed  205s eta    [] σ=0.10000  160/200  545s elapsed  136s eta    [] σ=0.10000  180/200  613s elapsed  68s eta
+    σ=0.10000  density=0.000  95% CI=[0.000, 0.018]  base_nll=9.8330  slack=1.0e-04  (681s)
+    σ=0.1000  density=0.000
+  σ½_A = 0.011919
+  Reused Phase 1 checkpoint: sst2 acc=0.9600 (n_classes=2)
+
+──────────────────────────────────────────────────
+  [mnli/lr5e-04_rank8]
+  mnli train: 392702 examples, n_classes=3
+  sst2 validation: 500 examples, n_classes=2
+    Phase 2 [sst2->mnli, lr=5e-04] trained 500 steps in 255s
+  [mnli/lr5e-04_rank8] old_frozen_acc=0.5220 (phase1 baseline=0.9600)
+  sst2 train: 67349 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [mnli/lr5e-04_rank8] final_probe_acc=0.9140  verdict=recovers_slow  (crossed 90%-of-baseline at step 165)
+
+──────────────────────────────────────────────────
+  [mnli/lr1e-03_rank8]
+  mnli train: 392702 examples, n_classes=3
+  sst2 validation: 500 examples, n_classes=2
+    Phase 2 [sst2->mnli, lr=1e-03] trained 500 steps in 252s
+  [mnli/lr1e-03_rank8] old_frozen_acc=0.4780 (phase1 baseline=0.9600)
+  sst2 train: 67349 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [mnli/lr1e-03_rank8] final_probe_acc=0.5220  verdict=no_recovery  (crossed 90%-of-baseline at step None)
+
+──────────────────────────────────────────────────
+  [agnews/lr5e-04_rank8]
+  agnews train: 120000 examples, n_classes=4
+  sst2 validation: 500 examples, n_classes=2
+    Phase 2 [sst2->agnews, lr=5e-04] trained 500 steps in 254s

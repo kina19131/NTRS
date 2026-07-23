@@ -1,0 +1,117 @@
+{
+  "model": "gpt2",
+  "lr": 0.0001,
+  "condition": "nullspace_lr1e-04",
+  "sigma_results": [
+    {
+      "sigma": 0.0001,
+      "density": 0.66,
+      "ci_lower": 0.5898440609112854,
+      "ci_upper": 0.7253317241692447,
+      "n_better": 132,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.0002,
+      "density": 0.64,
+      "ci_lower": 0.5692860539812827,
+      "ci_upper": 0.7064952791088333,
+      "n_better": 128,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.0005,
+      "density": 0.5,
+      "ci_lower": 0.42865843090683226,
+      "ci_upper": 0.5713415690931678,
+      "n_better": 100,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.001,
+      "density": 0.32,
+      "ci_lower": 0.2559611876399578,
+      "ci_upper": 0.38946988506165814,
+      "n_better": 64,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.002,
+      "density": 0.155,
+      "ci_lower": 0.10780940010409655,
+      "ci_upper": 0.21273764321570593,
+      "n_better": 31,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.005,
+      "density": 0.005,
+      "ci_lower": 0.00012658102786701836,
+      "ci_upper": 0.02754189845720562,
+      "n_better": 1,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.01,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.02,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.05,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.1,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    },
+    {
+      "sigma": 0.2,
+      "density": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.01827534035513624,
+      "n_better": 0,
+      "N": 200,
+      "base_ppl": 4.1202392578125,
+      "eval_slack": 0.0001
+    }
+  ]
+}

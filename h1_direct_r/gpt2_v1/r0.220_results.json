@@ -1,0 +1,21 @@
+{
+  "target_R": 0.22,
+  "R": 0.22000000389703164,
+  "k": 0.6257443482561641,
+  "per_param_norm": 0.0015820224999337107,
+  "sigma_half_pre": 0.0071910112359550565,
+  "rank": 8,
+  "ref_lr": 0.0005,
+  "ref_steps": 800,
+  "task": "sst2",
+  "acc": 0.744,
+  "nll_wiki_base": 4.49453125,
+  "nll_wiki_ft": 4.6071875,
+  "delta_nll_wiki": 0.11265625000000057,
+  "kl_wiki": 0.14454564243555068,
+  "kl_diverse": 0.478356271982193,
+  "kl_superni": 0.15423243397727926,
+  "mmlu_acc": 0.245,
+  "elapsed_s": 20.520742893218994,
+  "method": "rescaled_direction"
+}

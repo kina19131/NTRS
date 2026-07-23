@@ -1,0 +1,62 @@
+[
+  {
+    "seed_a": 42,
+    "seed_b": 123,
+    "pairwise_dist": NaN,
+    "dist_over_sigma_half": NaN
+  },
+  {
+    "seed_a": 42,
+    "seed_b": 456,
+    "pairwise_dist": NaN,
+    "dist_over_sigma_half": NaN
+  },
+  {
+    "seed_a": 42,
+    "seed_b": 789,
+    "pairwise_dist": NaN,
+    "dist_over_sigma_half": NaN
+  },
+  {
+    "seed_a": 42,
+    "seed_b": 1337,
+    "pairwise_dist": NaN,
+    "dist_over_sigma_half": NaN
+  },
+  {
+    "seed_a": 123,
+    "seed_b": 456,
+    "pairwise_dist": 0.00927157074214363,
+    "dist_over_sigma_half": 1.2893298209071935
+  },
+  {
+    "seed_a": 123,
+    "seed_b": 789,
+    "pairwise_dist": 0.013832080150963738,
+    "dist_over_sigma_half": 1.9235266515037877
+  },
+  {
+    "seed_a": 123,
+    "seed_b": 1337,
+    "pairwise_dist": 0.014006984830051382,
+    "dist_over_sigma_half": 1.947849371443663
+  },
+  {
+    "seed_a": 456,
+    "seed_b": 789,
+    "pairwise_dist": 0.014029911180306626,
+    "dist_over_sigma_half": 1.9510375720075963
+  },
+  {
+    "seed_a": 456,
+    "seed_b": 1337,
+    "pairwise_dist": 0.014194799836379515,
+    "dist_over_sigma_half": 1.9739674365706459
+  },
+  {
+    "seed_a": 789,
+    "seed_b": 1337,
+    "pairwise_dist": 0.016987828850886677,
+    "dist_over_sigma_half": 2.362373640785242
+  }
+]

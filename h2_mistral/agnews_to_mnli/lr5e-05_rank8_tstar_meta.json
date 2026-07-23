@@ -1,0 +1,13 @@
+{
+  "tstar_step": 1550,
+  "tstar_R_A": 0.07084749834520741,
+  "tstar_acc_a": 0.844,
+  "forget_step": 1600,
+  "forget_R_A": 0.07211516387986582,
+  "forget_acc_a": 0.794,
+  "acc_threshold": 0.8190000000000001,
+  "rank": 8,
+  "lr": 5e-05,
+  "task_a": "agnews",
+  "task_b": "mnli"
+}

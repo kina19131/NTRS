@@ -1,0 +1,173 @@
+{
+  "lr": 5e-05,
+  "rank": 8,
+  "steps": 2000,
+  "sigma_half_a": 0.0075,
+  "final_R_A": 0.00824411532534037,
+  "final_per_param": 6.183086494005278e-05,
+  "final_acc_task_a": 0.824,
+  "final_acc_task_b": 0.89,
+  "elapsed_s": 1291.1395237445831,
+  "trajectory": [
+    {
+      "step": 0,
+      "R_A": 0.0,
+      "per_param_norm": 0.0,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.868,
+      "acc_task_b": 0.224
+    },
+    {
+      "step": 100,
+      "R_A": 0.003456568408391619,
+      "per_param_norm": 2.592426306293714e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.832,
+      "acc_task_b": 0.868
+    },
+    {
+      "step": 200,
+      "R_A": 0.003991596752827729,
+      "per_param_norm": 2.9936975646207964e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.834,
+      "acc_task_b": 0.866
+    },
+    {
+      "step": 300,
+      "R_A": 0.004408592621577188,
+      "per_param_norm": 3.306444466182891e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.83,
+      "acc_task_b": 0.89
+    },
+    {
+      "step": 400,
+      "R_A": 0.004755577870434101,
+      "per_param_norm": 3.5666834028255754e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.83,
+      "acc_task_b": 0.89
+    },
+    {
+      "step": 500,
+      "R_A": 0.0050599114265877905,
+      "per_param_norm": 3.794933569940843e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.83,
+      "acc_task_b": 0.886
+    },
+    {
+      "step": 600,
+      "R_A": 0.005332575170704169,
+      "per_param_norm": 3.999431378028126e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.828,
+      "acc_task_b": 0.886
+    },
+    {
+      "step": 700,
+      "R_A": 0.005592949226319352,
+      "per_param_norm": 4.1947119197395135e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.828,
+      "acc_task_b": 0.9
+    },
+    {
+      "step": 800,
+      "R_A": 0.00584829644311068,
+      "per_param_norm": 4.38622233233301e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.828,
+      "acc_task_b": 0.892
+    },
+    {
+      "step": 900,
+      "R_A": 0.006089645582746888,
+      "per_param_norm": 4.567234187060166e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.834,
+      "acc_task_b": 0.896
+    },
+    {
+      "step": 1000,
+      "R_A": 0.006325382300062398,
+      "per_param_norm": 4.744036725046798e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.838,
+      "acc_task_b": 0.896
+    },
+    {
+      "step": 1100,
+      "R_A": 0.006545505232026347,
+      "per_param_norm": 4.9091289240197604e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.836,
+      "acc_task_b": 0.892
+    },
+    {
+      "step": 1200,
+      "R_A": 0.006754239871066477,
+      "per_param_norm": 5.065679903299858e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.834,
+      "acc_task_b": 0.898
+    },
+    {
+      "step": 1300,
+      "R_A": 0.0069599804842425134,
+      "per_param_norm": 5.219985363181885e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.83,
+      "acc_task_b": 0.9
+    },
+    {
+      "step": 1400,
+      "R_A": 0.007165984709754935,
+      "per_param_norm": 5.374488532316201e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.84,
+      "acc_task_b": 0.874
+    },
+    {
+      "step": 1500,
+      "R_A": 0.007371047517551063,
+      "per_param_norm": 5.528285638163297e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.844,
+      "acc_task_b": 0.882
+    },
+    {
+      "step": 1600,
+      "R_A": 0.007567355470687044,
+      "per_param_norm": 5.675516603015282e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.836,
+      "acc_task_b": 0.884
+    },
+    {
+      "step": 1700,
+      "R_A": 0.007736297946380154,
+      "per_param_norm": 5.8022234597851156e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.838,
+      "acc_task_b": 0.894
+    },
+    {
+      "step": 1800,
+      "R_A": 0.007907178920498619,
+      "per_param_norm": 5.930384190373965e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.836,
+      "acc_task_b": 0.894
+    },
+    {
+      "step": 1900,
+      "R_A": 0.008073591115260303,
+      "per_param_norm": 6.055193336445227e-05,
+      "sigma_half_a": 0.0075,
+      "acc_task_a": 0.824,
+      "acc_task_b": 0.89
+    }
+  ]
+}

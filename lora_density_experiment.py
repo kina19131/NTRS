@@ -119,6 +119,58 @@ def _get_tokenizer(model_name):
     return tok
 
 
+def _compute_grad_norm(model, names, inp, tgt, batch_size=8):
+    """
+    RMS per-parameter gradient norm of the eval NLL at the current weights.
+
+    Unlike displacement metrics (Frobenius norm, spectral norm), this measures
+    loss landscape *steepness at the destination* θ_ft.  A large value means
+    the model sits on a steep slope; small means a flat region.
+
+    Uses the same NLL loss as estimate_density (manual logits → CrossEntropy,
+    no HuggingFace internal token shift) on the first batch_size sequences —
+    enough for a stable gradient signal while keeping peak memory bounded for
+    large models.
+    """
+    was_training = model.training
+    model.eval()
+
+    orig_requires = {n: p.requires_grad for n, p in model.named_parameters()}
+    for n, p in model.named_parameters():
+        p.requires_grad_(n in names)
+    model.zero_grad()
+
+    grad_norm = float("nan")
+    try:
+        inp_b   = inp[:batch_size]
+        tgt_b   = tgt[:batch_size]
+        loss_fn = nn.CrossEntropyLoss(reduction="mean")
+        with torch.enable_grad():
+            out     = model(inp_b)
+            B, T, V = out.logits.shape
+            loss    = loss_fn(out.logits.reshape(B * T, V), tgt_b.reshape(B * T))
+            if not torch.isnan(loss):
+                loss.backward()
+
+        total_sq, total_n = 0.0, 0
+        for n, p in model.named_parameters():
+            if n in names and p.grad is not None:
+                total_sq += p.grad.float().norm().item() ** 2
+                total_n  += p.numel()
+        if total_n > 0:
+            grad_norm = float((total_sq / total_n) ** 0.5)
+    except Exception as e:
+        print(f"  _compute_grad_norm: skipped ({e})", flush=True)
+    finally:
+        model.zero_grad()
+        for n, p in model.named_parameters():
+            p.requires_grad_(orig_requires[n])
+        if was_training:
+            model.train()
+
+    return grad_norm
+
+
 # ── Args ──────────────────────────────────────────────────────────────────────
 def get_args():
     p = argparse.ArgumentParser()
@@ -144,6 +196,9 @@ def get_args():
     p.add_argument("--eval_slack",     type=float, default=1e-4)
     p.add_argument("--subspace",   action="store_true",
                    help="Also run Experiment 3: subspace sampling")
+    p.add_argument("--null_space", action="store_true",
+                   help="Also run Experiment 4: null-space sampling "
+                        "(complement of LoRA update subspace)")
     p.add_argument("--replot",     action="store_true",
                    help="Skip training/density; reload JSONs and regenerate plots")
     p.add_argument("--output_dir", default="./results/lora_density")
@@ -229,9 +284,10 @@ def finetune_lora(base_model, tokenizer, lr, train_steps, batch_size,
         [p for p in params if p.requires_grad], lr=lr
     )
 
-    loader   = load_sst2(tokenizer, batch_size)
-    loss_fn  = nn.CrossEntropyLoss()
-    step     = 0
+    loader      = load_sst2(tokenizer, batch_size)
+    loss_fn     = nn.CrossEntropyLoss()
+    loss_history = []
+    step        = 0
     peft_model.train()
     classifier.train()
 
@@ -263,6 +319,8 @@ def finetune_lora(base_model, tokenizer, lr, train_steps, batch_size,
             opt.step()
             step += 1
 
+            if step % 10 == 0:
+                loss_history.append({"step": step, "loss": float(loss.item())})
             if step % 50 == 0:
                 print(f"    step {step}/{train_steps}  loss={loss.item():.4f}",
                       flush=True)
@@ -270,23 +328,26 @@ def finetune_lora(base_model, tokenizer, lr, train_steps, batch_size,
     # Merge LoRA weights back into base model
     merged_model = peft_model.merge_and_unload().eval()
 
-    # Compute per-parameter update norm: ||ΔW||_F / sqrt(d) per layer, then mean
+    # Compute per-parameter Frobenius norm and spectral norm of ΔW
     update_norms = {}
     total_delta_sq, total_params = 0.0, 0
+    max_spectral_norm = 0.0
     for name, param in merged_model.named_parameters():
         if name in pretrained_snapshot:
             delta = param.data.float() - pretrained_snapshot[name]
             d     = delta.numel()
-            norm  = (delta.norm().item() ** 2)
             update_norms[name] = float(delta.norm().item() / (d ** 0.5))
-            total_delta_sq += norm
+            total_delta_sq += delta.norm().item() ** 2
             total_params   += d
+            if delta.dim() >= 2 and delta.norm().item() > 1e-12:
+                sv = torch.linalg.svdvals(delta.reshape(delta.shape[0], -1))
+                max_spectral_norm = max(max_spectral_norm, sv[0].item())
 
     per_param_norm = float((total_delta_sq / max(total_params, 1)) ** 0.5)
-    print(f"  Per-parameter update norm: {per_param_norm:.6f}  "
-          f"(σ½ pretrained baseline ≈ 0.0007)")
+    print(f"  per_param_norm={per_param_norm:.6f}  "
+          f"spectral_norm={max_spectral_norm:.6f}")
 
-    return merged_model, per_param_norm, update_norms
+    return merged_model, per_param_norm, max_spectral_norm, update_norms, loss_history
 
 
 # ── Experiment 3: subspace sampling ──────────────────────────────────────────
@@ -358,6 +419,72 @@ def build_lora_subspace_projector(pretrained_params, finetuned_model,
         return result
 
     return project, total_d
+
+
+def build_lora_null_projector(pretrained_params, finetuned_model,
+                              target_names, n_directions=50):
+    """
+    Build a projector onto the NULL SPACE of the LoRA update (complement of subspace).
+
+    For each LoRA-modified 2-D layer, noise is projected onto the (d_out - k)
+    directions orthogonal to the top-k left singular vectors of ΔW.
+    Non-LoRA layers are passed through unchanged (isotropic), same as subspace.
+
+    Rescaling: variance is preserved per-layer via sqrt(d_out / (d_out - k)).
+    """
+    param_list = [(n, p)
+                  for n, p in finetuned_model.named_parameters()
+                  if n in target_names]
+
+    layer_bases = {}
+    offset = 0
+    n_lora = 0
+    for name, param in param_list:
+        d = param.numel()
+        if name in pretrained_params and len(param.shape) == 2:
+            delta = param.data.float() - pretrained_params[name]
+            if delta.norm() > 1e-12:
+                U, S, _ = torch.linalg.svd(delta, full_matrices=False)
+                k = min(n_directions, U.shape[1],
+                        int((S > 1e-8 * S[0]).sum().item()))
+                k = max(k, 1)
+                d_out = param.shape[0]
+                null_dim = max(d_out - k, 1)
+                layer_bases[name] = {
+                    "basis":    U[:, :k].cpu(),
+                    "start":    offset,
+                    "end":      offset + d,
+                    "shape":    tuple(param.shape),
+                    "k":        k,
+                    "null_dim": null_dim,
+                }
+                n_lora += 1
+        offset += d
+
+    print(f"  Null-space projector: {n_lora} LoRA-modified 2-D layers, "
+          f"complement of top-{n_directions} directions")
+
+    def project_null(noise_flat):
+        """
+        noise_flat: 1-D CPU float32 tensor of length total_d.
+        Returns projected tensor living in null space of LoRA update.
+        """
+        result = noise_flat.clone()
+        for info in layer_bases.values():
+            s, e      = info["start"], info["end"]
+            shape     = info["shape"]
+            basis     = info["basis"]        # (d_out, k)
+            null_dim  = info["null_dim"]
+            d_out     = shape[0]
+            chunk     = noise_flat[s:e].reshape(shape)   # (d_out, d_in)
+            # Project out the LoRA subspace: null = chunk - U(U^T chunk)
+            sub_proj  = basis @ (basis.T @ chunk)
+            null_proj = chunk - sub_proj
+            scale     = (d_out / null_dim) ** 0.5
+            result[s:e] = (null_proj * scale).flatten()
+        return result
+
+    return project_null, sum(p.numel() for _, p in param_list)
 
 
 def estimate_density_subspace(model, names, inp, tgt, sigma, N,
@@ -640,7 +767,8 @@ def main():
                 norm_by_lr[lr] = json.load(f)["per_param_norm"]
         else:
             # Fine-tune
-            finetuned_model, per_param_norm, layer_norms = finetune_lora(
+            (finetuned_model, per_param_norm, spectral_norm,
+             layer_norms, loss_history) = finetune_lora(
                 model, tokenizer, lr=lr,
                 train_steps=args.train_steps,
                 batch_size=args.train_batch,
@@ -653,15 +781,20 @@ def main():
             )
             norm_by_lr[lr] = per_param_norm
 
-            # Save norms
-            with open(norm_json, "w") as f:
-                json.dump({"lr": lr, "per_param_norm": per_param_norm,
-                           "layer_norms": layer_norms,
-                           "sigma_half_pretrained": pretrained_sigma_half}, f, indent=2)
-
             # Exp 1: density sweep on fine-tuned model
             print(f"\n[LoRA lr={lr:.1e}] Running certified density sweep...")
             ft_names  = _get_target_names_auto(finetuned_model, args.model, n_blocks=None)
+            grad_norm = _compute_grad_norm(finetuned_model, ft_names, inp, tgt)
+            print(f"  grad_norm={grad_norm:.6f}", flush=True)
+
+            # Save norms + training loss history
+            with open(norm_json, "w") as f:
+                json.dump({"lr": lr, "per_param_norm": per_param_norm,
+                           "spectral_norm": spectral_norm,
+                           "grad_norm":     grad_norm,
+                           "layer_norms":   layer_norms,
+                           "loss_history":  loss_history,
+                           "sigma_half_pretrained": pretrained_sigma_half}, f, indent=2)
             ft_results = []
             for sigma in args.sigmas:
                 r = estimate_density(finetuned_model, ft_names, inp, tgt, sigma,
@@ -673,6 +806,8 @@ def main():
             with open(lora_json, "w") as f:
                 json.dump({"model": args.model, "condition": f"lora_{lr_tag}",
                            "lr": lr, "per_param_norm": per_param_norm,
+                           "spectral_norm": spectral_norm,
+                           "grad_norm": grad_norm,
                            "sigma_results": ft_results}, f, indent=2)
 
             # Exp 3: subspace sampling (optional)
@@ -700,6 +835,30 @@ def main():
                                "sigma_results": sub_results}, f, indent=2)
 
                 plot_subspace_comparison(ft_results, sub_results, lr, args.output_dir)
+
+            # Exp 4: null-space sampling (optional)
+            if args.null_space:
+                print(f"\n[LoRA null-space lr={lr:.1e}] Building null-space projector...")
+                null_projector, _ = build_lora_null_projector(
+                    pretrained_snapshot, finetuned_model, ft_names, n_directions=50
+                )
+                null_results = []
+                for sigma in args.sigmas:
+                    r = estimate_density_subspace(
+                        finetuned_model, ft_names, inp, tgt, sigma,
+                        N=args.n_perturb, projector=null_projector,
+                        eval_slack=args.eval_slack,
+                        tag=f"nullspace/{lr_tag}"
+                    )
+                    null_results.append(r)
+
+                null_json = os.path.join(args.output_dir,
+                                         f"lora_{lr_tag}_nullspace.json")
+                with open(null_json, "w") as f:
+                    json.dump({"model": args.model, "lr": lr,
+                               "condition": f"nullspace_{lr_tag}",
+                               "sigma_results": null_results}, f, indent=2)
+                print(f"  Saved null-space results: {null_json}")
 
     # ── Plots & summary ───────────────────────────────────────────────────────
     plot_before_after(pretrained_results, lora_results_by_lr, args.output_dir,

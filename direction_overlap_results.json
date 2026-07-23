@@ -1,0 +1,50 @@
+[
+  {
+    "pair": "AGNews\u2192MNLI",
+    "tag": "agnews_to_mnli",
+    "task_a": "agnews",
+    "task_b": "mnli",
+    "p1_type": "multi-class",
+    "t_star_behavior": "stable",
+    "cos_A_gB": -3.318533708807081e-05,
+    "cos_A_neg_gB": 3.318533708807081e-05,
+    "v_A_norm": 18.20456886291504,
+    "g_B_norm": 4.287364482879639
+  },
+  {
+    "pair": "AGNews\u2192SST-2",
+    "tag": "agnews_to_sst2",
+    "task_a": "agnews",
+    "task_b": "sst2",
+    "p1_type": "multi-class",
+    "t_star_behavior": "stable",
+    "cos_A_gB": -0.00020280863100197166,
+    "cos_A_neg_gB": 0.00020280863100197166,
+    "v_A_norm": 18.20456886291504,
+    "g_B_norm": 5.474310874938965
+  },
+  {
+    "pair": "SST-2\u2192MNLI",
+    "tag": "sst2_to_mnli",
+    "task_a": "sst2",
+    "task_b": "mnli",
+    "p1_type": "binary",
+    "t_star_behavior": "robust_r8",
+    "cos_A_gB": 1.6378467989852652e-05,
+    "cos_A_neg_gB": -1.6378467989852652e-05,
+    "v_A_norm": 18.330671310424805,
+    "g_B_norm": 3.389849901199341
+  },
+  {
+    "pair": "SST-2\u2192AGNews",
+    "tag": "sst2_to_agnews",
+    "task_a": "sst2",
+    "task_b": "agnews",
+    "p1_type": "binary",
+    "t_star_behavior": "collapses",
+    "cos_A_gB": -0.0005208229995332658,
+    "cos_A_neg_gB": 0.0005208229995332658,
+    "v_A_norm": 18.330671310424805,
+    "g_B_norm": 2.618081569671631
+  }
+]

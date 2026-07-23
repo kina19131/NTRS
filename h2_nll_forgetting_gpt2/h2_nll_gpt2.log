@@ -1,0 +1,490 @@
+/usr/local/lib/python3.11/dist-packages/peft/tuners/lora/layer.py:2504: UserWarning: fan_in_fan_out is set to False but the target module is `Conv1D`. Setting fan_in_fan_out to True.
+  warnings.warn(
+
+============================================================
+  H2 NLL-vs-Accuracy Forgetting — gpt2
+  sst2 -> ['mnli', 'agnews', 'cola']
+============================================================
+
+
+============================================================
+  Phase 1: sst2 on gpt2
+============================================================
+  Loaded gpt2 (124,439,808 params)
+  Targeting blocks 0–11: 85,054,464 params
+  sst2 train: 67349 examples, n_classes=2
+  Phase1 step 200/3000  loss=0.8090  elapsed=11s
+  Phase1 step 400/3000  loss=0.6929  elapsed=21s
+  Phase1 step 600/3000  loss=0.6164  elapsed=31s
+  Phase1 step 800/3000  loss=0.3708  elapsed=42s
+  Phase1 step 1000/3000  loss=0.3865  elapsed=52s
+  Phase1 step 1200/3000  loss=0.6403  elapsed=63s
+  Phase1 step 1400/3000  loss=0.6304  elapsed=73s
+  Phase1 step 1600/3000  loss=0.7238  elapsed=83s
+  Phase1 step 1800/3000  loss=0.6205  elapsed=94s
+  Phase1 step 2000/3000  loss=0.4203  elapsed=104s
+  Phase1 step 2200/3000  loss=0.2846  elapsed=115s
+  Phase1 step 2400/3000  loss=0.2216  elapsed=125s
+  Phase1 step 2600/3000  loss=0.2584  elapsed=135s
+  Phase1 step 2800/3000  loss=0.3581  elapsed=145s
+  Phase1 step 3000/3000  loss=0.3916  elapsed=156s
+  sst2 validation: 500 examples, n_classes=2
+  Phase 1 sst2 accuracy: 0.7740
+  WARNING: Phase 1 accuracy 77.40% < 80%. Consider more --phase1_steps or a different --phase1_lr.
+  Computing σ½_A from held-out Task A NLL...
+    [] σ=0.00010  0/200  0s elapsed  54s eta    [] σ=0.00010  20/200  6s elapsed  52s eta    [] σ=0.00010  40/200  11s elapsed  46s eta    [] σ=0.00010  60/200  17s elapsed  39s eta    [] σ=0.00010  80/200  22s elapsed  33s eta    [] σ=0.00010  100/200  28s elapsed  28s eta    [] σ=0.00010  120/200  33s elapsed  22s eta    [] σ=0.00010  140/200  39s elapsed  17s eta    [] σ=0.00010  160/200  44s elapsed  11s eta    [] σ=0.00010  180/200  49s elapsed  5s eta
+    σ=0.00010  density=0.450  95% CI=[0.380, 0.522]  base_nll=7.5525  slack=1.0e-04  (55s)
+    σ=0.0001  density=0.380
+    [] σ=0.00020  0/200  0s elapsed  51s eta    [] σ=0.00020  20/200  6s elapsed  50s eta    [] σ=0.00020  40/200  11s elapsed  44s eta    [] σ=0.00020  60/200  16s elapsed  38s eta    [] σ=0.00020  80/200  22s elapsed  32s eta    [] σ=0.00020  100/200  27s elapsed  27s eta    [] σ=0.00020  120/200  32s elapsed  22s eta    [] σ=0.00020  140/200  38s elapsed  16s eta    [] σ=0.00020  160/200  43s elapsed  11s eta    [] σ=0.00020  180/200  48s elapsed  5s eta
+    σ=0.00020  density=0.460  95% CI=[0.389, 0.532]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0002  density=0.389
+    [] σ=0.00050  0/200  0s elapsed  51s eta    [] σ=0.00050  20/200  6s elapsed  50s eta    [] σ=0.00050  40/200  11s elapsed  43s eta    [] σ=0.00050  60/200  16s elapsed  37s eta    [] σ=0.00050  80/200  21s elapsed  32s eta    [] σ=0.00050  100/200  27s elapsed  27s eta    [] σ=0.00050  120/200  32s elapsed  21s eta    [] σ=0.00050  140/200  37s elapsed  16s eta    [] σ=0.00050  160/200  42s elapsed  11s eta    [] σ=0.00050  180/200  48s elapsed  5s eta
+    σ=0.00050  density=0.445  95% CI=[0.375, 0.517]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0005  density=0.375
+    [] σ=0.00100  0/200  0s elapsed  51s eta    [] σ=0.00100  20/200  6s elapsed  50s eta    [] σ=0.00100  40/200  11s elapsed  43s eta    [] σ=0.00100  60/200  16s elapsed  38s eta    [] σ=0.00100  80/200  21s elapsed  32s eta    [] σ=0.00100  100/200  27s elapsed  27s eta    [] σ=0.00100  120/200  32s elapsed  21s eta    [] σ=0.00100  140/200  37s elapsed  16s eta    [] σ=0.00100  160/200  43s elapsed  11s eta    [] σ=0.00100  180/200  48s elapsed  5s eta
+    σ=0.00100  density=0.440  95% CI=[0.370, 0.512]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0010  density=0.370
+    [] σ=0.00200  0/200  0s elapsed  51s eta    [] σ=0.00200  20/200  6s elapsed  53s eta    [] σ=0.00200  40/200  11s elapsed  45s eta    [] σ=0.00200  60/200  17s elapsed  39s eta    [] σ=0.00200  80/200  23s elapsed  34s eta    [] σ=0.00200  100/200  28s elapsed  28s eta    [] σ=0.00200  120/200  34s elapsed  22s eta    [] σ=0.00200  140/200  39s elapsed  17s eta    [] σ=0.00200  160/200  45s elapsed  11s eta    [] σ=0.00200  180/200  50s elapsed  6s eta
+    σ=0.00200  density=0.425  95% CI=[0.356, 0.497]  base_nll=7.5525  slack=1.0e-04  (56s)
+    σ=0.0020  density=0.356
+    [] σ=0.00500  0/200  0s elapsed  54s eta    [] σ=0.00500  20/200  6s elapsed  53s eta    [] σ=0.00500  40/200  11s elapsed  46s eta    [] σ=0.00500  60/200  17s elapsed  40s eta    [] σ=0.00500  80/200  22s elapsed  34s eta    [] σ=0.00500  100/200  28s elapsed  28s eta    [] σ=0.00500  120/200  33s elapsed  22s eta    [] σ=0.00500  140/200  39s elapsed  17s eta    [] σ=0.00500  160/200  44s elapsed  11s eta    [] σ=0.00500  180/200  50s elapsed  6s eta
+    σ=0.00500  density=0.380  95% CI=[0.312, 0.451]  base_nll=7.5525  slack=1.0e-04  (56s)
+    σ=0.0050  density=0.312
+    [] σ=0.01000  0/200  0s elapsed  51s eta    [] σ=0.01000  20/200  6s elapsed  50s eta    [] σ=0.01000  40/200  11s elapsed  43s eta    [] σ=0.01000  60/200  16s elapsed  37s eta    [] σ=0.01000  80/200  21s elapsed  32s eta    [] σ=0.01000  100/200  27s elapsed  27s eta    [] σ=0.01000  120/200  32s elapsed  21s eta    [] σ=0.01000  140/200  37s elapsed  16s eta    [] σ=0.01000  160/200  42s elapsed  11s eta    [] σ=0.01000  180/200  47s elapsed  5s eta
+    σ=0.01000  density=0.320  95% CI=[0.256, 0.389]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0100  density=0.256
+    [] σ=0.02000  0/200  0s elapsed  51s eta    [] σ=0.02000  20/200  6s elapsed  50s eta    [] σ=0.02000  40/200  11s elapsed  43s eta    [] σ=0.02000  60/200  16s elapsed  37s eta    [] σ=0.02000  80/200  21s elapsed  32s eta    [] σ=0.02000  100/200  27s elapsed  27s eta    [] σ=0.02000  120/200  32s elapsed  21s eta    [] σ=0.02000  140/200  37s elapsed  16s eta    [] σ=0.02000  160/200  42s elapsed  11s eta    [] σ=0.02000  180/200  48s elapsed  5s eta
+    σ=0.02000  density=0.180  95% CI=[0.129, 0.240]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0200  density=0.129
+    [] σ=0.05000  0/200  0s elapsed  51s eta    [] σ=0.05000  20/200  5s elapsed  49s eta    [] σ=0.05000  40/200  11s elapsed  43s eta    [] σ=0.05000  60/200  16s elapsed  37s eta    [] σ=0.05000  80/200  21s elapsed  32s eta    [] σ=0.05000  100/200  27s elapsed  27s eta    [] σ=0.05000  120/200  32s elapsed  21s eta    [] σ=0.05000  140/200  37s elapsed  16s eta    [] σ=0.05000  160/200  42s elapsed  11s eta    [] σ=0.05000  180/200  48s elapsed  5s eta
+    σ=0.05000  density=0.470  95% CI=[0.399, 0.542]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.0500  density=0.399
+    [] σ=0.10000  0/200  0s elapsed  51s eta    [] σ=0.10000  20/200  6s elapsed  50s eta    [] σ=0.10000  40/200  11s elapsed  43s eta    [] σ=0.10000  60/200  16s elapsed  37s eta    [] σ=0.10000  80/200  21s elapsed  32s eta    [] σ=0.10000  100/200  27s elapsed  27s eta    [] σ=0.10000  120/200  32s elapsed  21s eta    [] σ=0.10000  140/200  37s elapsed  16s eta    [] σ=0.10000  160/200  42s elapsed  11s eta    [] σ=0.10000  180/200  48s elapsed  5s eta
+    σ=0.10000  density=0.230  95% CI=[0.174, 0.295]  base_nll=7.5525  slack=1.0e-04  (53s)
+    σ=0.1000  density=0.174
+  σ½_A = 0.016071
+  Phase 1 sst2 NLL baseline: 7.4352  (forgetting threshold: Δ > 1% = 0.0744)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr1e-05_rank8]  sst2→mnli
+  mnli train: 392702 examples, n_classes=3
+  sst2 validation: 500 examples, n_classes=2
+  [lr1e-05_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr1e-05_rank8] step=  25  R_A=0.0005  acc_A=0.7760  nll_A=7.4210 (Δ-0.0142)
+  [lr1e-05_rank8] step=  50  R_A=0.0010  acc_A=0.7780  nll_A=7.4001 (Δ-0.0350)
+  [lr1e-05_rank8] step=  75  R_A=0.0015  acc_A=0.7780  nll_A=7.3870 (Δ-0.0482)
+  [lr1e-05_rank8] step= 100  R_A=0.0021  acc_A=0.7740  nll_A=7.3566 (Δ-0.0786)
+  [lr1e-05_rank8] step= 125  R_A=0.0029  acc_A=0.7760  nll_A=7.3146 (Δ-0.1205)
+  [lr1e-05_rank8] step= 150  R_A=0.0036  acc_A=0.7760  nll_A=7.2698 (Δ-0.1654)
+  [lr1e-05_rank8] step= 175  R_A=0.0040  acc_A=0.7760  nll_A=7.2283 (Δ-0.2068)
+  [lr1e-05_rank8] step= 200  R_A=0.0045  acc_A=0.7760  nll_A=7.2018 (Δ-0.2334)
+  [lr1e-05_rank8] step= 225  R_A=0.0046  acc_A=0.7760  nll_A=7.1961 (Δ-0.2391)
+  [lr1e-05_rank8] step= 250  R_A=0.0047  acc_A=0.7760  nll_A=7.2216 (Δ-0.2136)
+  [lr1e-05_rank8] step= 275  R_A=0.0049  acc_A=0.7780  nll_A=7.2350 (Δ-0.2001)
+  [lr1e-05_rank8] step= 300  R_A=0.0050  acc_A=0.7760  nll_A=7.2288 (Δ-0.2064)
+  [lr1e-05_rank8] step= 325  R_A=0.0050  acc_A=0.7760  nll_A=7.2211 (Δ-0.2141)
+  [lr1e-05_rank8] step= 350  R_A=0.0050  acc_A=0.7780  nll_A=7.2156 (Δ-0.2196)
+  [lr1e-05_rank8] step= 375  R_A=0.0050  acc_A=0.7740  nll_A=7.2479 (Δ-0.1873)
+  [lr1e-05_rank8] step= 400  R_A=0.0051  acc_A=0.7740  nll_A=7.2599 (Δ-0.1752)
+  [lr1e-05_rank8] step= 425  R_A=0.0051  acc_A=0.7760  nll_A=7.2414 (Δ-0.1938)
+  [lr1e-05_rank8] step= 450  R_A=0.0052  acc_A=0.7760  nll_A=7.2092 (Δ-0.2260)
+  [lr1e-05_rank8] step= 475  R_A=0.0053  acc_A=0.7760  nll_A=7.2003 (Δ-0.2349)
+  [lr1e-05_rank8] DONE  T*_acc=(0.005258857993583738, None)  T*_nll=(0.005258857993583738, None)  (170s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr5e-05_rank8]  sst2→mnli
+  mnli train: 392702 examples, n_classes=3
+  sst2 validation: 500 examples, n_classes=2
+  [lr5e-05_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr5e-05_rank8] step=  25  R_A=0.0028  acc_A=0.7760  nll_A=7.3275 (Δ-0.1077)
+  [lr5e-05_rank8] step=  50  R_A=0.0045  acc_A=0.7780  nll_A=7.1712 (Δ-0.2640)
+  [lr5e-05_rank8] step=  75  R_A=0.0051  acc_A=0.7760  nll_A=7.1843 (Δ-0.2509)
+  [lr5e-05_rank8] step= 100  R_A=0.0056  acc_A=0.7760  nll_A=7.1992 (Δ-0.2360)
+  [lr5e-05_rank8] step= 125  R_A=0.0061  acc_A=0.7840  nll_A=7.1156 (Δ-0.3196)
+  [lr5e-05_rank8] step= 150  R_A=0.0060  acc_A=0.7740  nll_A=7.1733 (Δ-0.2619)
+  [lr5e-05_rank8] step= 175  R_A=0.0063  acc_A=0.7900  nll_A=7.0403 (Δ-0.3948)
+  [lr5e-05_rank8] step= 200  R_A=0.0068  acc_A=0.7900  nll_A=7.0352 (Δ-0.4000)
+  [lr5e-05_rank8] step= 225  R_A=0.0068  acc_A=0.7880  nll_A=7.0778 (Δ-0.3574)
+  [lr5e-05_rank8] step= 250  R_A=0.0071  acc_A=0.7820  nll_A=7.1096 (Δ-0.3256)
+  [lr5e-05_rank8] step= 275  R_A=0.0076  acc_A=0.7840  nll_A=7.1092 (Δ-0.3260)
+  [lr5e-05_rank8] step= 300  R_A=0.0080  acc_A=0.7740  nll_A=7.1908 (Δ-0.2444)
+  [lr5e-05_rank8] step= 325  R_A=0.0084  acc_A=0.7820  nll_A=7.1195 (Δ-0.3157)
+  [lr5e-05_rank8] step= 350  R_A=0.0086  acc_A=0.7780  nll_A=7.1598 (Δ-0.2754)
+  [lr5e-05_rank8] step= 375  R_A=0.0088  acc_A=0.7760  nll_A=7.2065 (Δ-0.2286)
+  [lr5e-05_rank8] step= 400  R_A=0.0091  acc_A=0.7760  nll_A=7.2252 (Δ-0.2100)
+  [lr5e-05_rank8] step= 425  R_A=0.0094  acc_A=0.7860  nll_A=7.1187 (Δ-0.3165)
+  [lr5e-05_rank8] step= 450  R_A=0.0100  acc_A=0.7880  nll_A=7.0368 (Δ-0.3984)
+  [lr5e-05_rank8] step= 475  R_A=0.0104  acc_A=0.7840  nll_A=7.1440 (Δ-0.2911)
+  [lr5e-05_rank8] DONE  T*_acc=(0.010385311659767388, None)  T*_nll=(0.010385311659767388, None)  (165s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr1e-04_rank8]  sst2→mnli
+  mnli train: 392702 examples, n_classes=3
+  sst2 validation: 500 examples, n_classes=2
+  [lr1e-04_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr1e-04_rank8] step=  25  R_A=0.0051  acc_A=0.7760  nll_A=7.2197 (Δ-0.2155)
+  [lr1e-04_rank8] step=  50  R_A=0.0051  acc_A=0.7780  nll_A=7.1579 (Δ-0.2773)
+  [lr1e-04_rank8] step=  75  R_A=0.0060  acc_A=0.7760  nll_A=7.1627 (Δ-0.2725)
+  [lr1e-04_rank8] step= 100  R_A=0.0068  acc_A=0.7700  nll_A=7.3338 (Δ-0.1014)
+  [lr1e-04_rank8] step= 125  R_A=0.0075  acc_A=0.7720  nll_A=7.3080 (Δ-0.1272)
+  [lr1e-04_rank8] step= 150  R_A=0.0079  acc_A=0.7780  nll_A=7.2499 (Δ-0.1852)
+  [lr1e-04_rank8] step= 175  R_A=0.0087  acc_A=0.7740  nll_A=7.1542 (Δ-0.2809)
+  [lr1e-04_rank8] step= 200  R_A=0.0097  acc_A=0.7880  nll_A=7.0541 (Δ-0.3810)
+  [lr1e-04_rank8] step= 225  R_A=0.0104  acc_A=0.7960  nll_A=6.8387 (Δ-0.5964)
+  [lr1e-04_rank8] step= 250  R_A=0.0112  acc_A=0.7880  nll_A=6.9587 (Δ-0.4764)
+  [lr1e-04_rank8] step= 275  R_A=0.0117  acc_A=0.7840  nll_A=7.1388 (Δ-0.2964)
+  [lr1e-04_rank8] step= 300  R_A=0.0124  acc_A=0.7820  nll_A=7.2134 (Δ-0.2217)
+  [lr1e-04_rank8] step= 325  R_A=0.0130  acc_A=0.7840  nll_A=7.0406 (Δ-0.3946)
+  [lr1e-04_rank8] step= 350  R_A=0.0132  acc_A=0.7640  nll_A=7.2928 (Δ-0.1424)
+  [lr1e-04_rank8] step= 375  R_A=0.0136  acc_A=0.7700  nll_A=7.3300 (Δ-0.1052)
+  [lr1e-04_rank8] step= 400  R_A=0.0138  acc_A=0.7720  nll_A=7.2743 (Δ-0.1609)
+  [lr1e-04_rank8] step= 425  R_A=0.0147  acc_A=0.7660  nll_A=7.2429 (Δ-0.1923)
+  [lr1e-04_rank8] step= 450  R_A=0.0159  acc_A=0.7760  nll_A=7.1090 (Δ-0.3262)
+  [lr1e-04_rank8] step= 475  R_A=0.0165  acc_A=0.7680  nll_A=7.2698 (Δ-0.1654)
+  [lr1e-04_rank8] DONE  T*_acc=(0.016483977838465343, None)  T*_nll=(0.016483977838465343, None)  (167s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr2e-04_rank8]  sst2→mnli
+  mnli train: 392702 examples, n_classes=3
+  sst2 validation: 500 examples, n_classes=2
+  [lr2e-04_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr2e-04_rank8] step=  25  R_A=0.0059  acc_A=0.7760  nll_A=7.3221 (Δ-0.1131)
+  [lr2e-04_rank8] step=  50  R_A=0.0070  acc_A=0.7820  nll_A=7.1957 (Δ-0.2394)
+  [lr2e-04_rank8] step=  75  R_A=0.0085  acc_A=0.7840  nll_A=7.1850 (Δ-0.2502)
+  [lr2e-04_rank8] step= 100  R_A=0.0100  acc_A=0.7600  nll_A=7.4186 (Δ-0.0166)
+  [lr2e-04_rank8] step= 125  R_A=0.0111  acc_A=0.7540  nll_A=7.3942 (Δ-0.0410)
+  [lr2e-04_rank8] step= 150  R_A=0.0126  acc_A=0.7260  nll_A=7.4954 (Δ+0.0602)
+  [lr2e-04_rank8] step= 175  R_A=0.0144  acc_A=0.7460  nll_A=7.2318 (Δ-0.2034)
+  [lr2e-04_rank8] step= 200  R_A=0.0159  acc_A=0.7400  nll_A=7.3293 (Δ-0.1059)
+  [lr2e-04_rank8] step= 225  R_A=0.0179  acc_A=0.7600  nll_A=7.0043 (Δ-0.4308)
+  [lr2e-04_rank8] step= 250  R_A=0.0184  acc_A=0.7600  nll_A=6.9890 (Δ-0.4462)
+  [lr2e-04_rank8] step= 275  R_A=0.0189  acc_A=0.7580  nll_A=7.1614 (Δ-0.2738)
+  [lr2e-04_rank8] step= 300  R_A=0.0199  acc_A=0.7720  nll_A=6.9662 (Δ-0.4689)
+  [lr2e-04_rank8] step= 325  R_A=0.0214  acc_A=0.7440  nll_A=7.0978 (Δ-0.3373)
+  [lr2e-04_rank8] step= 350  R_A=0.0223  acc_A=0.7780  nll_A=6.9290 (Δ-0.5062)
+  [lr2e-04_rank8] step= 375  R_A=0.0231  acc_A=0.7580  nll_A=6.6924 (Δ-0.7428)
+  [lr2e-04_rank8] step= 400  R_A=0.0234  acc_A=0.7700  nll_A=6.8403 (Δ-0.5948)
+  [lr2e-04_rank8] step= 425  R_A=0.0252  acc_A=0.7320  nll_A=6.3955 (Δ-1.0397)
+  [lr2e-04_rank8] step= 450  R_A=0.0264  acc_A=0.7060  nll_A=6.3367 (Δ-1.0985)
+  [lr2e-04_rank8] step= 475  R_A=0.0274  acc_A=0.7140  nll_A=6.3562 (Δ-1.0790)
+  [lr2e-04_rank8] DONE  T*_acc=(0.02737498436880289, None)  T*_nll=(0.02737498436880289, None)  (168s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr5e-04_rank8]  sst2→mnli
+  mnli train: 392702 examples, n_classes=3
+  sst2 validation: 500 examples, n_classes=2
+  [lr5e-04_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr5e-04_rank8] step=  25  R_A=0.0102  acc_A=0.7660  nll_A=7.3970 (Δ-0.0381)
+  [lr5e-04_rank8] step=  50  R_A=0.0132  acc_A=0.7760  nll_A=7.1873 (Δ-0.2479)
+  [lr5e-04_rank8] step=  75  R_A=0.0153  acc_A=0.7560  nll_A=7.2880 (Δ-0.1472)
+  [lr5e-04_rank8] step= 100  R_A=0.0170  acc_A=0.7500  nll_A=7.3585 (Δ-0.0767)
+  [lr5e-04_rank8] step= 125  R_A=0.0189  acc_A=0.7160  nll_A=7.6689 (Δ+0.2338)
+  [lr5e-04_rank8] step= 150  R_A=0.0211  acc_A=0.7400  nll_A=7.3771 (Δ-0.0581)
+  [lr5e-04_rank8] step= 175  R_A=0.0237  acc_A=0.7480  nll_A=7.2358 (Δ-0.1993)
+  [lr5e-04_rank8] step= 200  R_A=0.0263  acc_A=0.6300  nll_A=7.9846 (Δ+0.5494)
+  [lr5e-04_rank8] step= 225  R_A=0.0297  acc_A=0.6340  nll_A=7.6926 (Δ+0.2574)
+  [lr5e-04_rank8] step= 250  R_A=0.0311  acc_A=0.6960  nll_A=7.5221 (Δ+0.0869)
+  [lr5e-04_rank8] step= 275  R_A=0.0335  acc_A=0.7580  nll_A=7.3593 (Δ-0.0759)
+  [lr5e-04_rank8] step= 300  R_A=0.0379  acc_A=0.7080  nll_A=7.4736 (Δ+0.0384)
+  [lr5e-04_rank8] step= 325  R_A=0.0409  acc_A=0.7340  nll_A=7.2305 (Δ-0.2047)
+  [lr5e-04_rank8] step= 350  R_A=0.0454  acc_A=0.7380  nll_A=7.0489 (Δ-0.3863)
+  [lr5e-04_rank8] step= 375  R_A=0.0479  acc_A=0.7440  nll_A=6.8317 (Δ-0.6035)
+  [lr5e-04_rank8] step= 400  R_A=0.0520  acc_A=0.7000  nll_A=7.1738 (Δ-0.2614)
+  [lr5e-04_rank8] step= 425  R_A=0.0563  acc_A=0.7360  nll_A=6.9380 (Δ-0.4972)
+  [lr5e-04_rank8] step= 450  R_A=0.0619  acc_A=0.6980  nll_A=7.1137 (Δ-0.3215)
+  [lr5e-04_rank8] step= 475  R_A=0.0641  acc_A=0.7540  nll_A=6.9989 (Δ-0.4363)
+  [lr5e-04_rank8] DONE  T*_acc=(0.06407377601386226, None)  T*_nll=(0.06407377601386226, None)  (165s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr1e-05_rank8]  sst2→agnews
+Generating train split:   0%|          | 0/120000 [00:00<?, ? examples/s]Generating train split:   5%|▌         | 6000/120000 [00:00<00:02, 49337.98 examples/s]Generating train split:  22%|██▎       | 27000/120000 [00:00<00:00, 128850.20 examples/s]Generating train split:  35%|███▌      | 42000/120000 [00:00<00:00, 128250.14 examples/s]Generating train split:  59%|█████▉    | 71000/120000 [00:00<00:00, 184179.35 examples/s]Generating train split:  95%|█████████▌| 114000/120000 [00:00<00:00, 265864.02 examples/s]Generating train split: 100%|██████████| 120000/120000 [00:00<00:00, 196608.69 examples/s]
+Generating test split:   0%|          | 0/7600 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 7600/7600 [00:00<00:00, 120723.62 examples/s]
+  agnews train: 120000 examples, n_classes=4
+  sst2 validation: 500 examples, n_classes=2
+  [lr1e-05_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr1e-05_rank8] step=  25  R_A=0.0004  acc_A=0.7760  nll_A=7.4268 (Δ-0.0084)
+  [lr1e-05_rank8] step=  50  R_A=0.0009  acc_A=0.7760  nll_A=7.4100 (Δ-0.0252)
+  [lr1e-05_rank8] step=  75  R_A=0.0014  acc_A=0.7760  nll_A=7.3871 (Δ-0.0481)
+  [lr1e-05_rank8] step= 100  R_A=0.0020  acc_A=0.7760  nll_A=7.3714 (Δ-0.0638)
+  [lr1e-05_rank8] step= 125  R_A=0.0025  acc_A=0.7740  nll_A=7.3477 (Δ-0.0875)
+  [lr1e-05_rank8] step= 150  R_A=0.0031  acc_A=0.7720  nll_A=7.3244 (Δ-0.1108)
+  [lr1e-05_rank8] step= 175  R_A=0.0037  acc_A=0.7740  nll_A=7.3123 (Δ-0.1229)
+  [lr1e-05_rank8] step= 200  R_A=0.0040  acc_A=0.7760  nll_A=7.3237 (Δ-0.1115)
+  [lr1e-05_rank8] step= 225  R_A=0.0042  acc_A=0.7700  nll_A=7.3547 (Δ-0.0805)
+  [lr1e-05_rank8] step= 250  R_A=0.0044  acc_A=0.7700  nll_A=7.3574 (Δ-0.0778)
+  [lr1e-05_rank8] step= 275  R_A=0.0045  acc_A=0.7720  nll_A=7.3718 (Δ-0.0634)
+  [lr1e-05_rank8] step= 300  R_A=0.0047  acc_A=0.7740  nll_A=7.3726 (Δ-0.0626)
+  [lr1e-05_rank8] step= 325  R_A=0.0049  acc_A=0.7680  nll_A=7.3593 (Δ-0.0759)
+  [lr1e-05_rank8] step= 350  R_A=0.0048  acc_A=0.7700  nll_A=7.3484 (Δ-0.0867)
+  [lr1e-05_rank8] step= 375  R_A=0.0048  acc_A=0.7680  nll_A=7.3544 (Δ-0.0808)
+  [lr1e-05_rank8] step= 400  R_A=0.0050  acc_A=0.7680  nll_A=7.3617 (Δ-0.0735)
+  [lr1e-05_rank8] step= 425  R_A=0.0051  acc_A=0.7720  nll_A=7.3749 (Δ-0.0603)
+  [lr1e-05_rank8] step= 450  R_A=0.0051  acc_A=0.7720  nll_A=7.3898 (Δ-0.0453)
+  [lr1e-05_rank8] step= 475  R_A=0.0051  acc_A=0.7700  nll_A=7.3838 (Δ-0.0514)
+  [lr1e-05_rank8] DONE  T*_acc=(0.005119595159994155, None)  T*_nll=(0.005119595159994155, None)  (104s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr5e-05_rank8]  sst2→agnews
+  agnews train: 120000 examples, n_classes=4
+  sst2 validation: 500 examples, n_classes=2
+  [lr5e-05_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr5e-05_rank8] step=  25  R_A=0.0023  acc_A=0.7740  nll_A=7.3541 (Δ-0.0811)
+  [lr5e-05_rank8] step=  50  R_A=0.0049  acc_A=0.7760  nll_A=7.2597 (Δ-0.1755)
+  [lr5e-05_rank8] step=  75  R_A=0.0050  acc_A=0.7840  nll_A=7.1780 (Δ-0.2572)
+  [lr5e-05_rank8] step= 100  R_A=0.0056  acc_A=0.7840  nll_A=7.1534 (Δ-0.2818)
+  [lr5e-05_rank8] step= 125  R_A=0.0057  acc_A=0.7840  nll_A=7.0970 (Δ-0.3381)
+  [lr5e-05_rank8] step= 150  R_A=0.0062  acc_A=0.7820  nll_A=7.1473 (Δ-0.2878)
+  [lr5e-05_rank8] step= 175  R_A=0.0065  acc_A=0.7860  nll_A=7.0599 (Δ-0.3752)
+  [lr5e-05_rank8] step= 200  R_A=0.0067  acc_A=0.7820  nll_A=7.0790 (Δ-0.3562)
+  [lr5e-05_rank8] step= 225  R_A=0.0070  acc_A=0.7860  nll_A=7.0508 (Δ-0.3844)
+  [lr5e-05_rank8] step= 250  R_A=0.0076  acc_A=0.7880  nll_A=6.9828 (Δ-0.4524)
+  [lr5e-05_rank8] step= 275  R_A=0.0080  acc_A=0.7880  nll_A=6.9672 (Δ-0.4680)
+  [lr5e-05_rank8] step= 300  R_A=0.0084  acc_A=0.8080  nll_A=6.8439 (Δ-0.5912)
+  [lr5e-05_rank8] step= 325  R_A=0.0091  acc_A=0.8020  nll_A=6.8823 (Δ-0.5529)
+  [lr5e-05_rank8] step= 350  R_A=0.0092  acc_A=0.7980  nll_A=6.9270 (Δ-0.5082)
+  [lr5e-05_rank8] step= 375  R_A=0.0097  acc_A=0.8000  nll_A=6.8031 (Δ-0.6321)
+  [lr5e-05_rank8] step= 400  R_A=0.0105  acc_A=0.8000  nll_A=6.7643 (Δ-0.6708)
+  [lr5e-05_rank8] step= 425  R_A=0.0113  acc_A=0.8020  nll_A=6.7449 (Δ-0.6903)
+  [lr5e-05_rank8] step= 450  R_A=0.0122  acc_A=0.7880  nll_A=6.5302 (Δ-0.9050)
+  [lr5e-05_rank8] step= 475  R_A=0.0134  acc_A=0.7920  nll_A=6.3444 (Δ-1.0908)
+  [lr5e-05_rank8] DONE  T*_acc=(0.013407559176145483, None)  T*_nll=(0.013407559176145483, None)  (98s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr1e-04_rank8]  sst2→agnews
+  agnews train: 120000 examples, n_classes=4
+  sst2 validation: 500 examples, n_classes=2
+  [lr1e-04_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr1e-04_rank8] step=  25  R_A=0.0045  acc_A=0.7760  nll_A=7.2427 (Δ-0.1925)
+  [lr1e-04_rank8] step=  50  R_A=0.0063  acc_A=0.7840  nll_A=7.1022 (Δ-0.3329)
+  [lr1e-04_rank8] step=  75  R_A=0.0061  acc_A=0.7820  nll_A=7.2180 (Δ-0.2172)
+  [lr1e-04_rank8] step= 100  R_A=0.0072  acc_A=0.7800  nll_A=7.2001 (Δ-0.2351)
+  [lr1e-04_rank8] step= 125  R_A=0.0073  acc_A=0.7800  nll_A=7.2569 (Δ-0.1783)
+  [lr1e-04_rank8] step= 150  R_A=0.0083  acc_A=0.7840  nll_A=7.1805 (Δ-0.2547)
+  [lr1e-04_rank8] step= 175  R_A=0.0091  acc_A=0.8040  nll_A=6.8614 (Δ-0.5738)
+  [lr1e-04_rank8] step= 200  R_A=0.0101  acc_A=0.8080  nll_A=6.6773 (Δ-0.7579)
+  [lr1e-04_rank8] step= 225  R_A=0.0114  acc_A=0.7980  nll_A=6.5549 (Δ-0.8802)
+  [lr1e-04_rank8] step= 250  R_A=0.0137  acc_A=0.7800  nll_A=6.1336 (Δ-1.3016)
+  [lr1e-04_rank8] step= 275  R_A=0.0161  acc_A=0.7220  nll_A=5.5494 (Δ-1.8858)
+  [lr1e-04_rank8] step= 300  R_A=0.0187  acc_A=0.6500  nll_A=5.2126 (Δ-2.2225)
+  [lr1e-04_rank8] step= 325  R_A=0.0216  acc_A=0.5660  nll_A=4.9287 (Δ-2.5065)
+  [lr1e-04_rank8] step= 350  R_A=0.0238  acc_A=0.5220  nll_A=4.7385 (Δ-2.6967)
+  [lr1e-04_rank8] step= 375  R_A=0.0255  acc_A=0.5160  nll_A=4.7853 (Δ-2.6499)
+  [lr1e-04_rank8] step= 400  R_A=0.0275  acc_A=0.5260  nll_A=4.9229 (Δ-2.5123)
+  [lr1e-04_rank8] step= 425  R_A=0.0300  acc_A=0.5140  nll_A=5.0176 (Δ-2.4176)
+  [lr1e-04_rank8] step= 450  R_A=0.0331  acc_A=0.5260  nll_A=5.0920 (Δ-2.3432)
+  [lr1e-04_rank8] step= 475  R_A=0.0364  acc_A=0.5500  nll_A=5.3630 (Δ-2.0721)
+  [lr1e-04_rank8] DONE  T*_acc=(0.016096007439343783, 0.018682090268069922)  T*_nll=(0.03642614747227722, None)  (100s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr2e-04_rank8]  sst2→agnews
+  agnews train: 120000 examples, n_classes=4
+  sst2 validation: 500 examples, n_classes=2
+  [lr2e-04_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr2e-04_rank8] step=  25  R_A=0.0060  acc_A=0.7760  nll_A=7.2509 (Δ-0.1843)
+  [lr2e-04_rank8] step=  50  R_A=0.0088  acc_A=0.7920  nll_A=6.9680 (Δ-0.4672)
+  [lr2e-04_rank8] step=  75  R_A=0.0091  acc_A=0.7840  nll_A=7.1946 (Δ-0.2405)
+  [lr2e-04_rank8] step= 100  R_A=0.0107  acc_A=0.7860  nll_A=7.0728 (Δ-0.3624)
+  [lr2e-04_rank8] step= 125  R_A=0.0119  acc_A=0.8000  nll_A=6.8275 (Δ-0.6077)
+  [lr2e-04_rank8] step= 150  R_A=0.0151  acc_A=0.7800  nll_A=6.1422 (Δ-1.2930)
+  [lr2e-04_rank8] step= 175  R_A=0.0205  acc_A=0.6640  nll_A=5.4606 (Δ-1.9745)
+  [lr2e-04_rank8] step= 200  R_A=0.0239  acc_A=0.5580  nll_A=4.8613 (Δ-2.5739)
+  [lr2e-04_rank8] step= 225  R_A=0.0280  acc_A=0.5220  nll_A=4.8792 (Δ-2.5560)
+  [lr2e-04_rank8] step= 250  R_A=0.0311  acc_A=0.5180  nll_A=5.0277 (Δ-2.4075)
+  [lr2e-04_rank8] step= 275  R_A=0.0346  acc_A=0.5140  nll_A=5.0386 (Δ-2.3965)
+  [lr2e-04_rank8] step= 300  R_A=0.0401  acc_A=0.5380  nll_A=5.4808 (Δ-1.9544)
+  [lr2e-04_rank8] step= 325  R_A=0.0448  acc_A=0.5300  nll_A=5.6391 (Δ-1.7961)
+  [lr2e-04_rank8] step= 350  R_A=0.0481  acc_A=0.5220  nll_A=5.6116 (Δ-1.8236)
+  [lr2e-04_rank8] step= 375  R_A=0.0523  acc_A=0.5240  nll_A=5.8585 (Δ-1.5767)
+  [lr2e-04_rank8] step= 400  R_A=0.0567  acc_A=0.6140  nll_A=6.8638 (Δ-0.5714)
+  [lr2e-04_rank8] step= 425  R_A=0.0601  acc_A=0.5620  nll_A=6.9695 (Δ-0.4657)
+  [lr2e-04_rank8] step= 450  R_A=0.0610  acc_A=0.5740  nll_A=6.7485 (Δ-0.6866)
+  [lr2e-04_rank8] step= 475  R_A=0.0642  acc_A=0.5540  nll_A=7.0090 (Δ-0.4261)
+  [lr2e-04_rank8] DONE  T*_acc=(0.015131866217272921, 0.020486041276291486)  T*_nll=(0.06418586956235647, None)  (99s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr5e-04_rank8]  sst2→agnews
+  agnews train: 120000 examples, n_classes=4
+  sst2 validation: 500 examples, n_classes=2
+  [lr5e-04_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr5e-04_rank8] step=  25  R_A=0.0114  acc_A=0.8100  nll_A=6.7027 (Δ-0.7325)
+  [lr5e-04_rank8] step=  50  R_A=0.0166  acc_A=0.7920  nll_A=6.0826 (Δ-1.3525)
+  [lr5e-04_rank8] step=  75  R_A=0.0205  acc_A=0.7020  nll_A=5.5943 (Δ-1.8409)
+  [lr5e-04_rank8] step= 100  R_A=0.0272  acc_A=0.5620  nll_A=4.7929 (Δ-2.6423)
+  [lr5e-04_rank8] step= 125  R_A=0.0329  acc_A=0.5260  nll_A=4.7822 (Δ-2.6530)
+  [lr5e-04_rank8] step= 150  R_A=0.0420  acc_A=0.5240  nll_A=4.6580 (Δ-2.7772)
+  [lr5e-04_rank8] step= 175  R_A=0.0593  acc_A=0.5100  nll_A=4.9019 (Δ-2.5333)
+  [lr5e-04_rank8] step= 200  R_A=0.0671  acc_A=0.5220  nll_A=4.5814 (Δ-2.8538)
+  [lr5e-04_rank8] step= 225  R_A=0.0771  acc_A=0.5200  nll_A=4.6328 (Δ-2.8024)
+  [lr5e-04_rank8] step= 250  R_A=0.0848  acc_A=0.5240  nll_A=4.7755 (Δ-2.6597)
+  [lr5e-04_rank8] step= 275  R_A=0.0884  acc_A=0.5220  nll_A=4.6663 (Δ-2.7689)
+  [lr5e-04_rank8] step= 300  R_A=0.0941  acc_A=0.5200  nll_A=4.7444 (Δ-2.6907)
+  [lr5e-04_rank8] step= 325  R_A=0.1004  acc_A=0.5200  nll_A=4.8706 (Δ-2.5646)
+  [lr5e-04_rank8] step= 350  R_A=0.1051  acc_A=0.5200  nll_A=4.9166 (Δ-2.5186)
+  [lr5e-04_rank8] step= 375  R_A=0.1106  acc_A=0.5120  nll_A=5.2505 (Δ-2.1846)
+  [lr5e-04_rank8] step= 400  R_A=0.1153  acc_A=0.5260  nll_A=5.0673 (Δ-2.3679)
+  [lr5e-04_rank8] step= 425  R_A=0.1207  acc_A=0.5180  nll_A=5.0487 (Δ-2.3865)
+  [lr5e-04_rank8] step= 450  R_A=0.1218  acc_A=0.5240  nll_A=4.7919 (Δ-2.6433)
+  [lr5e-04_rank8] step= 475  R_A=0.1280  acc_A=0.5400  nll_A=5.2466 (Δ-2.1885)
+  [lr5e-04_rank8] DONE  T*_acc=(0.02045898546326335, 0.02721850461876874)  T*_nll=(0.1280181104091172, None)  (102s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr1e-05_rank8]  sst2→cola
+Generating train split:   0%|          | 0/8551 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 8551/8551 [00:00<00:00, 190827.70 examples/s]
+Generating validation split:   0%|          | 0/1043 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 1043/1043 [00:00<00:00, 44696.85 examples/s]
+Generating test split:   0%|          | 0/1063 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 1063/1063 [00:00<00:00, 54289.74 examples/s]
+  cola train: 8551 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [lr1e-05_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr1e-05_rank8] step=  25  R_A=0.0003  acc_A=0.7740  nll_A=7.4339 (Δ-0.0013)
+  [lr1e-05_rank8] step=  50  R_A=0.0005  acc_A=0.7760  nll_A=7.4276 (Δ-0.0076)
+  [lr1e-05_rank8] step=  75  R_A=0.0007  acc_A=0.7780  nll_A=7.4180 (Δ-0.0172)
+  [lr1e-05_rank8] step= 100  R_A=0.0009  acc_A=0.7740  nll_A=7.4109 (Δ-0.0242)
+  [lr1e-05_rank8] step= 125  R_A=0.0011  acc_A=0.7740  nll_A=7.3942 (Δ-0.0410)
+  [lr1e-05_rank8] step= 150  R_A=0.0013  acc_A=0.7760  nll_A=7.3777 (Δ-0.0575)
+  [lr1e-05_rank8] step= 175  R_A=0.0014  acc_A=0.7720  nll_A=7.3636 (Δ-0.0716)
+  [lr1e-05_rank8] step= 200  R_A=0.0015  acc_A=0.7760  nll_A=7.3429 (Δ-0.0923)
+  [lr1e-05_rank8] step= 225  R_A=0.0017  acc_A=0.7780  nll_A=7.3088 (Δ-0.1264)
+  [lr1e-05_rank8] step= 250  R_A=0.0019  acc_A=0.7800  nll_A=7.2901 (Δ-0.1451)
+  [lr1e-05_rank8] step= 275  R_A=0.0020  acc_A=0.7820  nll_A=7.2826 (Δ-0.1526)
+  [lr1e-05_rank8] step= 300  R_A=0.0022  acc_A=0.7800  nll_A=7.2452 (Δ-0.1900)
+  [lr1e-05_rank8] step= 325  R_A=0.0023  acc_A=0.7820  nll_A=7.2226 (Δ-0.2126)
+  [lr1e-05_rank8] step= 350  R_A=0.0024  acc_A=0.7900  nll_A=7.1949 (Δ-0.2402)
+  [lr1e-05_rank8] step= 375  R_A=0.0025  acc_A=0.7900  nll_A=7.1672 (Δ-0.2680)
+  [lr1e-05_rank8] step= 400  R_A=0.0027  acc_A=0.7920  nll_A=7.1376 (Δ-0.2976)
+  [lr1e-05_rank8] step= 425  R_A=0.0027  acc_A=0.7900  nll_A=7.1213 (Δ-0.3138)
+  [lr1e-05_rank8] step= 450  R_A=0.0029  acc_A=0.7900  nll_A=7.0544 (Δ-0.3807)
+  [lr1e-05_rank8] step= 475  R_A=0.0029  acc_A=0.7900  nll_A=7.0462 (Δ-0.3890)
+  [lr1e-05_rank8] DONE  T*_acc=(0.0029098266225677837, None)  T*_nll=(0.0029098266225677837, None)  (71s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr5e-05_rank8]  sst2→cola
+  cola train: 8551 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [lr5e-05_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr5e-05_rank8] step=  25  R_A=0.0013  acc_A=0.7740  nll_A=7.4287 (Δ-0.0065)
+  [lr5e-05_rank8] step=  50  R_A=0.0019  acc_A=0.7760  nll_A=7.4109 (Δ-0.0243)
+  [lr5e-05_rank8] step=  75  R_A=0.0024  acc_A=0.7720  nll_A=7.3731 (Δ-0.0621)
+  [lr5e-05_rank8] step= 100  R_A=0.0028  acc_A=0.7760  nll_A=7.3197 (Δ-0.1155)
+  [lr5e-05_rank8] step= 125  R_A=0.0036  acc_A=0.7880  nll_A=7.1204 (Δ-0.3148)
+  [lr5e-05_rank8] step= 150  R_A=0.0044  acc_A=0.8040  nll_A=6.8918 (Δ-0.5434)
+  [lr5e-05_rank8] step= 175  R_A=0.0054  acc_A=0.8020  nll_A=6.5222 (Δ-0.9130)
+  [lr5e-05_rank8] step= 200  R_A=0.0062  acc_A=0.8060  nll_A=6.2844 (Δ-1.1508)
+  [lr5e-05_rank8] step= 225  R_A=0.0064  acc_A=0.8040  nll_A=6.2958 (Δ-1.1394)
+  [lr5e-05_rank8] step= 250  R_A=0.0069  acc_A=0.8020  nll_A=6.3538 (Δ-1.0814)
+  [lr5e-05_rank8] step= 275  R_A=0.0081  acc_A=0.7740  nll_A=6.0230 (Δ-1.4122)
+  [lr5e-05_rank8] step= 300  R_A=0.0088  acc_A=0.7440  nll_A=5.7845 (Δ-1.6507)
+  [lr5e-05_rank8] step= 325  R_A=0.0093  acc_A=0.7420  nll_A=5.7350 (Δ-1.7001)
+  [lr5e-05_rank8] step= 350  R_A=0.0098  acc_A=0.7160  nll_A=5.6364 (Δ-1.7988)
+  [lr5e-05_rank8] step= 375  R_A=0.0102  acc_A=0.7160  nll_A=5.7033 (Δ-1.7319)
+  [lr5e-05_rank8] step= 400  R_A=0.0107  acc_A=0.6880  nll_A=5.5793 (Δ-1.8559)
+  [lr5e-05_rank8] step= 425  R_A=0.0109  acc_A=0.6780  nll_A=5.4868 (Δ-1.9484)
+  [lr5e-05_rank8] step= 450  R_A=0.0112  acc_A=0.6640  nll_A=5.3901 (Δ-2.0451)
+  [lr5e-05_rank8] step= 475  R_A=0.0113  acc_A=0.6600  nll_A=5.3359 (Δ-2.0992)
+  [lr5e-05_rank8] DONE  T*_acc=(0.010204528016510532, 0.010722893255553515)  T*_nll=(0.0113432396464048, None)  (64s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr1e-04_rank8]  sst2→cola
+  cola train: 8551 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [lr1e-04_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr1e-04_rank8] step=  25  R_A=0.0025  acc_A=0.7740  nll_A=7.3186 (Δ-0.1166)
+  [lr1e-04_rank8] step=  50  R_A=0.0040  acc_A=0.7900  nll_A=7.0383 (Δ-0.3969)
+  [lr1e-04_rank8] step=  75  R_A=0.0049  acc_A=0.7960  nll_A=7.0284 (Δ-0.4067)
+  [lr1e-04_rank8] step= 100  R_A=0.0059  acc_A=0.7960  nll_A=6.9236 (Δ-0.5116)
+  [lr1e-04_rank8] step= 125  R_A=0.0071  acc_A=0.8060  nll_A=6.7183 (Δ-0.7169)
+  [lr1e-04_rank8] step= 150  R_A=0.0086  acc_A=0.7960  nll_A=6.3082 (Δ-1.1270)
+  [lr1e-04_rank8] step= 175  R_A=0.0104  acc_A=0.7280  nll_A=5.6333 (Δ-1.8019)
+  [lr1e-04_rank8] step= 200  R_A=0.0112  acc_A=0.7120  nll_A=5.5427 (Δ-1.8925)
+  [lr1e-04_rank8] step= 225  R_A=0.0121  acc_A=0.6900  nll_A=5.4800 (Δ-1.9552)
+  [lr1e-04_rank8] step= 250  R_A=0.0134  acc_A=0.6900  nll_A=5.5729 (Δ-1.8622)
+  [lr1e-04_rank8] step= 275  R_A=0.0146  acc_A=0.6200  nll_A=5.1561 (Δ-2.2791)
+  [lr1e-04_rank8] step= 300  R_A=0.0154  acc_A=0.5920  nll_A=5.0500 (Δ-2.3851)
+  [lr1e-04_rank8] step= 325  R_A=0.0163  acc_A=0.5700  nll_A=4.8503 (Δ-2.5848)
+  [lr1e-04_rank8] step= 350  R_A=0.0171  acc_A=0.5300  nll_A=4.6555 (Δ-2.7797)
+  [lr1e-04_rank8] step= 375  R_A=0.0175  acc_A=0.5280  nll_A=4.6944 (Δ-2.7408)
+  [lr1e-04_rank8] step= 400  R_A=0.0181  acc_A=0.5240  nll_A=4.7319 (Δ-2.7033)
+  [lr1e-04_rank8] step= 425  R_A=0.0184  acc_A=0.5240  nll_A=4.7679 (Δ-2.6672)
+  [lr1e-04_rank8] step= 450  R_A=0.0188  acc_A=0.5240  nll_A=4.7764 (Δ-2.6588)
+  [lr1e-04_rank8] step= 475  R_A=0.0192  acc_A=0.5280  nll_A=4.7260 (Δ-2.7092)
+  [lr1e-04_rank8] DONE  T*_acc=(0.011206314675115773, 0.012050777703384379)  T*_nll=(0.019229392675949652, None)  (60s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr2e-04_rank8]  sst2→cola
+  cola train: 8551 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [lr2e-04_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr2e-04_rank8] step=  25  R_A=0.0045  acc_A=0.7800  nll_A=7.2410 (Δ-0.1942)
+  [lr2e-04_rank8] step=  50  R_A=0.0076  acc_A=0.8040  nll_A=6.5508 (Δ-0.8843)
+  [lr2e-04_rank8] step=  75  R_A=0.0093  acc_A=0.8060  nll_A=6.3223 (Δ-1.1129)
+  [lr2e-04_rank8] step= 100  R_A=0.0115  acc_A=0.7940  nll_A=6.0685 (Δ-1.3666)
+  [lr2e-04_rank8] step= 125  R_A=0.0135  acc_A=0.7280  nll_A=5.5289 (Δ-1.9063)
+  [lr2e-04_rank8] step= 150  R_A=0.0164  acc_A=0.6100  nll_A=4.9974 (Δ-2.4377)
+  [lr2e-04_rank8] step= 175  R_A=0.0181  acc_A=0.5480  nll_A=4.8849 (Δ-2.5502)
+  [lr2e-04_rank8] step= 200  R_A=0.0201  acc_A=0.5280  nll_A=4.7951 (Δ-2.6401)
+  [lr2e-04_rank8] step= 225  R_A=0.0214  acc_A=0.5260  nll_A=4.6317 (Δ-2.8035)
+  [lr2e-04_rank8] step= 250  R_A=0.0223  acc_A=0.5240  nll_A=4.8541 (Δ-2.5811)
+  [lr2e-04_rank8] step= 275  R_A=0.0241  acc_A=0.5240  nll_A=4.9927 (Δ-2.4425)
+  [lr2e-04_rank8] step= 300  R_A=0.0255  acc_A=0.5240  nll_A=5.1133 (Δ-2.3219)
+  [lr2e-04_rank8] step= 325  R_A=0.0265  acc_A=0.5220  nll_A=5.1500 (Δ-2.2852)
+  [lr2e-04_rank8] step= 350  R_A=0.0273  acc_A=0.5220  nll_A=5.0667 (Δ-2.3685)
+  [lr2e-04_rank8] step= 375  R_A=0.0284  acc_A=0.5220  nll_A=5.0037 (Δ-2.4315)
+  [lr2e-04_rank8] step= 400  R_A=0.0295  acc_A=0.5220  nll_A=5.0095 (Δ-2.4257)
+  [lr2e-04_rank8] step= 425  R_A=0.0303  acc_A=0.5220  nll_A=4.9451 (Δ-2.4901)
+  [lr2e-04_rank8] step= 450  R_A=0.0311  acc_A=0.5240  nll_A=4.8219 (Δ-2.6133)
+  [lr2e-04_rank8] step= 475  R_A=0.0336  acc_A=0.5240  nll_A=4.6580 (Δ-2.7772)
+  [lr2e-04_rank8] DONE  T*_acc=(0.01349944985360591, 0.0164034454477392)  T*_nll=(0.03364045311484711, None)  (61s)
+
+──────────────────────────────────────────────────
+  Phase 2 [lr5e-04_rank8]  sst2→cola
+  cola train: 8551 examples, n_classes=2
+  sst2 validation: 500 examples, n_classes=2
+  [lr5e-04_rank8] step=   0  R_A=0.0000  acc_A=0.7740  nll_A=7.4352 (Δ+0.0000)
+  [lr5e-04_rank8] step=  25  R_A=0.0107  acc_A=0.7560  nll_A=7.6370 (Δ+0.2018)
+  [lr5e-04_rank8] step=  50  R_A=0.0164  acc_A=0.7560  nll_A=7.3500 (Δ-0.0852)
+  [lr5e-04_rank8] step=  75  R_A=0.0226  acc_A=0.6620  nll_A=5.3546 (Δ-2.0806)
+  [lr5e-04_rank8] step= 100  R_A=0.0263  acc_A=0.6340  nll_A=5.0546 (Δ-2.3806)
+  [lr5e-04_rank8] step= 125  R_A=0.0307  acc_A=0.5420  nll_A=4.5348 (Δ-2.9004)
+  [lr5e-04_rank8] step= 150  R_A=0.0348  acc_A=0.5360  nll_A=4.4925 (Δ-2.9427)
+  [lr5e-04_rank8] step= 175  R_A=0.0383  acc_A=0.5380  nll_A=4.5312 (Δ-2.9039)
+  [lr5e-04_rank8] step= 200  R_A=0.0430  acc_A=0.5260  nll_A=4.6666 (Δ-2.7686)
+  [lr5e-04_rank8] step= 225  R_A=0.0456  acc_A=0.5300  nll_A=4.7626 (Δ-2.6725)
+  [lr5e-04_rank8] step= 250  R_A=0.0486  acc_A=0.5220  nll_A=4.6557 (Δ-2.7795)
+  [lr5e-04_rank8] step= 275  R_A=0.0537  acc_A=0.5220  nll_A=5.0573 (Δ-2.3779)
+  [lr5e-04_rank8] step= 300  R_A=0.0577  acc_A=0.5220  nll_A=4.8448 (Δ-2.5903)
+  [lr5e-04_rank8] step= 325  R_A=0.0610  acc_A=0.5260  nll_A=4.7502 (Δ-2.6849)
+  [lr5e-04_rank8] step= 350  R_A=0.0647  acc_A=0.5260  nll_A=4.9149 (Δ-2.5203)
+  [lr5e-04_rank8] step= 375  R_A=0.0690  acc_A=0.5220  nll_A=4.9955 (Δ-2.4396)
+  [lr5e-04_rank8] step= 400  R_A=0.0737  acc_A=0.5220  nll_A=5.1273 (Δ-2.3079)
+  [lr5e-04_rank8] step= 425  R_A=0.0765  acc_A=0.5220  nll_A=5.4770 (Δ-1.9582)
+  [lr5e-04_rank8] step= 450  R_A=0.0827  acc_A=0.5220  nll_A=5.3638 (Δ-2.0714)
+  [lr5e-04_rank8] step= 475  R_A=0.0903  acc_A=0.5220  nll_A=5.5161 (Δ-1.9191)
+/workspace/h2_nll_forgetting.py:454: RuntimeWarning: Mean of empty slice
+  acc_mids = [np.nanmean([v[0] for v in by_task_b[tb]]) for tb in task_bs]
+/workspace/h2_nll_forgetting.py:455: RuntimeWarning: Mean of empty slice
+  nll_mids = [np.nanmean([v[1] for v in by_task_b[tb]]) for tb in task_bs]
+  [lr5e-04_rank8] DONE  T*_acc=(0.016392902270431567, 0.022606418466116353)  T*_nll=(0.09026175522153551, None)  (61s)
+  Saved figure: ./results/h2_nll_forgetting/gpt2/nll_vs_acc_forgetting.png
+
+  Spread across task_b targets — accuracy-based T*: 1.4x   NLL-based T*: nanx
+
+──────────────────────────────────────────────────────────────────────
+    task_b        lr     T*_acc (last,first)     T*_nll (last,first)
+──────────────────────────────────────────────────────────────────────
+        mnli     1e-05          (never forgot)          (never forgot)
+        mnli     5e-05          (never forgot)          (never forgot)
+        mnli     1e-04          (never forgot)          (never forgot)
+        mnli     2e-04          (never forgot)          (never forgot)
+        mnli     5e-04          (never forgot)          (never forgot)
+      agnews     1e-05          (never forgot)          (never forgot)
+      agnews     5e-05          (never forgot)          (never forgot)
+      agnews     1e-04  (0.016096007439343783,0.018682090268069922)          (never forgot)
+      agnews     2e-04  (0.015131866217272921,0.020486041276291486)          (never forgot)
+      agnews     5e-04  (0.02045898546326335,0.02721850461876874)          (never forgot)
+        cola     1e-05          (never forgot)          (never forgot)
+        cola     5e-05  (0.010204528016510532,0.010722893255553515)          (never forgot)
+        cola     1e-04  (0.011206314675115773,0.012050777703384379)          (never forgot)
+        cola     2e-04  (0.01349944985360591,0.0164034454477392)          (never forgot)
+        cola     5e-04  (0.016392902270431567,0.022606418466116353)          (never forgot)
+──────────────────────────────────────────────────────────────────────
+Summary saved: ./results/h2_nll_forgetting/gpt2/sst2_summary.json
+

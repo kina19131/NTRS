@@ -286,6 +286,58 @@ def half_max_sigma(sigma_results):
             return sigmas[i] + t * (sigmas[i + 1] - sigmas[i])
     return sigmas[-1]  # never drops below half-max in this sweep
 
+
+def half_max_sigma_adaptive(model, names, inp, tgt, base_sigmas, N,
+                            eval_slack=0.0, confidence=0.95, tag="",
+                            extend_factor=3.0, sigma_cap=0.5, max_extensions=4):
+    """
+    Runs estimate_density over base_sigmas, then — if density never drops
+    below half its peak within that grid — keeps extending the top of the
+    grid (×extend_factor, capped at sigma_cap) and re-checking, instead of
+    silently accepting half_max_sigma's fallback return (sigmas[-1]), which
+    is indistinguishable from a real measurement in the saved JSON.
+
+    This matters specifically for a narrower perturbation scope (e.g.
+    LoRA-only vs whole-decoder-block): fewer independently-noised parameters
+    means less aggregate NLL degradation per unit σ, so σ½ can land well
+    outside a grid that was calibrated for the wider scope — a plausible-
+    looking but silently wrong number is worse than an expensive rerun.
+
+    Returns (sigma_half, density_results, was_capped). was_capped=True means
+    the true half-max point was never observed within sigma_cap — sigma_half
+    is a LOWER BOUND, not a resolved value, and should not be cited as final.
+    """
+    sigmas = list(base_sigmas)
+    density_results = [
+        estimate_density(model, names, inp, tgt, sigma=s, N=N,
+                         confidence=confidence, eval_slack=eval_slack, tag=tag)
+        for s in sigmas
+    ]
+    for _ in range(max_extensions):
+        peak = max(r["density"] for r in density_results)
+        if density_results[-1]["density"] < peak / 2.0:
+            break
+        if sigmas[-1] >= sigma_cap:
+            break
+        next_sigma = min(sigmas[-1] * extend_factor, sigma_cap)
+        print(f"  [{tag}] density still >= half-peak at top of grid "
+              f"(σ={sigmas[-1]:.5f}) — extending to σ={next_sigma:.5f}")
+        sigmas.append(next_sigma)
+        density_results.append(
+            estimate_density(model, names, inp, tgt, sigma=next_sigma, N=N,
+                             confidence=confidence, eval_slack=eval_slack, tag=tag)
+        )
+
+    sigma_half = half_max_sigma(density_results)
+    peak = max(r["density"] for r in density_results)
+    was_capped = density_results[-1]["density"] >= peak / 2.0
+    if was_capped:
+        print(f"  [{tag}] WARNING: density never dropped below half-peak by "
+              f"σ={sigmas[-1]:.5f} (cap={sigma_cap}). σ½={sigma_half:.6f} is "
+              f"a LOWER BOUND, not a resolved measurement — do not cite as "
+              f"final without raising sigma_cap and rerunning.")
+    return sigma_half, density_results, was_capped
+
 # ── Plotting ──────────────────────────────────────────────────────────────────
 MODEL_PARAMS = {
     "gpt2": 124, "gpt2-medium": 345,

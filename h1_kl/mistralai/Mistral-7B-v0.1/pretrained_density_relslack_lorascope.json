@@ -1,0 +1,24 @@
+{
+  "model": "mistralai/Mistral-7B-v0.1",
+  "sigma_half": 0.00035100671140939597,
+  "relative_slack": 0.01,
+  "eval_slack_abs": 0.026601562500000002,
+  "nll_baseline": 2.66015625,
+  "sigma_half_original": 0.00015586592178770952,
+  "original_fixed_slack": 0.0001,
+  "sigma_scope": "lora",
+  "sigma_half_is_lower_bound": false,
+  "n_target_params": 1342177280,
+  "n_total_params": 7241732096,
+  "densities": {
+    "0.0001": 0.9757074028338915,
+    "0.0002": 0.9757074028338915,
+    "0.0005": 0.00016877114310994768,
+    "0.001": 0.0,
+    "0.002": 0.0,
+    "0.005": 0.0,
+    "0.01": 0.0,
+    "0.02": 0.0,
+    "0.05": 0.0
+  }
+}
