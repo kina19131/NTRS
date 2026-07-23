@@ -1020,3 +1020,41 @@ The information is not gone (rules against pure mode-collapse/genuine-destructio
 **Caveats**: GPT-2 only, single run, single seed (no seed replication on either the Phase-2 training or the probe initialization/data order). Recovery-speed differences across task_b (55 vs. 165 vs. 200 steps) are single-run point estimates, not confirmed to be stable across seeds. The MNLI reproduction-fidelity gap (above) means that condition's specific number should be read with more caution than agnews/cola's. Not yet run on Llama, where the actual 44× SST-2 anomaly (V8) this was designed to investigate was originally observed — this GPT-2 result is suggestive, not a resolution of V8 itself.
 
 Raw files: `h2_probe_recovery_gpt2/h2_probe_recovery/gpt2/{sst2_to_mnli,sst2_to_agnews,sst2_to_cola}/lr5e-04_rank8_result.json`, `sst2_probe_summary.json`, `probe_recovery.png`, `probe_recovery.log`.
+
+---
+
+## H2: Fresh-Probe Recovery — Severity Sweep, GPT-2 (2026-07-23)
+
+**Motivation**: the run above tested only one, already-catastrophic LR (5e-4). It could not answer the sharper question — does recovery ever genuinely fail, at high enough displacement, or does a fresh probe always eventually recover? Same script (`h2_probe_recovery.py`), same Phase-1 checkpoint, `sst2→cola` only (the target that showed the fastest recovery at 5e-4), swept across `--phase2_lrs 1e-4 2e-4 5e-4 1e-3 2e-3 5e-3` — spanning both below and above the previously-tested point.
+
+### Result table (verified from each condition's `result.json`)
+
+| lr | old_frozen_acc | threshold (0.9×0.774) | final_probe_acc | crossing_step | verdict |
+|---|---|---|---|---|---|
+| 1e-4 | 0.5300 | 0.6966 | 0.8100 | 65 | recovers_slow |
+| 2e-4 | 0.5240 | 0.6966 | 0.8000 | 55 | recovers_slow |
+| 5e-4 | 0.5220 | 0.6966 | 0.8080 | 55 | recovers_slow |
+| 1e-3 | 0.4780 | 0.6966 | 0.7600 | 200 | recovers_slow |
+| 2e-3 | 0.4780 | 0.6966 | 0.4780 | None | no_recovery |
+| 5e-3 | 0.4780 | 0.6966 | 0.4780 | None | no_recovery |
+
+A clean, monotonic progression: recovery speed degrades steadily from 55 steps (1e-4/2e-4/5e-4) to 200 steps (right at the edge of the probe-training budget, 1e-3) before flipping to `no_recovery` at 2e-3 and 5e-3. Read in isolation, this looks like exactly the severity-dependent boundary the severity sweep set out to find.
+
+### ⚠️ The two `no_recovery` results are very likely a training-divergence artifact, not evidence of genuine information loss — flagged before, not after, drawing conclusions
+
+Two independent checks on the raw recovery curves (not just the summary numbers) point the same way:
+
+1. **Zero variation across 41 evaluation points.** At lr=2e-3 and 5e-3, `probe_acc` is *exactly* 0.4780 at every single measured step from 0 to 200 — no fluctuation whatsoever. Real SGD training on real minibatches essentially never produces perfectly constant accuracy across 41 independent evaluations; this is the signature of a degenerate, unchanging computation, not "training that failed to find signal."
+2. **The old (previously-trained) classifier and a freshly, independently-initialized probe give *identical* accuracy.** In every other condition (1e-4 through 1e-3), the old classifier and the untrained fresh probe — two linear layers with unrelated random/trained weights — give *different* accuracies at step 0, as expected. At lr=2e-3 and 5e-3, both give exactly 0.4780. Two independently-parameterized classifiers agreeing to 4 decimal places is essentially impossible by chance unless the hidden states feeding both of them have degenerated into something that makes classifier weights irrelevant to the output — the standard signature of this is NaN hidden states, since `argmax` on an all-NaN row returns a constant index in PyTorch regardless of the classifier's weights.
+
+This is consistent with the same LoRA training-divergence failure mode already documented elsewhere in this project at aggressive learning rates (e.g. Mistral's `final_per_param: NaN` entries in the H2-J/H2-K tables) — GPT-2 LoRA at lr=2e-3/5e-3 for 500 steps is a very aggressive setting relative to the 1e-5–5e-4 range validated elsewhere in this project's H1/H2 sweeps, and likely diverged partway through Phase-2 training.
+
+**This has not been confirmed by direct inspection** (the script doesn't save Phase-2 endpoint checkpoints, so the actual weights/hidden-state tensors from this run can't be inspected after the fact) — it is a strong, well-reasoned suspicion from the data available, not a proven diagnosis. Treat the 2e-3/5e-3 `no_recovery` verdicts as **an open, unconfirmed instrumentation artifact**, not as evidence that genuine, unrecoverable information loss exists at high severity. A follow-up with an explicit `torch.isnan(hidden).any()` check added at each Phase-2 tracking step would resolve this definitively; not yet run.
+
+### What this run does and doesn't establish
+
+**Trustworthy**: the 1e-4→1e-3 progression (recovers in 55, 55, 55, then 200 steps) is real data, unaffected by the NaN concern (each of those conditions shows normal, varying, sensible recovery curves). Recovery gets *harder* as displacement increases — a real, monotonic relationship, not previously demonstrated.
+
+**Not yet established**: whether a genuine (non-artifactual) `no_recovery` regime exists at all. The two data points that would show this are exactly the two suspected of being corrupted. The severity sweep needs to be re-run with smaller LR increments between 1e-3 and 2e-3 (where recovery is still just barely working) and with a NaN diagnostic added, before any claim about a true information-loss regime can be made.
+
+Raw files: `h2_probe_recovery_severity_gpt2/h2_probe_recovery_severity/gpt2/sst2_to_cola/lr*_rank8_result.json`, `sst2_probe_summary.json`, `probe_recovery.png`, `severity_sweep_gpt2.log`.
