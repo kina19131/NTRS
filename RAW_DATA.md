@@ -1058,3 +1058,57 @@ This is consistent with the same LoRA training-divergence failure mode already d
 **Not yet established**: whether a genuine (non-artifactual) `no_recovery` regime exists at all. The two data points that would show this are exactly the two suspected of being corrupted. The severity sweep needs to be re-run with smaller LR increments between 1e-3 and 2e-3 (where recovery is still just barely working) and with a NaN diagnostic added, before any claim about a true information-loss regime can be made.
 
 Raw files: `h2_probe_recovery_severity_gpt2/h2_probe_recovery_severity/gpt2/sst2_to_cola/lr*_rank8_result.json`, `sst2_probe_summary.json`, `probe_recovery.png`, `severity_sweep_gpt2.log`.
+
+---
+
+## H2: Fresh-Probe Recovery — Llama-3.2-3B (2026-07-23)
+
+**Config**: `h2_probe_recovery.py --model meta-llama/Llama-3.2-3B --task_a sst2 --task_b mnli agnews cola --phase1_dir h2_llama/sst2_to_mnli --phase2_lrs 5e-4 1e-3 --phase2_rank 8`. Reuses the existing, authoritative Llama SST-2 Phase-1 checkpoint from `h2_sequential_llama.py` (`acc_phase1_a=0.96`) directly — no retraining, confirmed compatible without any code changes (same `rank`/`alpha`/target-module conventions in both scripts' shared `add_lora` calls). Two LRs per target because Llama's per-target forgetting thresholds differ too widely for one shared LR to be meaningful: MNLI stays safe under the old classifier even at 5e-4 (only forgets by 1e-3, per the existing H2-C table), while AGNews/CoLA already forget by 5e-4.
+
+### Result table (verified directly from each condition's `result.json`)
+
+| task_b | lr | old_frozen_acc | threshold (0.9×0.96=0.864) | final_probe_acc | verdict |
+|---|---|---|---|---|---|
+| mnli | 5e-4 | 0.5220 | 0.8640 | 0.9140 | recovers_slow |
+| mnli | 1e-3 | 0.4780 | 0.8640 | 0.5220 | no_recovery |
+| agnews | 5e-4 | 0.6460 | 0.8640 | 0.8260 | no_recovery |
+| agnews | 1e-3 | 0.4780 | 0.8640 | 0.5220 | no_recovery |
+| cola | 5e-4 | 0.4740 | 0.8640 | 0.7540 | no_recovery |
+| cola | 1e-3 | 0.4780 | 0.8640 | 0.4780 | no_recovery |
+
+**The categorical verdict alone is misleading here and should not be read without the raw curves — five of six conditions land in the same `no_recovery` bucket, but they are two qualitatively different phenomena, not one.**
+
+### Group 1 (lr=5e-4): real, substantial recovery — just short of a very high bar
+
+Llama's baseline (0.96) sets the 90%-threshold at 0.864 — a much stricter bar than GPT-2's (0.774 baseline → 0.6966 threshold). Examining the full recovery curves (not just the endpoint):
+
+- **agnews, lr=5e-4**: climbs from 0.480 to a peak of 0.902 by late training (range 0.42), with several points exceeding 0.864 (0.886, 0.888, 0.902, 0.898...) but not *sustained* through the final step (last point: 0.826). This is genuine, substantial, noisy-but-real learning — a near-miss on the sustained-crossing criterion, not a failure to learn.
+- **cola, lr=5e-4**: climbs from 0.478 to 0.754 (range 0.276) with a clear, if noisy, upward trend across the full 200 steps — real partial recovery, same qualitative shape as GPT-2's successful recovery curves, just not reaching Llama's much higher absolute bar within budget.
+
+Both curves look qualitatively identical in shape to the GPT-2 conditions that were classified `recovers_slow` — the only reason these two are labeled `no_recovery` is the much higher threshold Llama's baseline imposes, not any qualitative difference in what's happening to the representation.
+
+### Group 2 (lr=1e-3, all three targets): a reproducible collapse to a near-chance, non-learning state
+
+At the higher LR, mnli, agnews, and cola all show the same signature: the recovery curve oscillates between only two nearby values (typically ~0.46–0.54, near SST-2's 2-class chance) for the entire 200-step budget, with **no upward trend at any point** — qualitatively distinct from Group 1's curves.
+
+```
+mnli/1e-3:   ['0.478','0.522','0.478','0.478','0.522', ... ] (41 points, range=0.044, never trends up)
+agnews/1e-3: ['0.522','0.522','0.478','0.522','0.522', ... ] (41 points, range=0.066, never trends up)
+cola/1e-3:   ['0.464','0.464','0.522','0.464','0.478', ... ] (41 points, range=0.078, never trends up)
+```
+
+**This is not a fresh, isolated finding — the exact `0.478` value independently reproduces a number already on record in this project from a completely different script and time.** The existing SST-2→MNLI (r8) fine-tuning table (`h2_sequential_llama.py`, months earlier) reports `final_acc_task_a=0.478` at lr=1e-3 exactly (line 371 of this document: `lr1e-03_rank8_result.json | 1e-3 | 8 | 2.840747e-3 | 0.238334 | 0.478 | 0.356`). Two unrelated scripts, run at different times, land on the identical value for the identical (model, Phase-1 task, Phase-2 target, LR, rank) configuration — this is real corroboration that "SST-2 Phase 1 → MNLI Phase 2 at lr=1e-3 on Llama-3.2-3B, rank 8" reliably collapses to this specific near-chance state, not a one-off artifact of this particular run.
+
+**What remains genuinely unresolved is the mechanism, not the fact of the collapse.** Two explanations are both consistent with the data, and this experiment cannot cleanly distinguish them:
+- **Training-numerical instability** (the same class of concern already flagged for GPT-2's 2e-3/5e-3 conditions) — an overly aggressive LR corrupting weights/hidden-states partway through Phase-2 training.
+- **Genuine representational collapse** — the model's hidden states have actually degenerated toward a near-constant or very-low-rank state at this severity, such that no linear probe (old or fresh) can extract more than chance-level signal, regardless of training budget.
+
+The evidence here is weaker for the NaN-specific diagnosis than GPT-2's case: unlike GPT-2's 2e-3/5e-3 conditions (where the old classifier and an untrained fresh probe agreed to 4 decimal places in *every* corrupted condition — the clean NaN-argmax signature), only `mnli/1e-3` shows that exact agreement (old_frozen_acc=0.478=fresh-probe-step-0); `agnews/1e-3` and `cola/1e-3`'s untrained-probe values (0.480, 0.464) are close to but not identical to their own old_frozen_acc (0.478 both) — consistent with either explanation, not decisive for either.
+
+### Interpretation
+
+Llama gives a genuinely more mixed picture than GPT-2's cleaner "always eventually recovers" result. At moderate severity (lr=5e-4), the pattern matches GPT-2 closely — real, substantial, readout-mismatch-consistent recovery, just measured against a much stricter bar. At higher severity (lr=1e-3), all three targets collapse into the same reproducible near-chance state — independently corroborated by pre-existing project data, but with an unresolved mechanism (instability artifact vs. genuine collapse). Unlike GPT-2's severity sweep (where the ambiguous conditions were the two *most* extreme, novel LRs never tested before), here the ambiguous regime is a LR (1e-3) already used elsewhere in this project's core H2 tables — meaning if this is a genuine representational collapse rather than an artifact, it would also implicate some of the *existing*, already-cited Llama H2 accuracy numbers at this LR as sitting in the same degenerate regime, not just this new probe-recovery experiment.
+
+**Caveats**: single run, single seed, no seed replication. Only 2 LR points per target (not a fine-grained sweep) — the true transition between "real partial recovery" and "collapse to near-chance" for each target is not localized, just bracketed between 5e-4 and 1e-3. `h2_probe_recovery.py` does not save Phase-2 endpoint checkpoints, so direct tensor inspection (to settle the instability-vs-collapse question) is not possible after the fact without a rerun.
+
+Raw files: `h2_probe_recovery_llama/h2_probe_recovery_llama/meta-llama_Llama-3.2-3B/{sst2_to_mnli,sst2_to_agnews,sst2_to_cola}/lr*_rank8_result.json`, `sst2_probe_summary.json`, `probe_recovery.png`, `probe_recovery_llama.log`.
