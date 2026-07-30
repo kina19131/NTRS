@@ -74,6 +74,7 @@ Usage:
 """
 
 import argparse
+import collections
 import copy
 import json
 import os
@@ -148,6 +149,62 @@ def get_args():
     return p.parse_args()
 
 
+@torch.no_grad()
+def _hidden_has_nan(model, loader, device, max_batches=2):
+    """
+    Diagnostic added 2026-07-29: distinguishes "Phase-2 training diverged into
+    NaN weights" (a numerical artifact, already suspected for GPT-2's 2e-3/5e-3
+    severity-sweep conditions and Llama's lr=1e-3 conditions) from "the
+    representation genuinely collapsed but stayed finite" (a real, if extreme,
+    finding). Checks the frozen backbone's actual hidden states on a couple of
+    real batches - NaN/Inf here means every downstream classifier (old or
+    fresh) is doomed regardless of training budget, for a boring numerical
+    reason unrelated to what the probe-recovery experiment is trying to test.
+    """
+    model.eval()
+    n_checked = 0
+    for input_ids, _ in loader:
+        if n_checked >= max_batches:
+            break
+        input_ids = input_ids.to(device)
+        out = model(input_ids, output_hidden_states=True)
+        hidden = out.hidden_states[-1][:, -1, :].float()
+        if torch.isnan(hidden).any() or torch.isinf(hidden).any():
+            return True
+        n_checked += 1
+    return False
+
+
+@torch.no_grad()
+def _prediction_class_counts(model, classifier, loader, device):
+    """
+    Diagnostic added 2026-07-30: repeated exact accuracy values (0.478/0.522,
+    summing to 1.0) across many independent no_recovery conditions - caught by
+    inspection, not by this check - are the signature of a classifier always
+    predicting the SAME class regardless of input, on this fixed 500-example
+    SST-2 validation split (239/500=0.478, 261/500=0.522). That's consistent
+    with two different explanations this project has not yet distinguished:
+    (a) genuine collapse, correctly detected (no signal -> converge to
+    majority class is the loss-minimizing, expected outcome), or (b) the
+    probe's own optimization stuck in a degenerate local minimum despite real,
+    recoverable signal being present. Reports the actual predicted-class
+    distribution directly rather than inferring it from aggregate accuracy -
+    a single dominant class (e.g. >95% one label) is the concrete signature
+    to check for, distinct from a genuine mix of right/wrong predictions
+    that happens to net out to the same accuracy.
+    """
+    model.eval()
+    classifier.eval()
+    counts = collections.Counter()
+    for input_ids, _ in loader:
+        input_ids = input_ids.to(device)
+        out = model(input_ids, output_hidden_states=True)
+        hidden = out.hidden_states[-1][:, -1, :].float()
+        preds = classifier(hidden).argmax(dim=-1)
+        counts.update(preds.tolist())
+    return dict(counts)
+
+
 def train_phase2(phase1_model, phase1_classifier, tokenizer, model_name,
                   task_a, task_b, lr, rank, steps, seq_len, batch_size,
                   grad_clip, eval_samples, device, seed):
@@ -204,8 +261,10 @@ def train_phase2(phase1_model, phase1_classifier, tokenizer, model_name,
 
     peft_model.eval()
     old_frozen_acc = eval_accuracy(peft_model, phase1_classifier, val_loader_a, device)
+    phase2_hidden_nan = _hidden_has_nan(peft_model, val_loader_a, device)
+    old_classifier_class_counts = _prediction_class_counts(peft_model, phase1_classifier, val_loader_a, device)
     peft_model.train()
-    return peft_model, old_frozen_acc, hidden_size
+    return peft_model, old_frozen_acc, hidden_size, phase2_hidden_nan, old_classifier_class_counts
 
 
 def run_probe_recovery(peft_model, tokenizer, task_a, n_classes_a, hidden_size,
@@ -260,7 +319,10 @@ def run_probe_recovery(peft_model, tokenizer, task_a, n_classes_a, hidden_size,
             if step % probe_eval_interval == 0:
                 recovery_curve.append({"probe_step": step, "probe_acc": _probe_acc()})
 
-    return recovery_curve
+    probe_recovery_hidden_nan = _hidden_has_nan(peft_model, val_loader, device)
+    fresh_probe.eval()
+    final_probe_class_counts = _prediction_class_counts(peft_model, fresh_probe, val_loader, device)
+    return recovery_curve, probe_recovery_hidden_nan, final_probe_class_counts
 
 
 def _verdict(recovery_curve, acc_phase1_a, fast_cutoff):
@@ -365,16 +427,18 @@ def main():
                 continue
 
             print(f"\n{'─'*50}\n  [{task_b}/{tag}]")
-            peft_model, old_frozen_acc, hidden_size = train_phase2(
+            (peft_model, old_frozen_acc, hidden_size, phase2_hidden_nan,
+             old_classifier_class_counts) = train_phase2(
                 phase1_model, phase1_classifier, tokenizer, args.model,
                 args.task_a, task_b, lr, args.phase2_rank, args.phase2_steps,
                 args.seq_len, args.batch_size, args.grad_clip, args.eval_samples,
                 device, args.seed,
             )
             print(f"  [{task_b}/{tag}] old_frozen_acc={old_frozen_acc:.4f} "
-                  f"(phase1 baseline={acc_phase1_a:.4f})")
+                  f"(phase1 baseline={acc_phase1_a:.4f})  phase2_hidden_nan={phase2_hidden_nan}  "
+                  f"old_classifier_class_counts={old_classifier_class_counts}")
 
-            recovery_curve = run_probe_recovery(
+            recovery_curve, probe_recovery_hidden_nan, final_probe_class_counts = run_probe_recovery(
                 peft_model, tokenizer, args.task_a, n_classes_a, hidden_size,
                 device, args.seq_len, args.batch_size, args.eval_samples, args.seed,
                 args.probe_lr, args.probe_steps, args.probe_eval_interval, args.grad_clip,
@@ -386,6 +450,10 @@ def main():
                 "task_a": args.task_a, "task_b": task_b, "lr": lr,
                 "rank": args.phase2_rank, "steps": args.phase2_steps,
                 "acc_phase1_a": acc_phase1_a, "old_frozen_acc": old_frozen_acc,
+                "phase2_hidden_nan": phase2_hidden_nan,
+                "probe_recovery_hidden_nan": probe_recovery_hidden_nan,
+                "old_classifier_class_counts": old_classifier_class_counts,
+                "final_probe_class_counts": final_probe_class_counts,
                 "recovery_curve": recovery_curve,
                 "final_probe_acc": recovery_curve[-1]["probe_acc"],
                 "verdict": verdict, "crossing_step": crossing_step,
