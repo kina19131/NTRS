@@ -632,6 +632,45 @@ densities:
 
 **⚠️ Note (2026-07-17): "0.085 vs 0.0852" is not a demonstrated 0.2% precision match** — both are single points from a 5-value LR grid, not a measured quantity with sub-percent precision. Read the two comparisons above as "same tested grid step, close" vs. "same tested grid step, further apart." Both AGNews Phase-2 pairs overlap on a consistent, accuracy-based σ½ for both architectures — this supersedes the earlier mixed-methodology comparison (Llama acc-based vs. Mistral NLL-based) documented in the H2-J section above, which only had a computed comparison for one of the two pairs.
 
+**⚠️ SUPERSEDED 2026-07-30 — the block-scope σ½_A_acc used for every number above (Llama and Mistral alike) has the same scope mismatch already found and fixed for H1's σ½_pre. See the new section immediately below.**
+
+---
+
+## H2: σ½_A_acc LoRA-Scope Correction (2026-07-30)
+
+**Motivation**: H1's σ½_pre was found (2026-07-21/22) to be miscalibrated — perturbed over the whole decoder block instead of LoRA's actual target modules — and corrected via `recompute_h1_sigma_relslack.py --sigma_scope lora`. H2's own σ½_A_acc calibration (`recompute_sigma_half_acc.py`) was never checked for the same issue. Code inspection (2026-07-29) confirmed it: the script used `_get_target_names_auto` (whole-block scope) exclusively, with zero references to `_get_lora_scoped_names`, and its last modification date (2026-06-30) predates the LoRA-scope fix's existence (2026-07-21) by three weeks — this script had never been touched since the bug was found. Fixed by adding the same `--sigma_scope {lora,block}` flag already used for H1 (default `lora`), writing to new filenames (`phase1_sigma_half_acc_lorascope.json`, `summary_acc_sigma_lorascope.json`) so the legacy block-scope files — read directly by `plot_h2_full_analysis.py`, `compute_fullmodel_norm.py`, `plot_comprehensive_analysis.py`, `make_ntrs_figures.py`, `make_h2_figures.py` — are never overwritten.
+
+Run on all 5 H2 Phase-1 checkpoints (frozen-checkpoint calibration only, no fine-tuning, no risk of hindsight selection): 4 Llama-3.2-3B Phase-1 tasks + 1 Mistral-7B-v0.1 Phase-1 task.
+
+### New σ½_A_acc values (lora-scope) vs. existing (block-scope)
+
+| Phase-1 task | σ½_A_acc (block, existing) | σ½_A_acc (lora, new) | Ratio | n_target_params/n_total |
+|---|---|---|---|---|
+| Llama MNLI | 2.857143e-03 | 4.726050e-03 | **1.654× (+65.4%)** | 704,643,072/3,212,749,824 |
+| Llama SST-2 | 3.337374e-03 | 5.540249e-03 | **1.660× (+66.0%)** | 704,643,072/3,212,749,824 |
+| Llama AGNews | 2.755586e-03 | 5.021609e-03 | **1.822× (+82.2%)** | 704,643,072/3,212,749,824 |
+| Llama CoLA | 1.943802e-03 | 3.476471e-03 | **1.788× (+78.8%)** | 704,643,072/3,212,749,824 |
+| Mistral AGNews | 7.314286e-04 | 9.752381e-04 | **1.333× (+33.3%)** | 1,342,177,280/7,241,732,096 |
+
+All four Llama Phase-1 tasks' `n_target_params`/`n_total_params` match `hessian_eigenvalue.py`'s and H1's independently-computed LoRA-scoped counts exactly (704,643,072/3,212,749,824) — a cross-script consistency check, same as H1's correction. Same for Mistral (1,342,177,280/7,241,732,096).
+
+Since σ½_A_acc is a per-Phase-1-task constant, this rescaling applies uniformly to every Phase-2 target and rank tested against a given Phase-1 checkpoint — **within-task comparisons (rank-invariance, Phase-2-independence, e.g. "MNLI T*(r8) consistent across SST-2/AGNews targets") are unaffected**, since both sides of any such comparison divide by the same corrected constant. What changes is (a) every absolute R_A/T* value in every H2 table, and (b) any comparison across Phase-1 tasks or across architectures.
+
+### Cross-architecture comparison, recomputed (the one place this correction actually matters)
+
+Recomputed directly from each condition's unchanged `final_per_param`/`final_acc_task_a` (never trusting a rescaled bracket estimate):
+
+| Pair | T* (block, existing) | T* (lora, corrected) |
+|---|---|---|
+| Llama AGNews→MNLI | [0.0421, 0.0855] | [0.0231, 0.0469] |
+| Llama AGNews→SST-2 | [0.0419, 0.0887] | [0.0230, 0.0487] |
+| Mistral AGNews→MNLI | [0.0203, 0.0852] | [0.0152, 0.0639] |
+| Mistral AGNews→SST-2 | [0.0683, 0.1046] | [0.0512, 0.0785] |
+
+**AGNews→MNLI still overlaps** ([0.0231,0.0469] ∩ [0.0152,0.0639] = [0.0231,0.0469] — Llama's bracket sits entirely inside Mistral's). **AGNews→SST-2 no longer overlaps** ([0.0230,0.0487] vs. [0.0512,0.0785] — Llama's upper bound now falls just short of Mistral's lower bound, a ~5% gap). This directly parallels what happened to H1's GPT-2/Llama/Mistral chain under the same correction: one of two previously-overlapping cross-architecture comparisons survives, the other breaks under the more methodologically correct scope — not a dramatic reversal, but a real one, and it means the 2026-07-17 "V6 architecture concern FULLY ADDRESSED" conclusion (based on both pairs overlapping) needs updating to "partially addressed — one of two pairs overlaps under the corrected, consistent methodology."
+
+Raw files: `sigma_lorascope_h2/h2_llama/{mnli_to_sst2,sst2_to_mnli,agnews_to_mnli,cola_to_mnli}/phase1_sigma_half_acc_lorascope.json`, `sigma_lorascope_h2/h2_mistral/agnews_to_mnli/phase1_sigma_half_acc_lorascope.json`, plus per-config `summary_acc_sigma_lorascope.json` and `sigma_lora_*.log`.
+
 ---
 
 ## Seed Variance Experiment: GPT-2 SST-2
@@ -1112,3 +1151,42 @@ Llama gives a genuinely more mixed picture than GPT-2's cleaner "always eventual
 **Caveats**: single run, single seed, no seed replication. Only 2 LR points per target (not a fine-grained sweep) — the true transition between "real partial recovery" and "collapse to near-chance" for each target is not localized, just bracketed between 5e-4 and 1e-3. `h2_probe_recovery.py` does not save Phase-2 endpoint checkpoints, so direct tensor inspection (to settle the instability-vs-collapse question) is not possible after the fact without a rerun.
 
 Raw files: `h2_probe_recovery_llama/h2_probe_recovery_llama/meta-llama_Llama-3.2-3B/{sst2_to_mnli,sst2_to_agnews,sst2_to_cola}/lr*_rank8_result.json`, `sst2_probe_summary.json`, `probe_recovery.png`, `probe_recovery_llama.log`.
+
+---
+
+## H2: Fresh-Probe Recovery — Llama-3.2-3B Severity Sweep + NaN Diagnostic (2026-07-30)
+
+**Motivation**: the run above tested only 2 LR points (5e-4, 1e-3) per target and left the mechanism of the lr=1e-3 collapse unresolved (training instability vs. genuine representational collapse). `h2_probe_recovery.py` extended with a NaN/Inf diagnostic (`_hidden_has_nan`, checks the frozen backbone's actual hidden states on real batches after Phase-2 training and again after probe recovery) and rerun with two intermediate LR points (6e-4, 8e-4) and a doubled probe-training budget (400 steps, up from 200) to also check whether the earlier lr=5e-4 "no_recovery" verdicts for agnews/cola were genuinely final or just budget-limited. Config: `--phase2_lrs 5e-4 6e-4 8e-4 1e-3 --probe_steps 400 --force`, same Phase-1 checkpoint reused (no retraining).
+
+### Result table (verified from each condition's `result.json`)
+
+| task_b | lr | old_frozen_acc | final_probe_acc (400 steps) | phase2_hidden_nan | probe_recovery_hidden_nan | verdict |
+|---|---|---|---|---|---|---|
+| mnli | 5e-4 | 0.522 | 0.918 | False | False | recovers_slow |
+| mnli | 6e-4 | 0.596 | 0.916 | False | False | recovers_slow |
+| mnli | 8e-4 | 0.478 | 0.478 | False | False | no_recovery |
+| mnli | 1e-3 | 0.478 | 0.478 | False | False | no_recovery |
+| agnews | 5e-4 | 0.646 | 0.814 | False | False | no_recovery |
+| agnews | 6e-4 | 0.478 | 0.522 | False | False | no_recovery |
+| agnews | 8e-4 | 0.470 | 0.840 | False | False | no_recovery |
+| agnews | 1e-3 | 0.478 | 0.522 | False | False | no_recovery |
+| cola | 5e-4 | 0.474 | 0.738 | False | False | no_recovery |
+| cola | 6e-4 | 0.522 | 0.522 | False | False | no_recovery |
+| cola | 8e-4 | 0.478 | 0.522 | False | False | no_recovery |
+| cola | 1e-3 | 0.478 | 0.462 | False | False | no_recovery |
+
+### Finding 1 — the NaN/training-instability hypothesis is now definitively ruled out
+
+**`phase2_hidden_nan` and `probe_recovery_hidden_nan` are both `False` in all 12 conditions, including every single plateaued one.** The frozen backbone's hidden states are finite (no NaN/Inf) in every case checked — including mnli/agnews/cola at lr=1e-3, the exact conditions whose 0.478 collapse independently reproduces a value already on record in this project from `h2_sequential_llama.py` months earlier (see the previous Llama fresh-probe-recovery section above). This rules out the specific "training diverged into NaN weights" mechanism proposed as an open alternative there. It does not, by itself, prove the strongest form of "genuine information loss" (a finite-but-degenerate, e.g. near-constant or very-low-variance, representation is also consistent with these results and hasn't been separately ruled out) — but the crude numerical-artifact explanation is now closed off.
+
+### Finding 2 — AGNews's collapse is genuinely non-monotonic in LR, not just harder-to-recover with severity
+
+The clean "recovery gets monotonically harder as LR increases" story (established for GPT-2's cola severity sweep) does **not** hold for Llama AGNews: 5e-4 shows real partial recovery (peaks near 0.90, ends at 0.814), 6e-4 collapses to a flat, non-learning chance-level oscillation (full curve range 0.44–0.53, no trend across 400 steps), **8e-4 recovers again** — a real, sustained climb to a stable ~0.78–0.84 plateau by step 30 that holds for the remaining 370 steps (min 0.484, max 0.842, structurally identical in shape to the genuine partial-recovery curves, not a fluke single point) — then 1e-3 collapses again to the same flat chance-level signature as 6e-4. Both "recovers" and "collapses" states were verified by inspecting the full 81-point recovery curve for each condition, not just the endpoint. MNLI, by contrast, shows a clean, sharp transition (recovers fully at both 5e-4 and 6e-4, collapses completely at both 8e-4 and 1e-3 — the boundary sits somewhere in (6e-4, 8e-4], not localized further since no point was tested in between).
+
+### Interpretation
+
+Two real, previously-unavailable findings: (1) Llama's high-severity collapse is not a training-numerics artifact — the representation genuinely stops being linearly decodable by any tested probe, a real (if not yet fully characterized) phenomenon, not a bug to fix and rerun past. (2) Recovery difficulty is not a simple monotonic function of displacement/LR for every Phase-2 target — AGNews's non-monotonic pattern suggests different LRs trace genuinely different paths through weight space (not just different distances along one path), consistent with the same "direction matters, not just magnitude" finding already established elsewhere in this project (H1's direct-R sweep, the SST-2 anisotropy findings in H2-I). This complicates any claim that R_A alone (a magnitude, not a direction) should be expected to predict recovery difficulty — R_A predicts *whether the old classifier breaks* reasonably well, but not, on this evidence, *whether a fresh probe can fix it*.
+
+**Caveats**: single run, single seed, no seed replication — AGNews's non-monotonicity in particular should be treated as a single-seed finding until replicated with a different data/probe seed, since it's exactly the kind of pattern that could in principle be seed-sensitive rather than a stable property of the LR itself. The NaN check only confirms finiteness on 2 real batches per condition, not exhaustively over the full validation set. Not yet extended beyond lr=1e-3 on Llama (GPT-2's severity sweep went to 5e-3; Llama has not been pushed that far).
+
+Raw files: `h2_probe_recovery_llama_severity/h2_probe_recovery_llama/meta-llama_Llama-3.2-3B/{sst2_to_mnli,sst2_to_agnews,sst2_to_cola}/lr{5e-04,6e-04,8e-04,1e-03}_rank8_result.json`, `sst2_probe_summary.json`, `probe_recovery.png`, `llama_severity_sweep.log`.
