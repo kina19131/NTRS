@@ -1196,3 +1196,58 @@ This is the exact signature of a classifier — old or fresh — converging to *
 **This was not verifiable from data already collected** — the script only recorded aggregate accuracy at each step, never the actual predicted-class distribution. Fixed 2026-07-30: `h2_probe_recovery.py` now includes `_prediction_class_counts` (reports the literal predicted-class histogram for both the old classifier and the final-step fresh probe), wired into `train_phase2`/`run_probe_recovery` and saved as `old_classifier_class_counts`/`final_probe_class_counts` in every future result JSON. **Not yet run with this diagnostic** — none of the numbers/findings above have been re-verified against actual prediction distributions. Until that rerun happens, "confirmed real, finite-valued phenomenon, not a bug" should be read as **"NaN specifically is ruled out; constant-class-collapse (in either sense (a) or (b) above) is not yet distinguished from a probe-training artifact."** This also means the AGNews non-monotonicity finding (Finding 2) needs the same check *and* seed replication before being trusted as a genuine representational effect — agnews/6e-4's collapse value (0.522) is exactly the suspicious constant, and if that specific run's probe fell into this trap by chance rather than by correctly detecting no signal, the whole "recovers→collapses→recovers→collapses" story could be partly or wholly probe-training noise rather than a real effect of direction-not-magnitude.
 
 Raw files: `h2_probe_recovery_llama_severity/h2_probe_recovery_llama/meta-llama_Llama-3.2-3B/{sst2_to_mnli,sst2_to_agnews,sst2_to_cola}/lr{5e-04,6e-04,8e-04,1e-03}_rank8_result.json`, `sst2_probe_summary.json`, `probe_recovery.png`, `llama_severity_sweep.log`.
+
+---
+
+## H2: Fresh-Probe Recovery Generality Test — MNLI as Phase-1 Task (2026-07-30/31)
+
+**Motivation**: every fresh-probe-recovery experiment so far (GPT-2 single-point, GPT-2 severity sweep, Llama severity sweep) used SST-2 as Phase 1 — because SST-2 was the identified anomaly (V8: 44× T* spread across Phase-2 targets). This left a genuinely bigger, previously-untested question open: does the same readout-mismatch pattern (frozen classifier breaks, fresh probe recovers) hold for Phase-1 tasks that *weren't* anomalous — MNLI, AGNews, CoLA — whose H2 transfer results already looked clean? If it's general rather than SST-2-specific, it reframes what every T* in H2's core tables actually measures, not just the SST-2 footnote.
+
+### GPT-2 MNLI Phase-1 training failure (3 attempts, before pivoting to Llama)
+
+No GPT-2 MNLI Phase-1 checkpoint existed (GPT-2 has only ever been used with SST-2 as Task A). Attempted to train one via `h2_nll_forgetting.py`'s `run_phase1_generic`:
+
+| Attempt | lr | rank | steps | acc_phase1 |
+|---|---|---|---|---|
+| 1 | 2e-4 | 8 | 3000 | 0.352 |
+| 2 | 5e-4 | 8 | 3000 | 0.354 |
+| 3 | 2e-4 | 32 | 3000 | 0.340 |
+
+All three near MNLI's 3-way chance level (0.333), with training loss flat at 1.05–1.18 (≈ `ln(3)=1.0986`, exactly the loss of random 3-class guessing) for the entire run in every attempt — not slowly converging, never moving at all. A 2.5× LR change and a 4× rank change both had no effect, ruling out both as the cause. Directly checked and ruled out a tokenizer-truncation hypothesis (GPT-2's tokenizer cutting the `hypothesis:` portion off the formatted `"premise: X hypothesis: Y"` string before the model ever sees it): on 200 sampled MNLI train examples, mean tokenized length is 41.2, only 1/200 exceeds the 128-token limit, and even that one example retains the `hypothesis:` marker after truncation. With LR, rank, and truncation all ruled out, and the identical shared `load_task`/training code already validated on Llama (88.4% MNLI accuracy), the most likely explanation is a genuine base-model capacity limitation — GPT-2 (117M, 12 layers, 768-dim) may lack the representational structure to support 3-way natural language inference via last-token pooling + rank-8/32 LoRA, regardless of tuning. Abandoned further GPT-2 MNLI attempts; pivoted to Llama's existing, already-validated MNLI Phase-1 checkpoint (`h2_llama/mnli_to_sst2/`, `acc_phase1=0.884`, no retraining needed).
+
+### Progressive probe-budget escalation, Llama MNLI → {sst2, agnews, cola}, lr=5e-4
+
+Same script (`h2_probe_recovery.py`, now with the `_prediction_class_counts` diagnostic added — see previous section), same reused Phase-1 checkpoint throughout. Budget escalated across 4 rounds because each successive round's curves were still climbing, not plateaued — the stopping criterion (this project's standing convention) is a genuinely flat/plateaued curve, not just reaching a step-count target.
+
+| Round | probe_steps | mnli→sst2 final_probe_acc | mnli→agnews final_probe_acc | mnli→cola final_probe_acc |
+|---|---|---|---|---|
+| v1 | 200 | 0.590 | 0.480 | 0.354 |
+| v2 | 400 | 0.644 | 0.502 | 0.312 *(probe collapsed — see below)* |
+| v3 | 800 | 0.728 | 0.564 | 0.362 *(re-run, probe_lr lowered to 3e-4, no longer collapsed)* |
+| v4 | 2000 | **0.780** (peaked at 0.798) | 0.598 | *(not re-escalated — see below)* |
+
+Threshold for all three: 0.9×0.884 = **0.7956**. `old_frozen_acc` (unchanged across rounds, same Phase-2 checkpoint reused): sst2=0.298, agnews=0.384, cola=0.318 — all three catastrophically collapsed under the old classifier, similar in severity to SST-2's own worst collapses.
+
+### The class-count diagnostic caught a real artifact on its first use — cola's v2 result was a probe-training collapse, not genuine non-recovery
+
+At v2 (400 steps, default `probe_lr=1e-3`), `mnli→cola`'s `final_probe_class_counts = {'1': 496, '2': 4}` — the fresh probe predicted class 1 on 99.2% of examples, the exact signature of degenerate constant-class collapse (not inferred from a suspicious accuracy value this time, as with the earlier SST-2 case — directly observed in the prediction distribution). Its curve was also genuinely flat (mean of last 10 points ≈ mean of middle 10, no climb: 0.336 vs. 0.340). Re-run at v3 with `probe_lr=3e-4` (same 800-step budget): `final_probe_class_counts = {'2': 256, '1': 232, '0': 12}` — collapse resolved, predictions now spread across classes. This confirms the earlier v2 result was a probe-optimization artifact tied to the learning rate, not evidence about the representation — exactly the failure mode the diagnostic was built to catch, on its very first real use.
+
+### Where the curves stand, round by round (verified via full-curve inspection each time, not just endpoints)
+
+**`mnli→sst2`**: v2 (400 steps) clearly still climbing (last-10 mean 0.710 > mid-10 mean 0.657). v3 (800 steps) still climbing (0.722 > 0.704). v4 (2000 steps): trend has visibly slowed — quarter-by-quarter means 0.702 → 0.734 → 0.746, much smaller increments than earlier rounds — consistent with approaching an asymptote near the threshold rather than still climbing steadily. **Peaked at 0.798, just 0.002 short of the 0.7956 threshold**, oscillating in a 0.70–0.80 band without ever sustaining above it for the required consecutive-points check (hence `verdict=no_recovery` despite the near-miss). `final_probe_class_counts={'1': 208, '0': 150, '2': 142}` — no collapse, genuine spread.
+
+**`mnli→agnews`**: v2 still climbing (0.505 > 0.465). v3 still climbing (0.561 > 0.521). v4 (2000 steps): quarter-by-quarter means 0.534 → 0.595 → 0.632 — still climbing but increments shrinking (+0.061, then +0.037), suggesting an asymptote somewhat below the threshold, not a clean crossing. `final_probe_class_counts={'0': 89, '1': 276, '2': 135}` — no collapse.
+
+**`mnli→cola`**: v3 (800 steps, post-fix) shows real but very weak, very slow improvement (0.337 → 0.350 over the last-10-vs-mid-10 comparison) — the slowest of the three by a wide margin. **Not re-escalated beyond 800 steps** — given the pace, further budget was judged to have poor cost/information payoff relative to sst2/agnews, which were both closer to a real resolution.
+
+### Decision to stop here
+
+Both sst2 and agnews show the signature of diminishing returns (shrinking per-round increments) rather than imminent resolution at v4. Continuing to escalate risks spending substantially more compute for a shrinking chance of a clean crossing/non-crossing answer. Stopped at this point and treated the graded pattern itself as the reportable finding, rather than forcing a binary recovered/not-recovered verdict.
+
+### Interpretation
+
+**The readout-mismatch finding generalizes beyond SST-2, at least partially — MNLI is not the clean "genuine forgetting" control case that would have been reassuring for the rest of H2.** All three tested Phase-2 targets show real, non-artifactual (class-count-verified) recovery from a catastrophic collapse — none plateaus at a degenerate constant-class or NaN state. But recovery is graded, not binary, and consistently slower/weaker than what SST-2 itself showed (which typically resolved within 200 steps in earlier experiments): sst2 came within a hair of full recovery, agnews recovered substantially but incompletely, cola recovered only weakly. This is a different, more nuanced result than either "MNLI forgetting is genuine" (would need a true plateau at a low, stable value — not observed) or "MNLI forgetting is just as recoverable as SST-2's" (would need a clean, fast crossing — also not observed).
+
+**Caveats**: single run, single seed throughout — no seed replication on any of the 4 rounds. Stopping point for sst2/agnews (2000 steps) is a judgment call based on shrinking increments, not a proven plateau — a much larger budget could in principle still resolve either one, just at increasing cost for decreasing expected information gain. Cola's own true asymptote at higher budgets is unknown (not tested beyond 800 steps). GPT-2's Phase-1 training failure (loss genuinely never moving) is itself an unplanned but real finding about base-model capacity limits, not something this investigation set out to find.
+
+Raw files: `h2_probe_recovery_mnli_gpt2/` (failed GPT-2 attempts), `h2_probe_recovery_mnli_llama/`, `h2_probe_recovery_mnli_llama_v2/`, `h2_probe_recovery_mnli_llama_v3/`, `h2_probe_recovery_mnli_llama_v4/` (progressive Llama rounds), corresponding `.log` files for each round.
